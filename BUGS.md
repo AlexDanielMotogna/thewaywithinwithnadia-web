@@ -69,4 +69,32 @@ Each entry: what happened, root cause, the fix, and the rule going forward.
 - **What happened:** `pnpm test` printed Vite warnings: `vitest.config.ts` loaded as CommonJS despite ESM syntax, and `__dirname` used instead of `import.meta.dirname`.
 - **Root cause:** a `.ts` extension at the project root is ambiguous (CJS vs ESM) without `"type": "module"` in package.json; `__dirname` doesn't exist in true ESM.
 - **Fix:** renamed to `vitest.config.mts` (unambiguous ESM) and switched to `import.meta.dirname`.
-- **Rule going forward:** new root-level `.ts` config files in this repo should default to `.mts` to avoid the CJS/ESM ambiguity warning, since package.json intentionally doesn't set `"type": "module"` (Next.js convention).
+- **Rule going forward:** new root-level `.ts` config files should be unambiguous about their module type. (Superseded 2026-10-09: package.json now sets `"type": "module"` repo-wide — see the Payload CLI entry below — so this is no longer actually ambiguous, but `.mts` for scripts stays harmless and explicit.)
+
+### 2026-10-09 — Payload CLI crashes with `ERR_REQUIRE_ASYNC_MODULE`
+
+- **What happened:** `payload migrate:create` (and any other Payload CLI command) crashed immediately: `Error [ERR_REQUIRE_ASYNC_MODULE]: require() cannot be used on an ESM graph with top-level await`, tracing through `@payloadcms/richtext-lexical`.
+- **Root cause:** without `"type": "module"` in package.json, Node treats `.ts`/`.js` files as CommonJS by default. Payload's CLI loads `payload.config.ts` via `tsx`, which then `require()`s `@payloadcms/richtext-lexical` — an ESM package that uses top-level `await` internally. Node's CJS loader cannot synchronously `require()` an ESM module with top-level await, so it throws instead of transparently interop-ing.
+- **Fix:** added `"type": "module"` to package.json. Verified afterward that `typecheck`/`lint`/`test`/`build` all still pass — Next.js 16 handles an ESM-mode project fine, nothing else in the repo assumed CJS.
+- **Rule going forward:** if a Payload CLI command fails with `ERR_REQUIRE_ASYNC_MODULE`, the fix is `"type": "module"` in package.json, not fighting tsx flags or downgrading packages.
+
+### 2026-10-09 — `ignoredBuiltDependencies: [sharp]` silently breaks Payload's image resizing
+
+- **What happened:** `create-next-app`'s default `pnpm-workspace.yaml` had `ignoredBuiltDependencies: [sharp, unrs-resolver]`. After adding `sharp` as a real dependency for Payload (which uses it for media resizing), its postinstall/binary-resolution step was still being skipped.
+- **Root cause:** `ignoredBuiltDependencies` was copied from the scaffold without re-checking it once `sharp` became an actual, load-bearing dependency rather than an unused optional one.
+- **Fix:** replaced `ignoredBuiltDependencies` with an explicit `onlyBuiltDependencies: [esbuild, sharp]` allowlist in `pnpm-workspace.yaml`, then `pnpm install` and verified `require('sharp')` loads with a real `versions` object.
+- **Rule going forward:** whenever a new dependency is added that ships native/platform binaries (sharp, esbuild, better-sqlite3, etc.), check `pnpm-workspace.yaml`'s build-script allow/ignore lists — don't assume scaffold defaults still make sense.
+
+### 2026-10-09 — eslint-plugin-boundaries needs an explicit entry for every new top-level file/type, including self-imports
+
+- **What happened:** as Payload's config (`src/payload.config.ts`), generated types (`src/payload-types.ts`), generated migrations, and the `src/app/(payload)/` route group were added, lint kept failing with "no policy allowing dependencies from elements of type X to elements of type X" (app→app, payload→payload) and "dependencies to unknown elements" for files that matched no configured pattern.
+- **Root cause:** same root issue as the earlier ui→ui/lib→lib entry (see above): boundaries requires every file to match a type, and same-type imports are never implicit. Every new "kind" of file added to the repo (a config file, a generated-types file) needs its own element-type entry before anything can import it.
+- **Fix:** added `payload-config` and `payload-types` element types (matching the exact files), added `app`→`app` and `payload`→`payload` self-allow rules, and excluded generated migrations/`payload-types.ts` from linting entirely via `globalIgnores` (they're regenerated, never hand-edited, and contain patterns — unused args, a tslint-disable comment — that fail strict rules by design).
+- **Rule going forward:** when adding a new root-level generated or config file, decide up front whether it (a) needs a boundaries element-type entry because real code will import it, or (b) should just go in `globalIgnores` because it's generated and nothing should import it directly except through its own alias. Check both.
+
+### 2026-10-09 — Bookings/Enquiries collections briefly had public `create` access
+
+- **What happened:** first draft of the `Bookings` collection set `create: () => true` (public), reasoning that visitors need to create bookings without an account.
+- **Root cause:** conflated "the public needs to be able to trigger a booking" with "the public REST API should accept raw booking writes." Payload's **Local API** (used by server-side code) bypasses `access` checks by default — so the real public booking flow (a validated Server Action calling the Local API in Phase 5) never needed public REST access at all. Public `create: true` would have let anyone POST an arbitrary `startsAt`/`status` directly to `/api/bookings`, skipping all slot/double-booking validation.
+- **Fix:** caught before ever committing or building — changed to `create: ({ req }) => Boolean(req.user)`, matching Enquiries.
+- **Rule going forward:** for any collection the public "submits" to (bookings, enquiries, contact), default `access.create` to authenticated-only. The public submission path belongs in a Server Action using the Local API, never in loosened Payload REST access.

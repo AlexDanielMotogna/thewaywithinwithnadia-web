@@ -2,6 +2,7 @@
   "name": "thewaywithinwithnadia-web",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "engines": {
     "node": ">=24"
   },
@@ -15,15 +16,26 @@
     "test:watch": "vitest",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "prepare": "husky"
+    "prepare": "husky",
+    "payload": "node --env-file=.env.local node_modules/.bin/payload",
+    "payload:migrate": "node --env-file=.env.local scripts/with-direct-db.mjs migrate",
+    "payload:migrate:create": "node --env-file=.env.local scripts/with-direct-db.mjs migrate:create",
+    "payload:generate-types": "node --env-file=.env.local scripts/with-direct-db.mjs generate:types"
   },
   "dependencies": {
+    "@payloadcms/db-postgres": "^3.90.2",
+    "@payloadcms/next": "^3.90.2",
+    "@payloadcms/richtext-lexical": "^3.90.2",
+    "@payloadcms/storage-s3": "^3.90.2",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "graphql": "^16.14.2",
     "next": "16.4.0",
+    "payload": "^3.90.2",
     "react": "19.3.0",
     "react-dom": "19.3.0",
     "server-only": "^0.0.1",
+    "sharp": "^0.35.5",
     "tailwind-merge": "^3.7.0",
     "zod": "^4.6.5"
   },

@@ -26,15 +26,22 @@ answer "where are we?" at the start of a new session.
 Font choices (Playfair Display / Inter / Allura) are a reversible implementation
 decision, not a business fact — revisit if Nadia has a preference once she sees it.
 
-## Phase 1 — Payload CMS backbone
+## Phase 1 — Payload CMS backbone ✅ 2026-10-09
 
-- [ ] Payload 3 installed inside Next app, Postgres adapter, local Postgres (Docker)
-- [ ] Collections: Services, Bookings, AvailabilityRules, AvailabilityExceptions, Enquiries, Media, Pages, Users
-- [ ] Globals: SiteSettings, Navigation, BookingSettings
-- [ ] EN/DE localization on editable fields
-- [ ] Access control functions per collection
-- [ ] Roles: admin (Nadia), developer
-- [ ] Media storage adapter (S3-compatible, EU)
+- [x] Payload 3 installed inside Next app, Postgres adapter — **Supabase** instead of local Docker Postgres (decision in PENDING.md resolved #1)
+- [x] Collections: Services, Bookings, AvailabilityRules, AvailabilityExceptions, Enquiries, Media, Pages, Users
+- [x] Globals: SiteSettings, Navigation, BookingSettings
+- [x] EN/DE localization on editable fields (`localized: true` on copy fields; IDs/numbers/relationships left unlocalized)
+- [x] Access control functions per collection — public read only for published Pages / active Services / Media; Bookings, Enquiries, Availability, Users never publicly readable or writable (see BUGS.md for the "public create" mistake caught before commit)
+- [x] Roles: admin / developer (`Users.role` select field)
+- [x] Media storage adapter — Supabase Storage via `@payloadcms/storage-s3`, conditionally enabled when `S3_*` env vars are present, falls back to local disk otherwise
+- [x] Block schemas for the page builder (Hero, Quote, TextImage, Principles, ServicesPreview, Cta) wired into the `Pages` collection's `blocks` field — React components for these come in Phase 2
+- [x] `src/app/(payload)/` admin UI + REST + GraphQL routes
+- [x] Initial migrations generated and applied against Supabase (two migrations: Users+Media, then everything else)
+- [x] `src/payload-types.ts` generated
+- [x] Verified end-to-end: typecheck/lint/test/build all pass; `/admin` loads and correctly redirects to create-first-user against the real Supabase DB
+
+Not yet done (deferred, noted in PENDING.md): actually creating the first admin user (needs you to open `/admin` in a browser), and confirming the Supabase Storage "media" bucket exists / a real upload works end-to-end.
 
 ## Phase 2 — Page builder + core pages
 
@@ -114,3 +121,4 @@ _(one line per work session: date, what moved, what's next — keep it short)_
 - 2026-10-09 — Repo had only docs + reference PDFs. Read ENGINEERING.md, Master Doc, both PDFs. Wrote implementation plan. Created PENDING.md, CHECKLIST.md, BUGS.md. Starting Phase 0.
 - 2026-10-09 — Phase 0 complete: Next.js 16 + TS strict + Tailwind v4 scaffolded, tooling (ESLint/Prettier/Husky/Vitest/CI) wired up, design tokens + fonts set, `src/ui/` primitives built, folder skeleton in place. All checks green (typecheck/lint/test/build). See BUGS.md for issues hit and fixed along the way. Next: Phase 1 (Payload CMS backbone) — needs hosting decision (PENDING.md #1) before DB/storage provisioning.
 - 2026-10-09 — Decided database: Supabase (managed Postgres, EU region) — see PENDING.md resolved #1. Scaffolded `.env.example` (committed) and `.env.local` (gitignored, blank) with the Supabase connection strings, `PAYLOAD_SECRET` and S3-compatible storage vars Payload will need; wired them into `src/lib/env.ts` as optional for now (becomes required once Payload is installed in Phase 1). Still open: app hosting (PENDING.md #14) and actual Supabase project credentials (PENDING.md #15, blocked on Alex creating the project).
+- 2026-10-09 — Supabase project created, real credentials obtained and verified (both DATABASE_URL pooled and DIRECT_URL connect; PENDING.md #15 resolved). Phase 1 complete: Payload 3 installed and fully wired (all collections/globals/blocks, admin+REST+GraphQL routes, migrations applied against the real Supabase DB, types generated). `"type": "module"` added to package.json to fix a Payload CLI/Node ESM incompatibility (see BUGS.md). Next: Phase 2 (page builder + core pages) — the block React components (Hero, Quote, TextImage, Principles, ServicesPreview, Cta) now need `render-blocks.tsx` implementations to actually render the Pages collection's data. Before that, open the live `/admin` and create the first user.

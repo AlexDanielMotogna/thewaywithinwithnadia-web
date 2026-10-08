@@ -7,13 +7,15 @@ const envSchema = z.object({
     .default("development"),
   NEXT_PUBLIC_SITE_URL: z.url().default("http://localhost:3000"),
 
-  // Supabase Postgres — becomes required once Payload is wired in (Phase 1).
-  // See .env.example for where to find these in the Supabase dashboard.
-  DATABASE_URL: z.string().min(1).optional(),
+  // Supabase Postgres (ENGINEERING.md §1 / §5.3). See .env.example for where
+  // to find these in the Supabase dashboard. DIRECT_URL is only read by the
+  // `scripts/with-direct-db.mjs` CLI wrapper (migrations), never by the app
+  // at runtime, so it stays optional here.
+  DATABASE_URL: z.string().min(1),
   DIRECT_URL: z.string().min(1).optional(),
 
-  // Payload CMS — becomes required once Payload is wired in (Phase 1).
-  PAYLOAD_SECRET: z.string().min(1).optional(),
+  // Payload CMS — required, the app boots Payload at startup.
+  PAYLOAD_SECRET: z.string().min(1),
 
   // Supabase Storage (S3-compatible) — optional; a missing value means the
   // media adapter falls back to a fake/local one (ENGINEERING.md §6), never

@@ -15,7 +15,7 @@ const eslintConfig = defineConfig([
     languageOptions: {
       parserOptions: {
         projectService: {
-          allowDefaultProject: ["eslint.config.mjs"],
+          allowDefaultProject: ["eslint.config.mjs", "scripts/*.mjs"],
         },
         tsconfigRootDir: import.meta.dirname,
       },
@@ -47,6 +47,16 @@ const eslintConfig = defineConfig([
       "boundaries/elements": [
         { type: "app", pattern: "src/app/**", mode: "full" },
         {
+          type: "payload-config",
+          pattern: "src/payload.config.ts",
+          mode: "full",
+        },
+        {
+          type: "payload-types",
+          pattern: "src/payload-types.ts",
+          mode: "full",
+        },
+        {
           type: "module-public",
           pattern: "src/modules/*/index.ts",
           mode: "full",
@@ -72,7 +82,22 @@ const eslintConfig = defineConfig([
         {
           default: "disallow",
           rules: [
-            { from: "app", allow: ["module-public", "ui", "lib", "i18n"] },
+            {
+              from: "app",
+              allow: [
+                "app",
+                "module-public",
+                "ui",
+                "lib",
+                "i18n",
+                "payload-config",
+                "payload-types",
+              ],
+            },
+            {
+              from: "payload-config",
+              allow: ["payload", "lib", "payload-types"],
+            },
             {
               from: "module-internal",
               allow: [
@@ -80,6 +105,7 @@ const eslintConfig = defineConfig([
                 "integrations",
                 "lib",
                 "ui",
+                "payload-types",
               ],
             },
             {
@@ -87,7 +113,10 @@ const eslintConfig = defineConfig([
               allow: [["module-internal", { module: "${module}" }]],
             },
             { from: "integrations", allow: ["lib"] },
-            { from: "payload", allow: ["module-public", "lib"] },
+            {
+              from: "payload",
+              allow: ["payload", "module-public", "lib", "payload-types"],
+            },
             { from: "ui", allow: ["ui", "lib"] },
             { from: "lib", allow: ["lib"] },
           ],
@@ -103,6 +132,11 @@ const eslintConfig = defineConfig([
     "build/**",
     "next-env.d.ts",
     "node_modules/**",
+    // Payload-generated migration files — never hand-edited, always has
+    // unused `payload`/`req` args in its up/down template.
+    "src/payload/migrations/**",
+    // Payload-generated types — regenerate with `pnpm payload:generate-types`.
+    "src/payload-types.ts",
   ]),
 ]);
 
