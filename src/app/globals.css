@@ -1,0 +1,82 @@
+@import "tailwindcss";
+
+/*
+ * Design tokens — single source of truth for colour, type, spacing, radii and
+ * motion (ENGINEERING.md §3). No ad-hoc hex values or one-off durations in
+ * components; everything references these.
+ *
+ * Palette derived from Master Doc §3 / Presentation - Example.pdf: warm
+ * Mediterranean ivory/sand/olive/gold. No blues, no neon, no dark-mode variant
+ * — this brand has one warm theme, not a light/dark toggle.
+ */
+@theme {
+  /* Colour: Mediterranean retreat palette */
+  --color-ivory: #faf5ea;
+  --color-ivory-dark: #f2ead9;
+  --color-sand: #e9dcc3;
+  --color-sand-dark: #ddccab;
+  --color-olive: #3c4a2e;
+  --color-olive-light: #5a6b45;
+  --color-sage: #8a9470;
+  --color-gold: #b9925a;
+  --color-gold-light: #d4b483;
+  --color-charcoal: #2a2620;
+  --color-white: #ffffff;
+
+  /* Type scale — editorial, generous */
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-lg: 1.125rem;
+  --text-xl: 1.25rem;
+  --text-2xl: 1.5rem;
+  --text-3xl: 1.875rem;
+  --text-4xl: 2.25rem;
+  --text-5xl: 3rem;
+  --text-6xl: 3.75rem;
+  --text-7xl: 4.5rem;
+
+  /* Spacing follows Tailwind's default scale; section rhythm uses these */
+  --spacing-section-sm: 4rem;
+  --spacing-section: 6rem;
+  --spacing-section-lg: 9rem;
+
+  /* Radii — subtle only, per Master Doc §26 (no SaaS-card rounding) */
+  --radius-sm: 0.25rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
+
+  /* Motion — meditative: gentle fades and slow reveals, never snappy */
+  --duration-fast: 200ms;
+  --duration-base: 500ms;
+  --duration-slow: 900ms;
+  --ease-gentle: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/*
+ * Font CSS variables come from next/font (src/lib/fonts.ts), applied as
+ * classes on <html>. `@theme inline` re-exports them as Tailwind font-*
+ * utilities without Tailwind trying to resolve the value itself.
+ */
+@theme inline {
+  --font-serif: var(--font-serif);
+  --font-sans: var(--font-sans);
+  --font-script: var(--font-script);
+}
+
+body {
+  background: var(--color-ivory);
+  color: var(--color-charcoal);
+  font-family: var(--font-sans), sans-serif;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
