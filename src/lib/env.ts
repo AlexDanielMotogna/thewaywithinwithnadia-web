@@ -10,7 +10,7 @@ const envSchema = z.object({
   // Supabase Postgres — becomes required once Payload is wired in (Phase 1).
   // See .env.example for where to find these in the Supabase dashboard.
   DATABASE_URL: z.string().min(1).optional(),
-  DATABASE_URL_UNPOOLED: z.string().min(1).optional(),
+  DIRECT_URL: z.string().min(1).optional(),
 
   // Payload CMS — becomes required once Payload is wired in (Phase 1).
   PAYLOAD_SECRET: z.string().min(1).optional(),
