@@ -11,11 +11,12 @@ Status legend: 🔴 blocking something now · 🟡 needed before launch · 🟢 
 
 ## 🔴 Decisions needed to keep building
 
-| #   | Item                                                                                               | Blocks                                 | Needed from | Status  |
-| --- | -------------------------------------------------------------------------------------------------- | -------------------------------------- | ----------- | ------- |
-| 1   | Hosting choice (Vercel EU vs VPS/Docker)                                                           | Phase 0 provisioning, DB/storage setup | Alex        | 🔴 open |
-| 2   | Google Meet vs Zoom (or both) for online sessions                                                  | Phase 6 integration work               | Nadia/Alex  | 🔴 open |
-| 3   | Manifestation poem (Journey_to_Self_Introduction.pdf, slide 11) — include on Journey to Self page? | Phase 2 content                        | Alex        | 🔴 open |
+| #   | Item                                                                                                                                                                                                                              | Blocks                                             | Needed from | Status  |
+| --- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------- | ----------- | ------- |
+| 2   | Google Meet vs Zoom (or both) for online sessions                                                                                                                                                                                 | Phase 6 integration work                           | Nadia/Alex  | 🔴 open |
+| 3   | Manifestation poem (Journey_to_Self_Introduction.pdf, slide 11) — include on Journey to Self page?                                                                                                                                | Phase 2 content                                    | Alex        | 🔴 open |
+| 14  | App hosting (Vercel EU vs VPS) — DB choice is now resolved (Supabase); this is just where the Next.js app itself runs                                                                                                             | Deploy setup (Phase 9, but good to settle earlier) | Alex        | 🔴 open |
+| 15  | Supabase project credentials (`DATABASE_URL`, `DATABASE_URL_UNPOOLED`, `PAYLOAD_SECRET`, `S3_*`) — project must be created in an **EU region**. `.env.example`/`.env.local` scaffolded with placeholders, real values still blank | Phase 1 (Payload DB wiring)                        | Alex        | 🔴 open |
 
 ## 🟡 Needed before launch (not blocking current work)
 
@@ -37,3 +38,7 @@ Status legend: 🔴 blocking something now · 🟡 needed before launch · 🟢 
 ## Resolved
 
 _(move items here with 🟢 once resolved, keep the row for history)_
+
+| #   | Item                                                                                | Resolution                                                                                                                                                                                                             | Date       |
+| --- | ----------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------- |
+| 1   | Hosting choice — database portion (was: "Hosting choice (Vercel EU vs VPS/Docker)") | **Supabase** (managed Postgres, EU region) — satisfies the exclusion-constraint requirement (§5.3) and the storage requirement via its S3-compatible API (§6). App-hosting portion split out as item #14 (still open). | 2026-10-09 |
