@@ -137,6 +137,8 @@ const eslintConfig = defineConfig([
     "src/payload/migrations/**",
     // Payload-generated types — regenerate with `pnpm payload:generate-types`.
     "src/payload-types.ts",
+    // Payload admin dev server auto-compiles this from importMap.ts on the fly.
+    "src/app/(payload)/admin/importMap.js",
   ]),
 ]);
 

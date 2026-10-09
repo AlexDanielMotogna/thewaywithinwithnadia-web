@@ -40,3 +40,6 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# payload admin dev server auto-compiles this from importMap.ts
+/src/app/(payload)/admin/importMap.js

@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { fontVariables } from "@/lib/fonts";
-import "./globals.css";
+import "../globals.css";
 
 export const metadata: Metadata = {
   title: "The Way Within with Nadia",
