@@ -18,18 +18,21 @@ export function QuoteBlock({
       )}
     >
       {media?.url ? (
-        <>
-          <Image
-            src={media.url}
-            alt={media.alt}
-            fill
-            className="rounded-none object-cover"
-            sizes="100vw"
-          />
-          <div className="bg-ivory/55 absolute inset-0" />
-        </>
+        <Image
+          src={media.url}
+          alt={media.alt}
+          fill
+          className="rounded-none object-cover"
+          sizes="100vw"
+        />
       ) : null}
       <Container size="narrow" className="relative py-14 text-center sm:py-20">
+        {media?.url ? (
+          <div
+            aria-hidden="true"
+            className="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_65%_75%_at_center,_var(--color-ivory)_0%,_var(--color-ivory)_30%,_transparent_75%)] opacity-90 blur-xl"
+          />
+        ) : null}
         <Divider lotus className="mx-auto mb-8 w-24" />
         <Text
           as="blockquote"

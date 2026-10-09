@@ -11,3 +11,4 @@ export { Icon, type IconName } from "@/ui/Icon";
 export { FormField, type FormFieldRenderProps } from "@/ui/FormField";
 export { Dialog } from "@/ui/Dialog";
 export { Reveal } from "@/ui/Reveal";
+export { OrnamentSpray } from "@/ui/OrnamentSpray";

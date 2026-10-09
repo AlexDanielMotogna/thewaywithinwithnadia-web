@@ -1,4 +1,12 @@
-import { Container, Heading, Image, LinkButton, Script, Text } from "@/ui";
+import {
+  Container,
+  Heading,
+  Image,
+  LinkButton,
+  OrnamentSpray,
+  Script,
+  Text,
+} from "@/ui";
 import { resolveMedia } from "@/modules/content/ui/resolve-media";
 import type { HeroBlockData } from "@/modules/content/ui/types";
 
@@ -54,10 +62,11 @@ export function HeroBlock({
       ) : (
         <div className="bg-sand absolute inset-0" />
       )}
-      <div className="from-ivory/80 via-ivory/15 to-ivory/55 absolute inset-0 bg-gradient-to-b" />
+
+      <OrnamentSpray side="left" className="top-0 left-0" />
 
       <div className="relative z-10 flex items-center justify-between px-6 py-6 sm:px-10">
-        <span className="text-charcoal/70 font-serif text-xs tracking-[0.3em] uppercase drop-shadow-xs sm:text-sm">
+        <span className="text-ivory font-serif text-xs tracking-[0.3em] uppercase [text-shadow:0_1px_6px_rgb(0_0_0_/_0.35)] sm:text-sm">
           The Way Within
         </span>
         {secondaryCtaLabel && secondaryCtaHref ? (
@@ -71,6 +80,12 @@ export function HeroBlock({
         size="narrow"
         className="relative z-10 flex flex-1 flex-col items-center justify-center py-10 text-center"
       >
+        {/* Soft localized glow behind the text only — the photo stays at
+            full contrast everywhere else. */}
+        <div
+          aria-hidden="true"
+          className="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_60%_65%_at_center,_var(--color-ivory)_0%,_var(--color-ivory)_35%,_transparent_75%)] opacity-90 blur-xl"
+        />
         <HeroOrnament />
         <Heading as="h1" size="xl" className="mt-2">
           {heading}

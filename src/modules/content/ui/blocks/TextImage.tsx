@@ -1,5 +1,5 @@
 import { RichText } from "@payloadcms/richtext-lexical/react";
-import { Container, Heading, Image, LinkButton } from "@/ui";
+import { Container, Heading, Image, LinkButton, OrnamentSpray } from "@/ui";
 import { resolveMedia } from "@/modules/content/ui/resolve-media";
 import type { TextImageBlockData } from "@/modules/content/ui/types";
 
@@ -32,10 +32,11 @@ export function TextImageBlock({
 
   if (!media?.url) {
     return (
-      <section className="bg-ivory">
+      <section className="bg-ivory relative overflow-hidden">
         <Container size="narrow" className="py-16">
           {copy}
         </Container>
+        <OrnamentSpray side="right" className="right-0 bottom-0" />
       </section>
     );
   }
@@ -54,8 +55,9 @@ export function TextImageBlock({
             />
           </div>
         ) : null}
-        <div className="flex flex-col justify-center px-6 py-16 sm:px-10 md:order-2 lg:px-16">
+        <div className="relative flex flex-col justify-center overflow-hidden px-6 py-16 sm:px-10 md:order-2 lg:px-16">
           {copy}
+          <OrnamentSpray side="right" className="right-0 bottom-0" />
         </div>
         {!imageOnLeft ? (
           <div className="relative order-first min-h-[320px] md:order-3">
