@@ -9,7 +9,7 @@ type ContainerProps<T extends ElementType> = {
 const sizeClasses = {
   default: "max-w-6xl",
   narrow: "max-w-3xl",
-  wide: "max-w-7xl",
+  wide: "max-w-[1600px]",
 } as const;
 
 export function Container<T extends ElementType = "div">({

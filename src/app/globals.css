@@ -17,10 +17,13 @@
   --color-sand-dark: #ddccab;
   --color-olive: #3c4a2e;
   --color-olive-light: #5a6b45;
+  --color-olive-dark: #2e3923;
   --color-sage: #8a9470;
   --color-gold: #b9925a;
   --color-gold-light: #d4b483;
-  --color-gold-dark: #8a5a2e;
+  /* Same hue/saturation as --color-gold, lower lightness only — "darker",
+     never a different color (feedback: don't substitute a new hue). */
+  --color-gold-dark: #735831;
   --color-charcoal: #2a2620;
   --color-white: #ffffff;
 

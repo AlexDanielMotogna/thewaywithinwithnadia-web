@@ -21,13 +21,15 @@ export async function Footer() {
 
   return (
     <footer className="bg-ivory border-sand border-t">
-      <Container className="grid grid-cols-1 items-center gap-6 py-10 text-center sm:grid-cols-3 sm:text-left">
+      <Container
+        size="wide"
+        className="grid grid-cols-1 items-center gap-6 py-10 text-center sm:grid-cols-3 sm:text-left"
+      >
         <div>
           <Text
             as="span"
             size="lg"
-            tone="olive"
-            className="block font-serif font-semibold tracking-wide uppercase"
+            className="text-olive-dark block font-serif font-semibold tracking-wide uppercase"
           >
             The Way Within
           </Text>
