@@ -30,16 +30,16 @@ export function CtaBlock({
             className="rounded-none object-cover"
             sizes="(min-width: 1024px) 33vw, 40vw"
           />
-          {/* Tint toward olive, then fade fully into the solid band on the
-              side facing the (always-centered) text, so the photo reads as
-              a corner accent, never competing with the centered text. */}
-          <div className="bg-olive/35 absolute inset-0 mix-blend-multiply" />
+          {/* Most of the photo stays untouched near the outer edge; the
+              fade into solid olive is concentrated in the last stretch
+              facing the (always-centered) text, so it reads as a corner
+              accent without hiding the photo under a flat tint. */}
           <div
             className={cn(
               "absolute inset-0 bg-gradient-to-r",
               imageOnLeft
-                ? "via-olive/70 to-olive from-transparent"
-                : "from-olive via-olive/70 to-transparent",
+                ? "via-olive/20 to-olive from-transparent from-0% via-60% to-100%"
+                : "from-olive via-olive/20 from-0% via-40% to-transparent to-100%",
             )}
           />
         </div>
