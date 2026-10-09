@@ -252,7 +252,10 @@ export interface Page {
               };
               [k: string]: unknown;
             } | null;
-            image: number | Media;
+            /**
+             * Optional — real photography is pending (PENDING.md). Renders as text-only when empty.
+             */
+            image?: (number | null) | Media;
             imagePosition?: ("left" | "right") | null;
             id?: string | null;
             blockName?: string | null;
@@ -326,10 +329,13 @@ export interface Service {
   } | null;
   image?: (number | null) | Media;
   /**
-   * Session duration in minutes.
+   * Session duration in minutes. Leave empty until confirmed (PENDING.md).
    */
-  durationMin: number;
-  price: number;
+  durationMin?: number | null;
+  /**
+   * Leave empty until pricing is confirmed (PENDING.md).
+   */
+  price?: number | null;
   currency: "EUR";
   mode: "online" | "in_person" | "both";
   active?: boolean | null;

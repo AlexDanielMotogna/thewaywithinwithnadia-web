@@ -17,10 +17,11 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "prepare": "husky",
-    "payload": "node --env-file=.env.local node_modules/.bin/payload",
+    "payload": "node --env-file=.env.local scripts/run-payload.mjs",
     "payload:migrate": "node --env-file=.env.local scripts/with-direct-db.mjs migrate",
     "payload:migrate:create": "node --env-file=.env.local scripts/with-direct-db.mjs migrate:create",
-    "payload:generate-types": "node --env-file=.env.local scripts/with-direct-db.mjs generate:types"
+    "payload:generate-types": "node --env-file=.env.local scripts/with-direct-db.mjs generate:types",
+    "payload:seed": "node --env-file=.env.local scripts/run-payload.mjs run scripts/seed.ts"
   },
   "dependencies": {
     "@payloadcms/db-postgres": "^3.90.2",

@@ -35,17 +35,24 @@ const eslintConfig = defineConfig([
     },
   },
   // Module boundaries (ENGINEERING.md §2 dependency rules).
-  // NOTE: written before any `modules/` code exists — re-validate against a real
-  // cross-module import violation once Phase 2 lands (see CHECKLIST.md Phase 0).
-  // NOTE: uses eslint-plugin-boundaries' v6 `rules`/string-selector API, which
-  // v7 deprecates in favour of `policies`/object selectors (still functional,
-  // just emits warnings) — migrate once the new API is verified. See BUGS.md.
+  // Uses eslint-plugin-boundaries v7's native `policies`/object-selector API.
+  // NOTE: the v6 `rules`/tuple-selector API (`["type", { captured }]`) is
+  // still *accepted* without error, but same-captured-value self-matching
+  // through it silently never matches (confirmed when Phase 2's
+  // `modules/content` same-module imports were rejected despite a rule that
+  // should have allowed them) — always use the object form below. See BUGS.md.
   {
     plugins: { boundaries },
     settings: {
       "boundaries/include": ["src/**/*.{ts,tsx}"],
       "boundaries/elements": [
-        { type: "app", pattern: "src/app/**", mode: "full" },
+        { type: "app", pattern: "src/app/**", partialMatch: false },
+        // These three are single-file patterns, not folders. `partialMatch:
+        // false` expands the pattern as a folder prefix (`<pattern>/**/*`),
+        // which never matches an exact file path — so despite the plugin's
+        // own deprecation message, `mode: "full"` (old behaviour: match the
+        // literal path, no folder expansion) is the only one of the two that
+        // actually works here. Kept deliberately; see BUGS.md.
         {
           type: "payload-config",
           pattern: "src/payload.config.ts",
@@ -65,60 +72,105 @@ const eslintConfig = defineConfig([
         {
           type: "module-internal",
           pattern: "src/modules/*/**",
-          mode: "full",
+          partialMatch: false,
           capture: ["module"],
         },
-        { type: "integrations", pattern: "src/integrations/**", mode: "full" },
-        { type: "payload", pattern: "src/payload/**", mode: "full" },
-        { type: "ui", pattern: "src/ui/**", mode: "full" },
-        { type: "lib", pattern: "src/lib/**", mode: "full" },
-        { type: "i18n", pattern: "src/i18n/**", mode: "full" },
+        {
+          type: "integrations",
+          pattern: "src/integrations/**",
+          partialMatch: false,
+        },
+        { type: "payload", pattern: "src/payload/**", partialMatch: false },
+        { type: "ui", pattern: "src/ui/**", partialMatch: false },
+        { type: "lib", pattern: "src/lib/**", partialMatch: false },
+        { type: "i18n", pattern: "src/i18n/**", partialMatch: false },
       ],
     },
     rules: {
-      "boundaries/no-unknown": "error",
-      "boundaries/element-types": [
+      "boundaries/no-unknown-dependencies": "error",
+      "boundaries/dependencies": [
         "error",
         {
           default: "disallow",
-          rules: [
+          policies: [
             {
-              from: "app",
+              from: { element: { type: "app" } },
               allow: [
-                "app",
-                "module-public",
-                "ui",
-                "lib",
-                "i18n",
-                "payload-config",
-                "payload-types",
+                { to: { element: { type: "app" } } },
+                { to: { element: { type: "module-public" } } },
+                { to: { element: { type: "ui" } } },
+                { to: { element: { type: "lib" } } },
+                { to: { element: { type: "i18n" } } },
+                { to: { element: { type: "payload-config" } } },
+                { to: { element: { type: "payload-types" } } },
               ],
             },
             {
-              from: "payload-config",
-              allow: ["payload", "lib", "payload-types"],
-            },
-            {
-              from: "module-internal",
+              from: { element: { type: "payload-config" } },
               allow: [
-                ["module-internal", { module: "${module}" }],
-                "integrations",
-                "lib",
-                "ui",
-                "payload-types",
+                { to: { element: { type: "payload" } } },
+                { to: { element: { type: "lib" } } },
+                { to: { element: { type: "payload-types" } } },
               ],
             },
             {
-              from: "module-public",
-              allow: [["module-internal", { module: "${module}" }]],
+              from: { element: { type: "module-internal" } },
+              allow: [
+                {
+                  to: {
+                    element: {
+                      type: "module-internal",
+                      captured: { module: "{{from.module}}" },
+                    },
+                  },
+                },
+                { to: { element: { type: "integrations" } } },
+                { to: { element: { type: "lib" } } },
+                { to: { element: { type: "ui" } } },
+                { to: { element: { type: "payload-types" } } },
+                // Modules reach the DB exclusively through Payload's Local
+                // API, so they need `getPayload({ config })` — i.e. the
+                // config, never `src/payload/**` (collections/blocks) directly.
+                { to: { element: { type: "payload-config" } } },
+              ],
             },
-            { from: "integrations", allow: ["lib"] },
             {
-              from: "payload",
-              allow: ["payload", "module-public", "lib", "payload-types"],
+              from: { element: { type: "module-public" } },
+              allow: [
+                {
+                  to: {
+                    element: {
+                      type: "module-internal",
+                      captured: { module: "{{from.module}}" },
+                    },
+                  },
+                },
+              ],
             },
-            { from: "ui", allow: ["ui", "lib"] },
-            { from: "lib", allow: ["lib"] },
+            {
+              from: { element: { type: "integrations" } },
+              allow: [{ to: { element: { type: "lib" } } }],
+            },
+            {
+              from: { element: { type: "payload" } },
+              allow: [
+                { to: { element: { type: "payload" } } },
+                { to: { element: { type: "module-public" } } },
+                { to: { element: { type: "lib" } } },
+                { to: { element: { type: "payload-types" } } },
+              ],
+            },
+            {
+              from: { element: { type: "ui" } },
+              allow: [
+                { to: { element: { type: "ui" } } },
+                { to: { element: { type: "lib" } } },
+              ],
+            },
+            {
+              from: { element: { type: "lib" } },
+              allow: [{ to: { element: { type: "lib" } } }],
+            },
           ],
         },
       ],

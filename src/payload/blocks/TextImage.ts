@@ -6,7 +6,15 @@ export const TextImage: Block = {
   fields: [
     { name: "heading", type: "text", localized: true },
     { name: "richText", type: "richText", localized: true },
-    { name: "image", type: "upload", relationTo: "media", required: true },
+    {
+      name: "image",
+      type: "upload",
+      relationTo: "media",
+      admin: {
+        description:
+          "Optional — real photography is pending (PENDING.md). Renders as text-only when empty.",
+      },
+    },
     {
       name: "imagePosition",
       type: "select",

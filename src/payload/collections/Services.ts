@@ -37,15 +37,19 @@ export const Services: CollectionConfig = {
     {
       name: "durationMin",
       type: "number",
-      required: true,
       min: 1,
-      admin: { description: "Session duration in minutes." },
+      admin: {
+        description:
+          "Session duration in minutes. Leave empty until confirmed (PENDING.md).",
+      },
     },
     {
       name: "price",
       type: "number",
-      required: true,
       min: 0,
+      admin: {
+        description: "Leave empty until pricing is confirmed (PENDING.md).",
+      },
     },
     {
       name: "currency",
