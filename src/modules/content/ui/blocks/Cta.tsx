@@ -28,16 +28,24 @@ export function CtaBlock({
                   aspectRatio: `${String(media.width)} / ${String(media.height)}`,
                 }
               : undefined),
-            // A real diagonal mask on the photo itself — not a flat
-            // rectangular box with a color overlay — so there's no hard
-            // edge where the box meets the solid olive background; the
-            // photo's own pixels fade out along the 45° line.
+            // A percentage-based diagonal gradient breaks down on a wide,
+            // short box: the gradient line is measured corner-to-corner,
+            // so almost the whole visible area lands in the "still fully
+            // opaque" part and the fade only shows up in a tiny sliver
+            // near one corner — it reads as a hard edge, not a diagonal
+            // fade. Fix: clip-path cuts an actual 45°-ish diagonal silhouette
+            // (pixel offset, independent of box size), then a plain
+            // horizontal mask — fixed pixel width, not a percentage —
+            // softens that already-diagonal edge uniformly.
+            clipPath: imageOnLeft
+              ? "polygon(0 0, calc(100% - 150px) 0, 100% 100%, 0 100%)"
+              : "polygon(150px 0, 100% 0, 100% 100%, 0 100%)",
             maskImage: imageOnLeft
-              ? "linear-gradient(45deg, black 0%, black 65%, transparent 100%)"
-              : "linear-gradient(315deg, black 0%, black 65%, transparent 100%)",
+              ? "linear-gradient(to right, black 0, black calc(100% - 140px), transparent 100%)"
+              : "linear-gradient(to left, black 0, black calc(100% - 140px), transparent 100%)",
             WebkitMaskImage: imageOnLeft
-              ? "linear-gradient(45deg, black 0%, black 65%, transparent 100%)"
-              : "linear-gradient(315deg, black 0%, black 65%, transparent 100%)",
+              ? "linear-gradient(to right, black 0, black calc(100% - 140px), transparent 100%)"
+              : "linear-gradient(to left, black 0, black calc(100% - 140px), transparent 100%)",
           }}
         >
           {/* The container matches the photo's own aspect ratio (not a
