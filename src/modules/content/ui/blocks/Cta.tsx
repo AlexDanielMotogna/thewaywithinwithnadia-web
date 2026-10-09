@@ -19,7 +19,7 @@ export function CtaBlock({
       <div className="grid grid-cols-1 md:grid-cols-5">
         <div
           className={cn(
-            "flex flex-col justify-center px-6 py-16 text-center sm:px-10 sm:py-20 md:col-span-3 md:text-left",
+            "flex flex-col items-center justify-center px-6 py-16 text-center sm:px-10 sm:py-20 md:col-span-3",
             imageOnLeft ? "md:order-2" : "md:order-1",
           )}
         >
@@ -27,11 +27,7 @@ export function CtaBlock({
             {heading}
           </Heading>
           {body ? (
-            <Text
-              size="lg"
-              tone="inverted"
-              className="mx-auto mt-4 max-w-xl md:mx-0"
-            >
+            <Text size="lg" tone="inverted" className="mt-4 max-w-xl">
               {body}
             </Text>
           ) : null}
@@ -39,7 +35,7 @@ export function CtaBlock({
             href={ctaHref}
             variant="primary"
             size="lg"
-            className="bg-ivory text-olive hover:bg-sand mx-auto mt-8 md:mx-0"
+            className="bg-ivory text-olive hover:bg-sand mt-8"
           >
             {ctaLabel}
           </LinkButton>
@@ -58,12 +54,17 @@ export function CtaBlock({
               className="rounded-none object-cover"
               sizes="(min-width: 768px) 40vw, 100vw"
             />
+            {/* Tint the whole photo toward olive first, so it reads as part
+                of the same color world, then fade it fully into the solid
+                band at the edge touching the text — one surface, not a
+                photo box with a hard seam. */}
+            <div className="bg-olive/35 absolute inset-0 mix-blend-multiply" />
             <div
               className={cn(
                 "absolute inset-0 bg-gradient-to-r",
                 imageOnLeft
-                  ? "to-olive from-transparent"
-                  : "from-olive to-transparent",
+                  ? "via-olive/55 to-olive from-transparent"
+                  : "from-olive via-olive/55 to-transparent",
               )}
             />
           </div>
