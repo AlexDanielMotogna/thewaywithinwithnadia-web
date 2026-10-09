@@ -110,6 +110,18 @@ function withCtaBackground(
   );
 }
 
+function withQuoteBackground(
+  blocks: PageBlock[],
+  textIncludes: string,
+  mediaId: number,
+): PageBlock[] {
+  return blocks.map((block) =>
+    block.blockType === "quote" && block.text.includes(textIncludes)
+      ? { ...block, backgroundImage: mediaId }
+      : block,
+  );
+}
+
 function withHeroImage(blocks: PageBlock[], mediaId: number): PageBlock[] {
   return blocks.map((block) =>
     block.blockType === "hero" ? { ...block, image: mediaId } : block,
@@ -174,12 +186,17 @@ export async function runAttachMedia(payload: Payload): Promise<string[]> {
       "Meet Nadia",
       required(ids, "nadiaPortrait"),
     );
+    blocks = withQuoteBackground(
+      blocks,
+      "light people seek",
+      required(ids, "heroHome"),
+    );
     blocks = withCtaBackground(
       blocks,
       "Discover Journey to Self",
       required(ids, "ctaJourney"),
     );
-    blocks = withCtaBackground(
+    blocks = withTextImageImage(
       blocks,
       "A Space for Hotels, Spas & Retreats",
       required(ids, "hotelsSpasPool"),

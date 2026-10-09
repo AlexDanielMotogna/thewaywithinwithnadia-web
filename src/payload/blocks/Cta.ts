@@ -14,7 +14,20 @@ export const Cta: Block = {
       relationTo: "media",
       admin: {
         description:
-          "Optional full-bleed background photo. Renders as a flat olive band when empty.",
+          "Optional photo, bleeding in from one edge over the olive band. Renders as a flat olive band when empty.",
+      },
+    },
+    {
+      name: "imagePosition",
+      type: "select",
+      defaultValue: "right",
+      options: [
+        { label: "Left", value: "left" },
+        { label: "Right", value: "right" },
+      ],
+      admin: {
+        condition: (_, siblingData: { backgroundImage?: unknown }) =>
+          Boolean(siblingData.backgroundImage),
       },
     },
   ],

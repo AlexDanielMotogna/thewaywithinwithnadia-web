@@ -123,8 +123,9 @@ const homePage: PageInput = {
       blockType: "hero",
       heading: "The Way Within",
       script: "with Nadia",
+      tagline: "A Sacred Space to Meet Yourself.",
       subheading:
-        "A sacred space to meet yourself. An invitation to slow down, reconnect with your inner wisdom and return to what feels true.",
+        "An invitation to slow down, reconnect with your inner wisdom and return to what feels true.",
       primaryCtaLabel: "Begin Your Journey",
       primaryCtaHref: "/journey-to-self",
       secondaryCtaLabel: "Book a Session",
@@ -137,7 +138,7 @@ const homePage: PageInput = {
         paragraph:
           "Nadia does not present herself as someone who has all the answers. Her role is to create a safe space and walk alongside people as they reconnect with their own wisdom and truth.",
       }),
-      imagePosition: "right",
+      imagePosition: "left",
     },
     {
       blockType: "quote",
@@ -147,29 +148,33 @@ const homePage: PageInput = {
     {
       blockType: "cta",
       heading: "Discover Journey to Self",
+      body: "A deeper exploration through guided practices, reflection and support.",
       ctaLabel: "Discover Journey to Self",
       ctaHref: "/journey-to-self",
+      imagePosition: "right",
     },
     {
       blockType: "servicesPreview",
       heading: "The Offerings",
     },
     {
-      blockType: "cta",
+      blockType: "textImage",
       heading: "A Space for Hotels, Spas & Retreats",
-      body: "Bringing meditation, breathwork and guided wellbeing experiences to hotels, spas, thermal resorts and retreat venues.",
+      richText: richText({
+        paragraph:
+          "Bringing meditation, breathwork and guided wellbeing experiences to hotels, spas, thermal resorts and retreat venues.",
+      }),
+      imagePosition: "left",
       ctaLabel: "Explore Collaborations",
       ctaHref: "/hotels-spas",
     },
     {
-      blockType: "quote",
-      text: "The journey is inward. The transformation is lived outward.",
-    },
-    {
       blockType: "cta",
       heading: "Book Your Session",
+      body: "Take the next step on your journey. I look forward to holding space for you.",
       ctaLabel: "Book Your Session",
       ctaHref: "/book",
+      imagePosition: "left",
     },
   ],
 };

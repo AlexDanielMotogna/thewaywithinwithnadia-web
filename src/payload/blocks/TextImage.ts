@@ -24,5 +24,7 @@ export const TextImage: Block = {
         { label: "Right", value: "right" },
       ],
     },
+    { name: "ctaLabel", type: "text", localized: true },
+    { name: "ctaHref", type: "text" },
   ],
 };

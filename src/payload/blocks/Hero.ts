@@ -6,6 +6,15 @@ export const Hero: Block = {
   fields: [
     { name: "heading", type: "text", required: true, localized: true },
     { name: "script", type: "text", localized: true },
+    {
+      name: "tagline",
+      type: "text",
+      localized: true,
+      admin: {
+        description:
+          "Short emphasized line, e.g. 'A Sacred Space to Meet Yourself.'",
+      },
+    },
     { name: "subheading", type: "textarea", localized: true },
     { name: "image", type: "upload", relationTo: "media" },
     { name: "primaryCtaLabel", type: "text", localized: true },

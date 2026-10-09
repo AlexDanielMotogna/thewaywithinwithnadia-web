@@ -1,5 +1,5 @@
 import { cn } from "@/lib/cn";
-import { Container, Heading, Image, LinkButton, Section, Text } from "@/ui";
+import { Heading, Image, LinkButton, Text } from "@/ui";
 import { resolveMedia } from "@/modules/content/ui/resolve-media";
 import type { CtaBlockData } from "@/modules/content/ui/types";
 
@@ -9,44 +9,66 @@ export function CtaBlock({
   ctaLabel,
   ctaHref,
   backgroundImage,
+  imagePosition,
 }: CtaBlockData) {
   const media = resolveMedia(backgroundImage);
+  const imageOnLeft = imagePosition === "left";
 
   return (
-    <Section
-      tone={media?.url ? undefined : "olive"}
-      className={cn("relative overflow-hidden", media?.url && "bg-transparent")}
-    >
-      {media?.url ? (
-        <>
-          <Image
-            src={media.url}
-            alt={media.alt}
-            fill
-            className="object-cover"
-            sizes="100vw"
-          />
-          <div className="bg-olive/70 absolute inset-0" />
-        </>
-      ) : null}
-      <Container size="narrow" className="relative text-center">
-        <Heading as="h2" size="lg" className="text-ivory">
-          {heading}
-        </Heading>
-        {body ? (
-          <Text size="lg" tone="inverted" className="mx-auto mt-4 max-w-xl">
-            {body}
-          </Text>
-        ) : null}
-        <LinkButton
-          href={ctaHref}
-          variant="primary"
-          size="lg"
-          className="bg-ivory text-olive hover:bg-sand mt-8"
+    <section className="bg-olive">
+      <div className="grid grid-cols-1 md:grid-cols-5">
+        <div
+          className={cn(
+            "flex flex-col justify-center px-6 py-16 text-center sm:px-10 sm:py-20 md:col-span-3 md:text-left",
+            imageOnLeft ? "md:order-2" : "md:order-1",
+          )}
         >
-          {ctaLabel}
-        </LinkButton>
-      </Container>
-    </Section>
+          <Heading as="h2" size="lg" className="text-ivory">
+            {heading}
+          </Heading>
+          {body ? (
+            <Text
+              size="lg"
+              tone="inverted"
+              className="mx-auto mt-4 max-w-xl md:mx-0"
+            >
+              {body}
+            </Text>
+          ) : null}
+          <LinkButton
+            href={ctaHref}
+            variant="primary"
+            size="lg"
+            className="bg-ivory text-olive hover:bg-sand mx-auto mt-8 md:mx-0"
+          >
+            {ctaLabel}
+          </LinkButton>
+        </div>
+        {media?.url ? (
+          <div
+            className={cn(
+              "relative min-h-[220px] md:col-span-2",
+              imageOnLeft ? "md:order-1" : "md:order-2",
+            )}
+          >
+            <Image
+              src={media.url}
+              alt={media.alt}
+              fill
+              className="rounded-none object-cover"
+              sizes="(min-width: 768px) 40vw, 100vw"
+            />
+            <div
+              className={cn(
+                "absolute inset-0 bg-gradient-to-r",
+                imageOnLeft
+                  ? "to-olive from-transparent"
+                  : "from-olive to-transparent",
+              )}
+            />
+          </div>
+        ) : null}
+      </div>
+    </section>
   );
 }

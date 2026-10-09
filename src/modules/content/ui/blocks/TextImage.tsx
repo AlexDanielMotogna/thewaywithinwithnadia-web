@@ -1,6 +1,5 @@
 import { RichText } from "@payloadcms/richtext-lexical/react";
-import { cn } from "@/lib/cn";
-import { Container, Heading, Image, Section } from "@/ui";
+import { Container, Heading, Image, LinkButton } from "@/ui";
 import { resolveMedia } from "@/modules/content/ui/resolve-media";
 import type { TextImageBlockData } from "@/modules/content/ui/types";
 
@@ -9,6 +8,8 @@ export function TextImageBlock({
   richText,
   image,
   imagePosition,
+  ctaLabel,
+  ctaHref,
 }: TextImageBlockData) {
   const media = resolveMedia(image);
   const imageOnLeft = imagePosition === "left";
@@ -21,40 +22,53 @@ export function TextImageBlock({
         </Heading>
       ) : null}
       {richText ? <RichText data={richText} /> : null}
+      {ctaLabel && ctaHref ? (
+        <LinkButton href={ctaHref} variant="primary" size="lg" className="mt-8">
+          {ctaLabel}
+        </LinkButton>
+      ) : null}
     </>
   );
 
   if (!media?.url) {
     return (
-      <Section tone="ivory">
-        <Container size="narrow">{copy}</Container>
-      </Section>
+      <section className="bg-ivory">
+        <Container size="narrow" className="py-16">
+          {copy}
+        </Container>
+      </section>
     );
   }
 
   return (
-    <Section tone="ivory">
-      <Container size="wide">
-        <div className="grid grid-cols-1 items-center gap-10 md:grid-cols-2">
-          <div
-            className={cn(
-              "relative aspect-[4/3] w-full overflow-hidden rounded-md",
-              imageOnLeft ? "md:order-1" : "md:order-2",
-            )}
-          >
+    <section className="bg-ivory">
+      <div className="grid grid-cols-1 items-stretch md:grid-cols-2">
+        {imageOnLeft ? (
+          <div className="relative min-h-[320px] md:order-1">
             <Image
               src={media.url}
               alt={media.alt}
               fill
-              className="object-cover"
+              className="rounded-none object-cover"
               sizes="(min-width: 768px) 50vw, 100vw"
             />
           </div>
-          <div className={imageOnLeft ? "md:order-2" : "md:order-1"}>
-            {copy}
-          </div>
+        ) : null}
+        <div className="flex flex-col justify-center px-6 py-16 sm:px-10 md:order-2 lg:px-16">
+          {copy}
         </div>
-      </Container>
-    </Section>
+        {!imageOnLeft ? (
+          <div className="relative order-first min-h-[320px] md:order-3">
+            <Image
+              src={media.url}
+              alt={media.alt}
+              fill
+              className="rounded-none object-cover"
+              sizes="(min-width: 768px) 50vw, 100vw"
+            />
+          </div>
+        ) : null}
+      </div>
+    </section>
   );
 }

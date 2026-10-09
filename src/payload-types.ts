@@ -211,6 +211,10 @@ export interface Page {
         | {
             heading: string;
             script?: string | null;
+            /**
+             * Short emphasized line, e.g. 'A Sacred Space to Meet Yourself.'
+             */
+            tagline?: string | null;
             subheading?: string | null;
             image?: (number | null) | Media;
             primaryCtaLabel?: string | null;
@@ -224,6 +228,10 @@ export interface Page {
         | {
             text: string;
             attribution?: string | null;
+            /**
+             * Optional full-bleed banner photo. Renders as a flat sand band when empty.
+             */
+            backgroundImage?: (number | null) | Media;
             id?: string | null;
             blockName?: string | null;
             blockType: "quote";
@@ -257,6 +265,8 @@ export interface Page {
              */
             image?: (number | null) | Media;
             imagePosition?: ("left" | "right") | null;
+            ctaLabel?: string | null;
+            ctaHref?: string | null;
             id?: string | null;
             blockName?: string | null;
             blockType: "textImage";
@@ -290,9 +300,10 @@ export interface Page {
             ctaLabel: string;
             ctaHref: string;
             /**
-             * Optional full-bleed background photo. Renders as a flat olive band when empty.
+             * Optional photo, bleeding in from one edge over the olive band. Renders as a flat olive band when empty.
              */
             backgroundImage?: (number | null) | Media;
+            imagePosition?: ("left" | "right") | null;
             id?: string | null;
             blockName?: string | null;
             blockType: "cta";
@@ -607,6 +618,7 @@ export interface PagesSelect<T extends boolean = true> {
           | {
               heading?: T;
               script?: T;
+              tagline?: T;
               subheading?: T;
               image?: T;
               primaryCtaLabel?: T;
@@ -621,6 +633,7 @@ export interface PagesSelect<T extends boolean = true> {
           | {
               text?: T;
               attribution?: T;
+              backgroundImage?: T;
               id?: T;
               blockName?: T;
             };
@@ -631,6 +644,8 @@ export interface PagesSelect<T extends boolean = true> {
               richText?: T;
               image?: T;
               imagePosition?: T;
+              ctaLabel?: T;
+              ctaHref?: T;
               id?: T;
               blockName?: T;
             };
@@ -664,6 +679,7 @@ export interface PagesSelect<T extends boolean = true> {
               ctaLabel?: T;
               ctaHref?: T;
               backgroundImage?: T;
+              imagePosition?: T;
               id?: T;
               blockName?: T;
             };
