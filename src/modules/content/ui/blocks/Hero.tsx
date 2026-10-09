@@ -1,3 +1,4 @@
+import type { TypedLocale } from "payload";
 import {
   Container,
   Heading,
@@ -7,6 +8,7 @@ import {
   Script,
   Text,
 } from "@/ui";
+import { localizeHref } from "@/modules/content/ui/localize-href";
 import { resolveMedia } from "@/modules/content/ui/resolve-media";
 import type { HeroBlockData } from "@/modules/content/ui/types";
 
@@ -43,7 +45,8 @@ export function HeroBlock({
   primaryCtaHref,
   secondaryCtaLabel,
   secondaryCtaHref,
-}: HeroBlockData) {
+  locale,
+}: HeroBlockData & { locale: TypedLocale }) {
   const media = resolveMedia(image);
   const hasPrimaryCta = Boolean(primaryCtaLabel && primaryCtaHref);
   const hasSecondaryCta = Boolean(secondaryCtaLabel && secondaryCtaHref);
@@ -70,7 +73,11 @@ export function HeroBlock({
           The Way Within
         </span>
         {secondaryCtaLabel && secondaryCtaHref ? (
-          <LinkButton href={secondaryCtaHref} variant="primary" size="sm">
+          <LinkButton
+            href={localizeHref(secondaryCtaHref, locale)}
+            variant="primary"
+            size="sm"
+          >
             {secondaryCtaLabel}
           </LinkButton>
         ) : null}
@@ -108,12 +115,20 @@ export function HeroBlock({
         {hasPrimaryCta || hasSecondaryCta ? (
           <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
             {primaryCtaLabel && primaryCtaHref ? (
-              <LinkButton href={primaryCtaHref} variant="primary" size="lg">
+              <LinkButton
+                href={localizeHref(primaryCtaHref, locale)}
+                variant="primary"
+                size="lg"
+              >
                 {primaryCtaLabel}
               </LinkButton>
             ) : null}
             {secondaryCtaLabel && secondaryCtaHref ? (
-              <LinkButton href={secondaryCtaHref} variant="secondary" size="lg">
+              <LinkButton
+                href={localizeHref(secondaryCtaHref, locale)}
+                variant="secondary"
+                size="lg"
+              >
                 {secondaryCtaLabel}
               </LinkButton>
             ) : null}

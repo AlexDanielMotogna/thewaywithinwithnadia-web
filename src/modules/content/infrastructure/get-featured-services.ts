@@ -1,10 +1,12 @@
 import "server-only";
 import { cacheLife } from "next/cache";
 import config from "@payload-config";
-import { getPayload } from "payload";
+import { getPayload, type TypedLocale } from "payload";
 import type { Service } from "@/payload-types";
 
-export async function getFeaturedServices(): Promise<Service[]> {
+export async function getFeaturedServices(
+  locale: TypedLocale,
+): Promise<Service[]> {
   "use cache";
   cacheLife("minutes");
 
@@ -14,6 +16,8 @@ export async function getFeaturedServices(): Promise<Service[]> {
     where: { active: { equals: true }, featured: { equals: true } },
     depth: 1,
     limit: 10,
+    locale,
+    fallbackLocale: "en",
   });
 
   return result.docs;

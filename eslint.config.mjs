@@ -84,6 +84,8 @@ const eslintConfig = defineConfig([
         { type: "ui", pattern: "src/ui/**", partialMatch: false },
         { type: "lib", pattern: "src/lib/**", partialMatch: false },
         { type: "i18n", pattern: "src/i18n/**", partialMatch: false },
+        // Single-file, same reasoning as payload-config/payload-types above.
+        { type: "proxy", pattern: "src/proxy.ts", mode: "full" },
       ],
     },
     rules: {
@@ -127,6 +129,7 @@ const eslintConfig = defineConfig([
                 { to: { element: { type: "integrations" } } },
                 { to: { element: { type: "lib" } } },
                 { to: { element: { type: "ui" } } },
+                { to: { element: { type: "i18n" } } },
                 { to: { element: { type: "payload-types" } } },
                 // Modules reach the DB exclusively through Payload's Local
                 // API, so they need `getPayload({ config })` — i.e. the
@@ -170,6 +173,20 @@ const eslintConfig = defineConfig([
             {
               from: { element: { type: "lib" } },
               allow: [{ to: { element: { type: "lib" } } }],
+            },
+            {
+              from: { element: { type: "i18n" } },
+              allow: [
+                { to: { element: { type: "i18n" } } },
+                { to: { element: { type: "lib" } } },
+              ],
+            },
+            {
+              from: { element: { type: "proxy" } },
+              allow: [
+                { to: { element: { type: "i18n" } } },
+                { to: { element: { type: "lib" } } },
+              ],
             },
           ],
         },

@@ -1,3 +1,4 @@
+import type { TypedLocale } from "payload";
 import { CtaBlock } from "@/modules/content/ui/blocks/Cta";
 import { HeroBlock } from "@/modules/content/ui/blocks/Hero";
 import { PrinciplesBlock } from "@/modules/content/ui/blocks/Principles";
@@ -12,28 +13,44 @@ import type { PageBlock } from "@/modules/content/ui/types";
  * lint config forbids (no `any`, no `as`). `switch-exhaustiveness-check`
  * gives the same guarantee: a new block type with no case fails the build.
  */
-function RenderBlock({ block }: { block: PageBlock }) {
+function RenderBlock({
+  block,
+  locale,
+}: {
+  block: PageBlock;
+  locale: TypedLocale;
+}) {
   switch (block.blockType) {
     case "hero":
-      return <HeroBlock {...block} />;
+      return <HeroBlock {...block} locale={locale} />;
     case "quote":
       return <QuoteBlock {...block} />;
     case "textImage":
-      return <TextImageBlock {...block} />;
+      return <TextImageBlock {...block} locale={locale} />;
     case "principles":
       return <PrinciplesBlock {...block} />;
     case "servicesPreview":
-      return <ServicesPreviewBlock {...block} />;
+      return <ServicesPreviewBlock {...block} locale={locale} />;
     case "cta":
-      return <CtaBlock {...block} />;
+      return <CtaBlock {...block} locale={locale} />;
   }
 }
 
-export function RenderBlocks({ blocks }: { blocks: PageBlock[] }) {
+export function RenderBlocks({
+  blocks,
+  locale,
+}: {
+  blocks: PageBlock[];
+  locale: TypedLocale;
+}) {
   return (
     <>
       {blocks.map((block, index) => (
-        <RenderBlock key={block.id ?? String(index)} block={block} />
+        <RenderBlock
+          key={block.id ?? String(index)}
+          block={block}
+          locale={locale}
+        />
       ))}
     </>
   );

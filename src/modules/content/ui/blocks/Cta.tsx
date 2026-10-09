@@ -1,5 +1,7 @@
+import type { TypedLocale } from "payload";
 import { cn } from "@/lib/cn";
 import { Container, Heading, Image, LinkButton, Text } from "@/ui";
+import { localizeHref } from "@/modules/content/ui/localize-href";
 import { resolveMedia } from "@/modules/content/ui/resolve-media";
 import type { CtaBlockData } from "@/modules/content/ui/types";
 
@@ -10,7 +12,8 @@ export function CtaBlock({
   ctaHref,
   backgroundImage,
   imagePosition,
-}: CtaBlockData) {
+  locale,
+}: CtaBlockData & { locale: TypedLocale }) {
   const media = resolveMedia(backgroundImage);
   const imageOnLeft = imagePosition === "left";
 
@@ -69,7 +72,7 @@ export function CtaBlock({
           </Text>
         ) : null}
         <LinkButton
-          href={ctaHref}
+          href={localizeHref(ctaHref, locale)}
           variant="primary"
           size="lg"
           className="bg-ivory text-olive hover:bg-sand mt-8"

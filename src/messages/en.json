@@ -1,0 +1,12 @@
+{
+  "Nav": {
+    "home": "Home",
+    "journeyToSelf": "Journey to Self",
+    "hotelsSpas": "Hotels & Spas",
+    "contact": "Contact"
+  },
+  "Footer": {
+    "impressum": "Imprint",
+    "datenschutz": "Privacy Policy"
+  }
+}

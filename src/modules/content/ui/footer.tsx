@@ -1,37 +1,45 @@
-import Link from "next/link";
+import { getTranslations } from "next-intl/server";
 import { cn } from "@/lib/cn";
+import { Link } from "@/i18n/navigation";
 import { Container, Icon, Script, Text } from "@/ui";
 import { getSiteSettings } from "@/modules/content/infrastructure/get-site-settings";
-
-const NAV_LINKS = [
-  { label: "Home", href: "/" },
-  { label: "Journey to Self", href: "/journey-to-self" },
-  { label: "Hotels & Spas", href: "/hotels-spas" },
-  { label: "Contact", href: "/contact" },
-];
-
-// Required on every page footer per LEGAL.md §6.1 ("leicht und unmittelbar
-// erreichbar"). Routes aren't built yet (real Impressum/Datenschutz content
-// is pending Nadia + a lawyer — PENDING.md); these are placeholders so the
-// links are visually present, not a claim that the pages exist.
-const LEGAL_LINKS = [
-  { label: "Impressum", href: "/impressum" },
-  { label: "Datenschutz", href: "/datenschutz" },
-];
+import { LanguageSwitcher } from "@/modules/content/ui/language-switcher";
 
 const SOCIAL_BADGE_CLASS =
   "bg-olive text-ivory hover:bg-olive-light flex h-9 w-9 items-center justify-center rounded-full";
 
 export async function Footer() {
-  const settings = await getSiteSettings();
+  const [settings, t] = await Promise.all([
+    getSiteSettings(),
+    getTranslations(),
+  ]);
   const instagramUrl = settings.socialLinks?.find(
     (link) => link.platform === "instagram",
   )?.url;
 
+  const navLinks: {
+    label: string;
+    href: "/" | "/journey-to-self" | "/hotels-spas" | "/contact";
+  }[] = [
+    { label: t("Nav.home"), href: "/" },
+    { label: t("Nav.journeyToSelf"), href: "/journey-to-self" },
+    { label: t("Nav.hotelsSpas"), href: "/hotels-spas" },
+    { label: t("Nav.contact"), href: "/contact" },
+  ];
+
+  // Required on every page footer per LEGAL.md §6.1 ("leicht und
+  // unmittelbar erreichbar"). Routes aren't built yet (real content is
+  // pending Nadia + a lawyer — PENDING.md); these are placeholders so the
+  // links are visually present, not a claim that the pages exist.
+  const legalLinks: { label: string; href: "/impressum" | "/datenschutz" }[] = [
+    { label: t("Footer.impressum"), href: "/impressum" },
+    { label: t("Footer.datenschutz"), href: "/datenschutz" },
+  ];
+
   return (
     <footer className="bg-ivory border-sand border-t">
       <Container size="wide" className="py-10">
-        <div className="grid grid-cols-1 items-center gap-6 text-center sm:grid-cols-3 sm:text-left">
+        <div className="grid grid-cols-1 items-center gap-6 text-center sm:grid-cols-4 sm:text-left">
           <div>
             <Text
               as="span"
@@ -44,9 +52,9 @@ export async function Footer() {
           </div>
           <nav
             aria-label="Footer"
-            className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2"
+            className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 sm:col-span-2"
           >
-            {NAV_LINKS.map((link) => (
+            {navLinks.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
@@ -56,7 +64,8 @@ export async function Footer() {
               </Link>
             ))}
           </nav>
-          <div className="flex items-center justify-center gap-3 sm:justify-end">
+          <div className="flex items-center justify-center gap-4 sm:justify-end">
+            <LanguageSwitcher />
             {instagramUrl ? (
               <a
                 href={instagramUrl}
@@ -97,7 +106,7 @@ export async function Footer() {
           aria-label="Legal"
           className="border-sand/70 mt-8 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 border-t pt-6"
         >
-          {LEGAL_LINKS.map((link) => (
+          {legalLinks.map((link) => (
             <Link
               key={link.href}
               href={link.href}

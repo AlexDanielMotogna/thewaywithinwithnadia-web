@@ -1,10 +1,13 @@
 import "server-only";
 import { cacheLife } from "next/cache";
 import config from "@payload-config";
-import { getPayload } from "payload";
+import { getPayload, type TypedLocale } from "payload";
 import type { Page } from "@/payload-types";
 
-export async function getPageBySlug(slug: string): Promise<Page | null> {
+export async function getPageBySlug(
+  slug: string,
+  locale: TypedLocale,
+): Promise<Page | null> {
   "use cache";
   cacheLife("minutes");
 
@@ -14,6 +17,8 @@ export async function getPageBySlug(slug: string): Promise<Page | null> {
     where: { slug: { equals: slug } },
     depth: 2,
     limit: 1,
+    locale,
+    fallbackLocale: "en",
   });
 
   return result.docs[0] ?? null;

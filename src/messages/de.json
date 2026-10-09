@@ -1,0 +1,12 @@
+{
+  "Nav": {
+    "home": "Startseite",
+    "journeyToSelf": "Weg zu dir selbst",
+    "hotelsSpas": "Hotels & Spas",
+    "contact": "Kontakt"
+  },
+  "Footer": {
+    "impressum": "Impressum",
+    "datenschutz": "Datenschutz"
+  }
+}

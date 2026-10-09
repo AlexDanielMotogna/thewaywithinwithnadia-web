@@ -1,5 +1,7 @@
 import { RichText } from "@payloadcms/richtext-lexical/react";
+import type { TypedLocale } from "payload";
 import { Container, Heading, Image, LinkButton, OrnamentSpray } from "@/ui";
+import { localizeHref } from "@/modules/content/ui/localize-href";
 import { resolveMedia } from "@/modules/content/ui/resolve-media";
 import type { TextImageBlockData } from "@/modules/content/ui/types";
 
@@ -10,7 +12,8 @@ export function TextImageBlock({
   imagePosition,
   ctaLabel,
   ctaHref,
-}: TextImageBlockData) {
+  locale,
+}: TextImageBlockData & { locale: TypedLocale }) {
   const media = resolveMedia(image);
   const imageOnLeft = imagePosition === "left";
 
@@ -23,7 +26,12 @@ export function TextImageBlock({
       ) : null}
       {richText ? <RichText data={richText} /> : null}
       {ctaLabel && ctaHref ? (
-        <LinkButton href={ctaHref} variant="primary" size="lg" className="mt-8">
+        <LinkButton
+          href={localizeHref(ctaHref, locale)}
+          variant="primary"
+          size="lg"
+          className="mt-8"
+        >
           {ctaLabel}
         </LinkButton>
       ) : null}

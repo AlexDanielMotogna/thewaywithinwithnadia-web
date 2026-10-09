@@ -1,3 +1,4 @@
+import type { TypedLocale } from "payload";
 import type { Service } from "@/payload-types";
 import { Container, Divider, Heading, Icon, Image, Section, Text } from "@/ui";
 import { getFeaturedServices } from "@/modules/content/infrastructure/get-featured-services";
@@ -11,9 +12,11 @@ function isPopulatedService(value: number | Service): value is Service {
 export async function ServicesPreviewBlock({
   heading,
   services,
-}: ServicesPreviewBlockData) {
+  locale,
+}: ServicesPreviewBlockData & { locale: TypedLocale }) {
   const populated = services?.filter(isPopulatedService) ?? [];
-  const list = populated.length > 0 ? populated : await getFeaturedServices();
+  const list =
+    populated.length > 0 ? populated : await getFeaturedServices(locale);
 
   if (list.length === 0) return null;
 
