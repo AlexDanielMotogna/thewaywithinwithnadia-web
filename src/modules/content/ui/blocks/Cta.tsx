@@ -22,29 +22,13 @@ export function CtaBlock({
             "absolute inset-y-0 hidden sm:block",
             imageOnLeft ? "left-0" : "right-0",
           )}
-          style={{
-            ...(media.width && media.height
+          style={
+            media.width && media.height
               ? {
                   aspectRatio: `${String(media.width)} / ${String(media.height)}`,
                 }
-              : undefined),
-            // A literal `45deg` gradient breaks down on a wide, short box:
-            // the gradient *line* always runs corner-to-corner regardless
-            // of angle, so a fixed 45deg line is far longer than the box
-            // is tall, and percentage stops land almost entirely in the
-            // "still fully opaque" part — it reads as a hard edge. The
-            // `to <corner>` keyword form instead defines the line to run
-            // through that exact corner, which CSS computes *from the
-            // box's own aspect ratio* — so percentage stops scale
-            // correctly and the fade is actually visible, for any box
-            // shape, without hardcoded pixel offsets.
-            maskImage: imageOnLeft
-              ? "linear-gradient(to top right, black 0%, black 45%, transparent 100%)"
-              : "linear-gradient(to top left, black 0%, black 45%, transparent 100%)",
-            WebkitMaskImage: imageOnLeft
-              ? "linear-gradient(to top right, black 0%, black 45%, transparent 100%)"
-              : "linear-gradient(to top left, black 0%, black 45%, transparent 100%)",
-          }}
+              : undefined
+          }
         >
           {/* The container matches the photo's own aspect ratio (not a
               fixed fraction of the section), so object-cover shows the
@@ -55,6 +39,18 @@ export function CtaBlock({
             fill
             className="rounded-none object-cover"
             sizes="50vw"
+          />
+          {/* This photo already fades to a soft, blurred green on its own
+              far side — the overlay only needs to finish that fade into
+              solid olive right at the edge touching the text, not tint
+              the whole photo. */}
+          <div
+            className={cn(
+              "absolute inset-0 bg-gradient-to-r",
+              imageOnLeft
+                ? "to-olive from-transparent from-0% via-transparent via-80% to-100%"
+                : "from-olive from-0% via-transparent via-20% to-transparent to-100%",
+            )}
           />
         </div>
       ) : null}
