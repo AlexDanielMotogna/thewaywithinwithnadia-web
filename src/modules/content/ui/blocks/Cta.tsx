@@ -19,27 +19,37 @@ export function CtaBlock({
       {media?.url ? (
         <div
           className={cn(
-            "absolute inset-y-0 hidden w-2/5 sm:block lg:w-1/3",
+            "absolute inset-y-0 hidden sm:block",
             imageOnLeft ? "left-0" : "right-0",
           )}
+          style={
+            media.width && media.height
+              ? {
+                  aspectRatio: `${String(media.width)} / ${String(media.height)}`,
+                }
+              : undefined
+          }
         >
+          {/* The container matches the photo's own aspect ratio (not a
+              fixed fraction of the section), so object-cover shows the
+              whole photo uncropped instead of slicing off either side. */}
           <Image
             src={media.url}
             alt={media.alt}
             fill
             className="rounded-none object-cover"
-            sizes="(min-width: 1024px) 33vw, 40vw"
+            sizes="50vw"
           />
-          {/* Most of the photo stays untouched near the outer edge; the
-              fade into solid olive is concentrated in the last stretch
-              facing the (always-centered) text, so it reads as a corner
-              accent without hiding the photo under a flat tint. */}
+          {/* This photo already fades to a soft, blurred green on its own
+              far side — the overlay only needs to finish that fade into
+              solid olive right at the edge touching the text, not tint
+              the whole photo. */}
           <div
             className={cn(
               "absolute inset-0 bg-gradient-to-r",
               imageOnLeft
-                ? "via-olive/20 to-olive from-transparent from-0% via-60% to-100%"
-                : "from-olive via-olive/20 from-0% via-40% to-transparent to-100%",
+                ? "to-olive from-transparent from-0% via-transparent via-80% to-100%"
+                : "from-olive from-0% via-transparent via-20% to-transparent to-100%",
             )}
           />
         </div>
