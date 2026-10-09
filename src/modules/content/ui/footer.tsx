@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { cn } from "@/lib/cn";
 import { Container, Icon, Script, Text } from "@/ui";
 import { getSiteSettings } from "@/modules/content/infrastructure/get-site-settings";
 
@@ -9,18 +10,28 @@ const NAV_LINKS = [
   { label: "Contact", href: "/contact" },
 ];
 
+const SOCIAL_BADGE_CLASS =
+  "bg-olive text-ivory hover:bg-olive-light flex h-9 w-9 items-center justify-center rounded-full";
+
 export async function Footer() {
   const settings = await getSiteSettings();
-  const hasSocial = Boolean(settings.socialLinks?.length ?? settings.email);
+  const instagramUrl = settings.socialLinks?.find(
+    (link) => link.platform === "instagram",
+  )?.url;
 
   return (
     <footer className="bg-ivory border-sand border-t">
-      <Container className="flex flex-col items-center gap-6 py-10 text-center sm:flex-row sm:justify-between sm:text-left">
+      <Container className="grid grid-cols-1 items-center gap-6 py-10 text-center sm:grid-cols-3 sm:text-left">
         <div>
-          <Text as="span" size="lg" tone="olive" className="block font-serif">
+          <Text
+            as="span"
+            size="lg"
+            tone="olive"
+            className="block font-serif font-semibold tracking-wide uppercase"
+          >
             The Way Within
           </Text>
-          <Script className="text-xl">with Nadia</Script>
+          <Script className="text-gold-dark text-xl">with Nadia</Script>
         </div>
         <nav
           aria-label="Footer"
@@ -36,33 +47,42 @@ export async function Footer() {
             </Link>
           ))}
         </nav>
-        {hasSocial ? (
-          <div className="flex items-center gap-3">
-            {settings.socialLinks
-              ?.filter((link) => link.platform === "instagram")
-              .map((link) => (
-                <a
-                  key={link.id ?? link.url}
-                  href={link.url}
-                  target="_blank"
-                  rel="noreferrer"
-                  aria-label="Instagram"
-                  className="bg-olive text-ivory hover:bg-olive-light flex h-9 w-9 items-center justify-center rounded-full"
-                >
-                  <Icon name="instagram" size={16} />
-                </a>
-              ))}
-            {settings.email ? (
-              <a
-                href={`mailto:${settings.email}`}
-                aria-label="Email"
-                className="bg-olive text-ivory hover:bg-olive-light flex h-9 w-9 items-center justify-center rounded-full"
-              >
-                <Icon name="mail" size={16} />
-              </a>
-            ) : null}
-          </div>
-        ) : null}
+        <div className="flex items-center justify-center gap-3 sm:justify-end">
+          {instagramUrl ? (
+            <a
+              href={instagramUrl}
+              target="_blank"
+              rel="noreferrer"
+              aria-label="Instagram"
+              className={SOCIAL_BADGE_CLASS}
+            >
+              <Icon name="instagram" size={16} />
+            </a>
+          ) : (
+            <span
+              aria-hidden="true"
+              className={cn(SOCIAL_BADGE_CLASS, "pointer-events-none")}
+            >
+              <Icon name="instagram" size={16} />
+            </span>
+          )}
+          {settings.email ? (
+            <a
+              href={`mailto:${settings.email}`}
+              aria-label="Email"
+              className={SOCIAL_BADGE_CLASS}
+            >
+              <Icon name="mail" size={16} />
+            </a>
+          ) : (
+            <span
+              aria-hidden="true"
+              className={cn(SOCIAL_BADGE_CLASS, "pointer-events-none")}
+            >
+              <Icon name="mail" size={16} />
+            </span>
+          )}
+        </div>
       </Container>
     </footer>
   );
