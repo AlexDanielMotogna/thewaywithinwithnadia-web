@@ -22,13 +22,23 @@ export function CtaBlock({
             "absolute inset-y-0 hidden sm:block",
             imageOnLeft ? "left-0" : "right-0",
           )}
-          style={
-            media.width && media.height
+          style={{
+            ...(media.width && media.height
               ? {
                   aspectRatio: `${String(media.width)} / ${String(media.height)}`,
                 }
-              : undefined
-          }
+              : undefined),
+            // A real diagonal mask on the photo itself — not a flat
+            // rectangular box with a color overlay — so there's no hard
+            // edge where the box meets the solid olive background; the
+            // photo's own pixels fade out along the 45° line.
+            maskImage: imageOnLeft
+              ? "linear-gradient(45deg, black 0%, black 65%, transparent 100%)"
+              : "linear-gradient(315deg, black 0%, black 65%, transparent 100%)",
+            WebkitMaskImage: imageOnLeft
+              ? "linear-gradient(45deg, black 0%, black 65%, transparent 100%)"
+              : "linear-gradient(315deg, black 0%, black 65%, transparent 100%)",
+          }}
         >
           {/* The container matches the photo's own aspect ratio (not a
               fixed fraction of the section), so object-cover shows the
@@ -39,18 +49,6 @@ export function CtaBlock({
             fill
             className="rounded-none object-cover"
             sizes="50vw"
-          />
-          {/* This photo already fades to a soft, blurred green on its own
-              far side — the overlay only needs to finish that fade into
-              solid olive right at the edge touching the text, not tint
-              the whole photo. */}
-          <div
-            className={cn(
-              "absolute inset-0",
-              imageOnLeft
-                ? "to-olive bg-gradient-to-tr from-transparent from-0% via-transparent via-80% to-100%"
-                : "from-olive bg-gradient-to-tl from-0% via-transparent via-20% to-transparent to-100%",
-            )}
           />
         </div>
       ) : null}
