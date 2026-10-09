@@ -8,5 +8,14 @@ export const Cta: Block = {
     { name: "body", type: "textarea", localized: true },
     { name: "ctaLabel", type: "text", required: true, localized: true },
     { name: "ctaHref", type: "text", required: true },
+    {
+      name: "backgroundImage",
+      type: "upload",
+      relationTo: "media",
+      admin: {
+        description:
+          "Optional full-bleed background photo. Renders as a flat olive band when empty.",
+      },
+    },
   ],
 };

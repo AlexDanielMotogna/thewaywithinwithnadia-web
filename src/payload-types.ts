@@ -289,6 +289,10 @@ export interface Page {
             body?: string | null;
             ctaLabel: string;
             ctaHref: string;
+            /**
+             * Optional full-bleed background photo. Renders as a flat olive band when empty.
+             */
+            backgroundImage?: (number | null) | Media;
             id?: string | null;
             blockName?: string | null;
             blockType: "cta";
@@ -659,6 +663,7 @@ export interface PagesSelect<T extends boolean = true> {
               body?: T;
               ctaLabel?: T;
               ctaHref?: T;
+              backgroundImage?: T;
               id?: T;
               blockName?: T;
             };

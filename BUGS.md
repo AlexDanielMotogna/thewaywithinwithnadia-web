@@ -140,3 +140,17 @@ Each entry: what happened, root cause, the fix, and the rule going forward.
 - **Root cause:** Next.js treats any path segment starting with `_` as a **private folder** — explicitly excluded from routing, by convention, regardless of what files are inside it.
 - **Fix:** renamed the folder to `temp-seed-run` (no leading underscore); it routed correctly immediately.
 - **Rule going forward:** never prefix a route-segment folder with `_` expecting it to still be routable — that prefix means "never route this," full stop. Use it on purpose for colocated non-route files (helpers, components) under `app/`, never for an actual route folder.
+
+### 2026-10-09 — `import.meta.dirname` is `undefined` when a script is bundled into a Next.js route
+
+- **What happened:** `scripts/attach-media-run.ts` used `path.resolve(import.meta.dirname, "../media-uploads", file)` to locate local photo files. It worked fine typechecked/linted, but crashed at runtime — `TypeError [ERR_INVALID_ARG_TYPE]: The "paths[0]" argument must be of type string. Received undefined` — only when the exact same module was imported from a temporary Next.js route handler (the `payload run <script>` workaround from the entry above). Running the equivalent plain-Node/tsx script directly never hit this.
+- **Root cause:** `import.meta.dirname` is populated by Node's own ESM loader. Once the module is pulled into Next's Turbopack/webpack bundle for a route handler, it's a different module system/loader entirely, and `import.meta.dirname` comes back `undefined` there — a divergence between "runs under tsx" and "runs bundled inside Next," which is exactly the two contexts these one-off scripts now need to work in (see the `payload run` entry above).
+- **Fix:** use `process.cwd()` instead (`path.resolve(process.cwd(), "media-uploads", file)`) — both execution contexts run with the project root as the working directory, so this resolves correctly either way.
+- **Rule going forward:** any script written to be dual-purpose (runnable standalone _and_ importable from a temporary Next.js route, per the `payload run` workaround) must use `process.cwd()`, not `import.meta.dirname`/`__dirname`, for resolving project-relative paths.
+
+### 2026-10-09 — Supabase Storage "media" bucket confirmed missing (PENDING.md #17)
+
+- **What happened:** the first real upload attempt (via the `attach-media` script, once the above two bugs were fixed) reached Payload's S3 storage adapter and failed with `NoSuchBucket: Bucket not found`.
+- **Root cause:** `S3_BUCKET=media` in `.env.local` names a bucket that was never actually created in the Supabase project's Storage dashboard — the S3 _credentials_ were valid and Payload booted fine with them (that part was verified back in Phase 1), but nothing had ever tried a real upload until now, so the missing bucket went unnoticed.
+- **Fix:** not yet fixed — needs Alex to create a bucket named exactly `media` in Supabase (Project Settings → Storage → New bucket), set **public**, since `next/image` needs directly-loadable public URLs, not signed ones.
+- **Rule going forward:** "Payload boots with S3 credentials configured" and "the bucket those credentials point at actually exists" are two separate facts — don't treat the first as evidence of the second. This was flagged as an open question in PENDING.md since Phase 1 and nobody had tested it until the Phase 2 photos needed it.

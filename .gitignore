@@ -43,3 +43,9 @@ next-env.d.ts
 
 # payload admin dev server auto-compiles this from importMap.ts
 /src/app/(payload)/admin/importMap.js
+
+# raw source photos dropped here get uploaded to Payload's Media
+# collection (Supabase Storage) by scripts/upload-media.ts, then deleted
+# locally — never committed
+/media-uploads/*
+!/media-uploads/.gitkeep
