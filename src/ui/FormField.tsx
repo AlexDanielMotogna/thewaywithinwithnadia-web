@@ -9,8 +9,8 @@ export type FormFieldRenderProps = {
 
 type FormFieldProps = {
   label: string;
-  error?: string;
-  description?: string;
+  error?: string | undefined;
+  description?: string | undefined;
   required?: boolean;
   className?: string;
   children: (field: FormFieldRenderProps) => ReactNode;

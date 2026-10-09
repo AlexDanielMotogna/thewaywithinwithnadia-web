@@ -8,5 +8,56 @@
   "Footer": {
     "impressum": "Imprint",
     "datenschutz": "Privacy Policy"
+  },
+  "ContactPage": {
+    "title": "Contact",
+    "intro": "Have a question, or ready to begin? I'd love to hear from you.",
+    "bookCta": "Book a Session"
+  },
+  "Contact": {
+    "fields": {
+      "name": "Name",
+      "email": "Email",
+      "phone": "Phone (optional)",
+      "subject": "Subject",
+      "message": "Message"
+    },
+    "errors": {
+      "required": "This field is required.",
+      "invalidEmail": "Please enter a valid email address."
+    },
+    "submit": "Send Message",
+    "submitting": "Sending…",
+    "success": "Thank you — your message has been sent. I'll be in touch soon.",
+    "genericError": "Something went wrong. Please try again, or email me directly.",
+    "rateLimited": "Too many submissions — please try again later.",
+    "privacyNotice": "By sending this, you agree to the handling of your data as described in the",
+    "privacyLinkLabel": "privacy policy"
+  },
+  "Enquiry": {
+    "formTitle": "Discuss a Collaboration",
+    "fields": {
+      "propertyName": "Property / company name",
+      "contactPerson": "Contact person",
+      "email": "Email",
+      "phone": "Phone (optional)",
+      "location": "Location",
+      "collaborationType": "Type of collaboration",
+      "collaborationTypeHint": "E.g. morning meditation, breathwork, retreat programme, wellbeing day.",
+      "preferredDates": "Preferred dates",
+      "participants": "Estimated participants",
+      "message": "Message"
+    },
+    "errors": {
+      "required": "This field is required.",
+      "invalidEmail": "Please enter a valid email address."
+    },
+    "submit": "Discuss a Collaboration",
+    "submitting": "Sending…",
+    "success": "Thank you — your enquiry has been sent. Nadia will follow up personally.",
+    "genericError": "Something went wrong. Please try again, or email directly.",
+    "rateLimited": "Too many submissions — please try again later.",
+    "privacyNotice": "By sending this, you agree to the handling of your data as described in the",
+    "privacyLinkLabel": "privacy policy"
   }
 }

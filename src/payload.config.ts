@@ -9,6 +9,7 @@ import sharp from "sharp";
 import { AvailabilityExceptions } from "@/payload/collections/AvailabilityExceptions";
 import { AvailabilityRules } from "@/payload/collections/AvailabilityRules";
 import { Bookings } from "@/payload/collections/Bookings";
+import { ContactMessages } from "@/payload/collections/ContactMessages";
 import { Enquiries } from "@/payload/collections/Enquiries";
 import { Media } from "@/payload/collections/Media";
 import { Pages } from "@/payload/collections/Pages";
@@ -65,6 +66,7 @@ export default buildConfig({
     AvailabilityRules,
     AvailabilityExceptions,
     Enquiries,
+    ContactMessages,
   ],
   globals: [SiteSettings, Navigation, BookingSettings],
   plugins,

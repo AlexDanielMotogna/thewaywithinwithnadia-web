@@ -75,6 +75,7 @@ export interface Config {
     "availability-rules": AvailabilityRule;
     "availability-exceptions": AvailabilityException;
     enquiries: Enquiry;
+    "contact-messages": ContactMessage;
     "payload-kv": PayloadKv;
     "payload-locked-documents": PayloadLockedDocument;
     "payload-preferences": PayloadPreference;
@@ -92,6 +93,8 @@ export interface Config {
     "availability-exceptions":
       AvailabilityExceptionsSelect<false> | AvailabilityExceptionsSelect<true>;
     enquiries: EnquiriesSelect<false> | EnquiriesSelect<true>;
+    "contact-messages":
+      ContactMessagesSelect<false> | ContactMessagesSelect<true>;
     "payload-kv": PayloadKvSelect<false> | PayloadKvSelect<true>;
     "payload-locked-documents":
       PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
@@ -464,6 +467,21 @@ export interface Enquiry {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "contact-messages".
+ */
+export interface ContactMessage {
+  id: number;
+  name: string;
+  email: string;
+  phone?: string | null;
+  subject: string;
+  message: string;
+  status: "new" | "replied" | "closed";
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv".
  */
 export interface PayloadKv {
@@ -517,6 +535,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: "enquiries";
         value: number | Enquiry;
+      } | null)
+    | ({
+        relationTo: "contact-messages";
+        value: number | ContactMessage;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -774,6 +796,20 @@ export interface EnquiriesSelect<T extends boolean = true> {
   collaborationType?: T;
   preferredDates?: T;
   participants?: T;
+  message?: T;
+  status?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "contact-messages_select".
+ */
+export interface ContactMessagesSelect<T extends boolean = true> {
+  name?: T;
+  email?: T;
+  phone?: T;
+  subject?: T;
   message?: T;
   status?: T;
   updatedAt?: T;

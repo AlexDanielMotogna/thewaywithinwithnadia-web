@@ -1,10 +1,12 @@
 import type { Metadata } from "next";
 import { hasLocale } from "next-intl";
+import { getTranslations, setRequestLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
-import { setRequestLocale } from "next-intl/server";
 import { buildMetadata } from "@/i18n/metadata";
 import { routing } from "@/i18n/routing";
 import { getPageBySlug, RenderBlocks } from "@/modules/content";
+import { EnquiryForm } from "@/modules/enquiries";
+import { Container, Heading, Section } from "@/ui";
 
 export async function generateMetadata({
   params,
@@ -30,7 +32,10 @@ export default async function HotelsAndSpas({
   // eslint-disable-next-line @typescript-eslint/no-deprecated -- see src/i18n/request.ts
   setRequestLocale(locale);
 
-  const page = await getPageBySlug("hotels-spas", locale);
+  const [page, t] = await Promise.all([
+    getPageBySlug("hotels-spas", locale),
+    getTranslations(),
+  ]);
 
   if (!page?.blocks || page.blocks.length === 0) {
     notFound();
@@ -39,6 +44,14 @@ export default async function HotelsAndSpas({
   return (
     <main className="flex-1">
       <RenderBlocks blocks={page.blocks} locale={locale} />
+      <Section tone="sand" id="enquiry">
+        <Container size="narrow" className="flex flex-col gap-8">
+          <Heading as="h2" size="md" className="text-center">
+            {t("Enquiry.formTitle")}
+          </Heading>
+          <EnquiryForm />
+        </Container>
+      </Section>
     </main>
   );
 }

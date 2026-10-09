@@ -285,7 +285,7 @@ const hotelsAndSpasPage: PageInput = {
       subheading:
         "Bespoke wellbeing experiences for hotels, boutique hotels, luxury resorts, spas, thermal resorts, retreat venues and wellness destinations.",
       primaryCtaLabel: "Discuss a Collaboration",
-      primaryCtaHref: "/contact",
+      primaryCtaHref: "#enquiry",
     },
     {
       blockType: "textImage",
@@ -308,7 +308,7 @@ const hotelsAndSpasPage: PageInput = {
       heading: "Discuss a Collaboration",
       body: "Share your property's details and preferred dates — Nadia will follow up personally.",
       ctaLabel: "Discuss a Collaboration",
-      ctaHref: "/contact",
+      ctaHref: "#enquiry",
     },
   ],
 };

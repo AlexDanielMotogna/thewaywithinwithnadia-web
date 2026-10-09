@@ -8,5 +8,56 @@
   "Footer": {
     "impressum": "Impressum",
     "datenschutz": "Datenschutz"
+  },
+  "ContactPage": {
+    "title": "Kontakt",
+    "intro": "Haben Sie eine Frage, oder möchten Sie beginnen? Ich freue mich, von Ihnen zu hören.",
+    "bookCta": "Termin buchen"
+  },
+  "Contact": {
+    "fields": {
+      "name": "Name",
+      "email": "E-Mail",
+      "phone": "Telefon (optional)",
+      "subject": "Betreff",
+      "message": "Nachricht"
+    },
+    "errors": {
+      "required": "Dieses Feld ist erforderlich.",
+      "invalidEmail": "Bitte geben Sie eine gültige E-Mail-Adresse ein."
+    },
+    "submit": "Nachricht senden",
+    "submitting": "Wird gesendet…",
+    "success": "Vielen Dank — Ihre Nachricht wurde gesendet. Ich melde mich bald bei Ihnen.",
+    "genericError": "Etwas ist schiefgelaufen. Bitte versuchen Sie es erneut oder schreiben Sie mir direkt eine E-Mail.",
+    "rateLimited": "Zu viele Einsendungen — bitte versuchen Sie es später erneut.",
+    "privacyNotice": "Mit dem Absenden stimmen Sie der Verarbeitung Ihrer Daten gemäß unserer",
+    "privacyLinkLabel": "Datenschutzerklärung"
+  },
+  "Enquiry": {
+    "formTitle": "Zusammenarbeit besprechen",
+    "fields": {
+      "propertyName": "Name der Unterkunft / des Unternehmens",
+      "contactPerson": "Ansprechpartner",
+      "email": "E-Mail",
+      "phone": "Telefon (optional)",
+      "location": "Standort",
+      "collaborationType": "Art der Zusammenarbeit",
+      "collaborationTypeHint": "Z. B. Morgenmeditation, Atemarbeit, Retreat-Programm, Wellbeing-Tag.",
+      "preferredDates": "Bevorzugte Termine",
+      "participants": "Geschätzte Teilnehmerzahl",
+      "message": "Nachricht"
+    },
+    "errors": {
+      "required": "Dieses Feld ist erforderlich.",
+      "invalidEmail": "Bitte geben Sie eine gültige E-Mail-Adresse ein."
+    },
+    "submit": "Zusammenarbeit besprechen",
+    "submitting": "Wird gesendet…",
+    "success": "Vielen Dank — Ihre Anfrage wurde gesendet. Nadia meldet sich persönlich bei Ihnen.",
+    "genericError": "Etwas ist schiefgelaufen. Bitte versuchen Sie es erneut oder schreiben Sie direkt eine E-Mail.",
+    "rateLimited": "Zu viele Einsendungen — bitte versuchen Sie es später erneut.",
+    "privacyNotice": "Mit dem Absenden stimmen Sie der Verarbeitung Ihrer Daten gemäß unserer",
+    "privacyLinkLabel": "Datenschutzerklärung"
   }
 }

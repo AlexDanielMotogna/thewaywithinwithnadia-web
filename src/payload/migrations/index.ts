@@ -3,6 +3,7 @@ import * as migration_20261008_232140 from "./20261008_232140";
 import * as migration_20261009_102001_phase2_optional_fields from "./20261009_102001_phase2_optional_fields";
 import * as migration_20261009_110713_cta_background_image from "./20261009_110713_cta_background_image";
 import * as migration_20261009_113315_mockup_design_fidelity from "./20261009_113315_mockup_design_fidelity";
+import * as migration_20261009_170030_contact_messages from "./20261009_170030_contact_messages";
 
 export const migrations = [
   {
@@ -29,5 +30,10 @@ export const migrations = [
     up: migration_20261009_113315_mockup_design_fidelity.up,
     down: migration_20261009_113315_mockup_design_fidelity.down,
     name: "20261009_113315_mockup_design_fidelity",
+  },
+  {
+    up: migration_20261009_170030_contact_messages.up,
+    down: migration_20261009_170030_contact_messages.down,
+    name: "20261009_170030_contact_messages",
   },
 ];

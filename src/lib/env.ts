@@ -25,6 +25,11 @@ const envSchema = z.object({
   S3_BUCKET: z.string().min(1).optional(),
   S3_ACCESS_KEY_ID: z.string().min(1).optional(),
   S3_SECRET_ACCESS_KEY: z.string().min(1).optional(),
+
+  // Cloudflare Turnstile (ENGINEERING.md §7.2 / LEGAL.md §5.1) — optional;
+  // missing means public forms skip Turnstile verification entirely
+  // (honeypot + rate limit still apply). See PENDING.md #10.
+  TURNSTILE_SECRET_KEY: z.string().min(1).optional(),
 });
 
 const parsed = envSchema.safeParse(process.env);

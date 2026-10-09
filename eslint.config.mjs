@@ -135,6 +135,10 @@ const eslintConfig = defineConfig([
                 // API, so they need `getPayload({ config })` — i.e. the
                 // config, never `src/payload/**` (collections/blocks) directly.
                 { to: { element: { type: "payload-config" } } },
+                // ENGINEERING.md §2: "Modules never import another module's
+                // internals — only its index.ts" implies cross-module reads
+                // ARE allowed, just only through the public surface.
+                { to: { element: { type: "module-public" } } },
               ],
             },
             {
