@@ -46,10 +46,10 @@ export function CtaBlock({
               the whole photo. */}
           <div
             className={cn(
-              "absolute inset-0 bg-gradient-to-r",
+              "absolute inset-0",
               imageOnLeft
-                ? "to-olive from-transparent from-0% via-transparent via-80% to-100%"
-                : "from-olive from-0% via-transparent via-20% to-transparent to-100%",
+                ? "to-olive bg-gradient-to-tr from-transparent from-0% via-transparent via-80% to-100%"
+                : "from-olive bg-gradient-to-tl from-0% via-transparent via-20% to-transparent to-100%",
             )}
           />
         </div>
