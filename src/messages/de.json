@@ -59,5 +59,78 @@
     "rateLimited": "Zu viele Einsendungen — bitte versuchen Sie es später erneut.",
     "privacyNotice": "Mit dem Absenden stimmen Sie der Verarbeitung Ihrer Daten gemäß unserer",
     "privacyLinkLabel": "Datenschutzerklärung"
+  },
+  "BookPage": {
+    "title": "Termin buchen",
+    "intro": "Wählen Sie eine Leistung und eine passende Zeit — um den Rest kümmere ich mich."
+  },
+  "Booking": {
+    "steps": {
+      "service": "Leistung wählen",
+      "slot": "Zeit wählen",
+      "details": "Ihre Angaben",
+      "review": "Prüfen & bestätigen"
+    },
+    "stepLabel": "Schritt {step} von {total}: {label}",
+    "noServices": "Die Online-Buchung ist noch nicht freigeschaltet.",
+    "noServicesContact": "Bitte nehmen Sie Kontakt auf, um einen Termin zu vereinbaren.",
+    "contactLinkLabel": "Kontakt aufnehmen",
+    "serviceCard": {
+      "durationLabel": "{min} Min.",
+      "selectOnline": "Online buchen",
+      "selectInPerson": "Vor Ort buchen"
+    },
+    "slotPicker": {
+      "loading": "Verfügbare Zeiten werden geladen…",
+      "empty": "In diesem Zeitraum sind keine Zeiten verfügbar.",
+      "previous": "Frühere Termine",
+      "next": "Spätere Termine",
+      "timezoneLabelOnline": "Zeiten in Ihrer Ortszeit angezeigt ({tz}).",
+      "timezoneLabelInPerson": "Zeiten in Nadias Ortszeit angezeigt ({tz})."
+    },
+    "details": {
+      "name": "Name",
+      "email": "E-Mail",
+      "phone": "Telefon (optional)",
+      "notes": "Möchten Sie Nadia noch etwas mitteilen? (optional)",
+      "notesHint": "Bitte teilen Sie hier keine Gesundheitsdaten mit.",
+      "continue": "Weiter zur Prüfung"
+    },
+    "review": {
+      "title": "Buchung prüfen",
+      "service": "Leistung",
+      "mode": "Art",
+      "modeOnline": "Online",
+      "modeInPerson": "Vor Ort",
+      "dateTime": "Datum & Zeit",
+      "duration": "Dauer",
+      "price": "Preis",
+      "name": "Name",
+      "email": "E-Mail",
+      "phone": "Telefon",
+      "notes": "Anmerkungen",
+      "cancellationNote": "Stornierungs- und Umbuchungsbedingungen: werden vor dem Start noch ergänzt."
+    },
+    "withdrawal": {
+      "intro": "Da dieser Termin innerhalb der nächsten 14 Tage stattfindet, bestätigen Sie bitte:",
+      "earlyStart": "Ich verlange ausdrücklich, dass die Dienstleistung vor Ablauf der gesetzlichen Widerrufsfrist beginnt.",
+      "lossOfRight": "Mir ist bekannt, dass ich mein Widerrufsrecht verliere, sobald die Dienstleistung vollständig erbracht wurde."
+    },
+    "payButton": "Zahlungspflichtig buchen",
+    "confirmButton": "Buchung bestätigen",
+    "submitting": "Wird gebucht…",
+    "back": "Zurück",
+    "success": "Ihr Termin ist gebucht! Eine Bestätigung wird in Kürze per E-Mail versendet.",
+    "genericError": "Etwas ist schiefgelaufen. Bitte versuchen Sie es erneut oder kontaktieren Sie mich direkt.",
+    "rateLimited": "Zu viele Versuche — bitte versuchen Sie es später erneut.",
+    "slotTaken": "Diese Zeit wurde gerade von jemand anderem gebucht — bitte wählen Sie eine andere.",
+    "invalid": "Bitte überprüfen Sie Ihre Angaben und versuchen Sie es erneut.",
+    "serviceUnavailable": "Diese Leistung ist derzeit nicht buchbar.",
+    "errors": {
+      "required": "Dieses Feld ist erforderlich.",
+      "invalidEmail": "Bitte geben Sie eine gültige E-Mail-Adresse ein."
+    },
+    "privacyNotice": "Mit der Buchung stimmen Sie der Verarbeitung Ihrer Daten gemäß unserer",
+    "privacyLinkLabel": "Datenschutzerklärung"
   }
 }

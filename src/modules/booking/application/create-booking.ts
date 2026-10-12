@@ -6,12 +6,11 @@ import {
   writeValidatedBooking,
   type WriteValidatedBookingError,
 } from "@/modules/booking/application/write-validated-booking";
-import type { BookingFormValues } from "@/modules/booking/schemas";
 
 export type CreateBookingError = ProtectionError | WriteValidatedBookingError;
 
 export interface CreateBookingInput {
-  values: BookingFormValues;
+  values: unknown;
   honeypot: string;
   turnstileToken: string | undefined;
   ip: string;

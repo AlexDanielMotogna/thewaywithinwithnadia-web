@@ -59,5 +59,78 @@
     "rateLimited": "Too many submissions — please try again later.",
     "privacyNotice": "By sending this, you agree to the handling of your data as described in the",
     "privacyLinkLabel": "privacy policy"
+  },
+  "BookPage": {
+    "title": "Book a Session",
+    "intro": "Choose a service, pick a time that works for you, and I'll take care of the rest."
+  },
+  "Booking": {
+    "steps": {
+      "service": "Choose a service",
+      "slot": "Pick a time",
+      "details": "Your details",
+      "review": "Review & confirm"
+    },
+    "stepLabel": "Step {step} of {total}: {label}",
+    "noServices": "Online booking isn't open yet.",
+    "noServicesContact": "Please get in touch to arrange a session.",
+    "contactLinkLabel": "contact me",
+    "serviceCard": {
+      "durationLabel": "{min} min",
+      "selectOnline": "Book Online",
+      "selectInPerson": "Book In Person"
+    },
+    "slotPicker": {
+      "loading": "Loading available times…",
+      "empty": "No times available in this range.",
+      "previous": "Previous dates",
+      "next": "Next dates",
+      "timezoneLabelOnline": "Times shown in your local time ({tz}).",
+      "timezoneLabelInPerson": "Times shown in Nadia's local time ({tz})."
+    },
+    "details": {
+      "name": "Name",
+      "email": "Email",
+      "phone": "Phone (optional)",
+      "notes": "Anything you'd like Nadia to know (optional)",
+      "notesHint": "Please don't share health information here.",
+      "continue": "Continue to review"
+    },
+    "review": {
+      "title": "Review your booking",
+      "service": "Service",
+      "mode": "Mode",
+      "modeOnline": "Online",
+      "modeInPerson": "In person",
+      "dateTime": "Date & time",
+      "duration": "Duration",
+      "price": "Price",
+      "name": "Name",
+      "email": "Email",
+      "phone": "Phone",
+      "notes": "Notes",
+      "cancellationNote": "Cancellation and rescheduling terms: to be confirmed before launch."
+    },
+    "withdrawal": {
+      "intro": "Because this session is scheduled within the next 14 days, please confirm:",
+      "earlyStart": "I expressly request that the service begins before the statutory withdrawal period ends.",
+      "lossOfRight": "I understand that I lose my right of withdrawal once the service has been fully performed."
+    },
+    "payButton": "Book with obligation to pay",
+    "confirmButton": "Confirm booking",
+    "submitting": "Booking…",
+    "back": "Back",
+    "success": "Your session is booked! A confirmation will be sent to your email shortly.",
+    "genericError": "Something went wrong. Please try again, or contact me directly.",
+    "rateLimited": "Too many attempts — please try again later.",
+    "slotTaken": "That time was just booked by someone else — please choose another.",
+    "invalid": "Please check your details and try again.",
+    "serviceUnavailable": "This service isn't available for booking right now.",
+    "errors": {
+      "required": "This field is required.",
+      "invalidEmail": "Please enter a valid email address."
+    },
+    "privacyNotice": "By booking, you agree to the handling of your data as described in the",
+    "privacyLinkLabel": "privacy policy"
   }
 }

@@ -12,10 +12,7 @@ import { loadAvailabilityContext } from "@/modules/booking/infrastructure/availa
 import { createBookingRow } from "@/modules/booking/infrastructure/create-booking-row";
 import { getBookingSettings } from "@/modules/booking/infrastructure/get-booking-settings";
 import { getServiceById } from "@/modules/booking/infrastructure/get-service";
-import {
-  bookingFormSchema,
-  type BookingFormValues,
-} from "@/modules/booking/schemas";
+import { bookingFormSchema } from "@/modules/booking/schemas";
 
 export type WriteValidatedBookingError =
   | { kind: "invalid" }
@@ -29,7 +26,7 @@ export type WriteValidatedBookingError =
  * `rescheduleBooking` (no honeypot/Turnstile; the caller is authenticated).
  */
 export async function writeValidatedBooking(
-  values: BookingFormValues,
+  values: unknown,
 ): Promise<Result<{ bookingId: number }, WriteValidatedBookingError>> {
   const parsed = bookingFormSchema.safeParse(values);
   if (!parsed.success) return { ok: false, error: { kind: "invalid" } };

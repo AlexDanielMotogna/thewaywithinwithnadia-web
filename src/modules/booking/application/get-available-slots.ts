@@ -13,9 +13,15 @@ import type { Result } from "@/lib/result";
 export type GetAvailableSlotsError =
   { kind: "invalid" } | { kind: "service_unavailable" };
 
+export interface AvailableSlots {
+  slots: Slot[];
+  /** IANA business timezone — in-person times are always shown in this. */
+  timezone: string;
+}
+
 export async function getAvailableSlots(
   input: GetAvailableSlotsInput,
-): Promise<Result<Slot[], GetAvailableSlotsError>> {
+): Promise<Result<AvailableSlots, GetAvailableSlotsError>> {
   const parsed = getAvailableSlotsInputSchema.safeParse(input);
   if (!parsed.success) return { ok: false, error: { kind: "invalid" } };
 
@@ -49,5 +55,5 @@ export async function getAvailableSlots(
     stepMin: settings.stepMin,
   });
 
-  return { ok: true, value: slots };
+  return { ok: true, value: { slots, timezone: settings.timezone } };
 }

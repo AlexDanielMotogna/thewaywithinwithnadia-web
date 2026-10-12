@@ -5,6 +5,7 @@ import * as migration_20261009_110713_cta_background_image from "./20261009_1107
 import * as migration_20261009_113315_mockup_design_fidelity from "./20261009_113315_mockup_design_fidelity";
 import * as migration_20261009_170030_contact_messages from "./20261009_170030_contact_messages";
 import * as migration_20261012_184209_booking_no_overlap from "./20261012_184209_booking_no_overlap";
+import * as migration_20261012_192138_booking_jobs_queue from "./20261012_192138_booking_jobs_queue";
 
 export const migrations = [
   {
@@ -41,5 +42,10 @@ export const migrations = [
     up: migration_20261012_184209_booking_no_overlap.up,
     down: migration_20261012_184209_booking_no_overlap.down,
     name: "20261012_184209_booking_no_overlap",
+  },
+  {
+    up: migration_20261012_192138_booking_jobs_queue.up,
+    down: migration_20261012_192138_booking_jobs_queue.down,
+    name: "20261012_192138_booking_jobs_queue",
   },
 ];
