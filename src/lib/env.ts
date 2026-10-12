@@ -30,6 +30,13 @@ const envSchema = z.object({
   // missing means public forms skip Turnstile verification entirely
   // (honeypot + rate limit still apply). See PENDING.md #10.
   TURNSTILE_SECRET_KEY: z.string().min(1).optional(),
+
+  // Google Calendar OAuth (ENGINEERING.md §6 — CalendarProvider port).
+  // Optional; missing means the fake calendar adapter is used (PENDING.md #5).
+  // Currently a dev/test OAuth client authorized against Alex's personal
+  // Google account — production must switch to Nadia's before launch.
+  GOOGLE_CLIENT_ID: z.string().min(1).optional(),
+  GOOGLE_CLIENT_SECRET: z.string().min(1).optional(),
 });
 
 const parsed = envSchema.safeParse(process.env);

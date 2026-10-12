@@ -39,6 +39,19 @@ export const Bookings: CollectionConfig = {
       },
     },
     {
+      name: "bufferMin",
+      type: "number",
+      required: true,
+      defaultValue: 15,
+      admin: {
+        description:
+          "Snapshot of BookingSettings.bufferMin at booking time. A DB " +
+          "trigger uses it to maintain 'blocked_until', which backs the " +
+          "double-booking exclusion constraint (ENGINEERING.md §5.3) — do " +
+          "not rename without updating that migration.",
+      },
+    },
+    {
       name: "mode",
       type: "select",
       required: true,

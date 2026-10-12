@@ -18,6 +18,7 @@ import { Users } from "@/payload/collections/Users";
 import { BookingSettings } from "@/payload/globals/BookingSettings";
 import { Navigation } from "@/payload/globals/Navigation";
 import { SiteSettings } from "@/payload/globals/SiteSettings";
+import { processBookingSideEffectsTask } from "@/payload/jobs/process-booking-side-effects";
 
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
@@ -70,6 +71,14 @@ export default buildConfig({
   ],
   globals: [SiteSettings, Navigation, BookingSettings],
   plugins,
+  // ENGINEERING.md §5.5 — booking side effects (calendar + confirmation
+  // email) run as a queued, idempotent job, never inline in the request
+  // that creates the booking. autoRun works because the app runs as a
+  // persistent Node process on Railway (PENDING.md #14), not serverless.
+  jobs: {
+    tasks: [processBookingSideEffectsTask],
+    autoRun: [{ cron: "*/1 * * * *" }],
+  },
   editor: lexicalEditor(),
   localization: {
     locales: ["en", "de"],
