@@ -69,6 +69,15 @@ const eslintConfig = defineConfig([
           mode: "full",
           capture: ["module"],
         },
+        // A module's pure entry point (no server-only/React/Payload), the
+        // only module surface Payload collection hooks may import, since
+        // payload.config.ts also loads in plain Node under the Payload CLI.
+        {
+          type: "module-pure",
+          pattern: "src/modules/*/pure.ts",
+          mode: "full",
+          capture: ["module"],
+        },
         {
           type: "module-internal",
           pattern: "src/modules/*/**",
@@ -155,6 +164,19 @@ const eslintConfig = defineConfig([
               ],
             },
             {
+              from: { element: { type: "module-pure" } },
+              allow: [
+                {
+                  to: {
+                    element: {
+                      type: "module-internal",
+                      captured: { module: "{{from.module}}" },
+                    },
+                  },
+                },
+              ],
+            },
+            {
               from: { element: { type: "integrations" } },
               allow: [{ to: { element: { type: "lib" } } }],
             },
@@ -163,6 +185,7 @@ const eslintConfig = defineConfig([
               allow: [
                 { to: { element: { type: "payload" } } },
                 { to: { element: { type: "module-public" } } },
+                { to: { element: { type: "module-pure" } } },
                 { to: { element: { type: "lib" } } },
                 { to: { element: { type: "payload-types" } } },
               ],

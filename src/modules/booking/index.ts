@@ -9,10 +9,6 @@ export {
   type BookingFormValues,
 } from "@/modules/booking/schemas";
 export {
-  canTransition,
-  type BookingStatus,
-} from "@/modules/booking/domain/state-machine";
-export {
   getAvailableSlotsAction,
   createBookingAction,
   type SerializedSlot,

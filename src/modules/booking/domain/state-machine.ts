@@ -46,3 +46,41 @@ export function transition(
   }
   return { ok: true, value: to };
 }
+
+// Nadia can create a booking from the admin already confirmed (e.g. a
+// session agreed by phone); every other status has to be reached through
+// a transition.
+const INITIAL_STATUSES: readonly BookingStatus[] = ["pending", "confirmed"];
+
+// Statuses whose meaning depends on work only a use case does: `rescheduled`
+// is only true once a replacement booking exists (rescheduleBooking).
+const USE_CASE_ONLY_TARGETS: readonly BookingStatus[] = ["rescheduled"];
+
+export type StatusChangeError =
+  | TransitionError
+  | { kind: "invalid_initial_status"; to: BookingStatus }
+  | { kind: "use_case_required"; to: BookingStatus };
+
+/**
+ * Guard for every write of `status`, including direct admin edits (the
+ * Payload `beforeChange` hook on Bookings calls this). `from: null` means
+ * the booking is being created.
+ */
+export function checkStatusChange(input: {
+  from: BookingStatus | null;
+  to: BookingStatus;
+  viaUseCase: boolean;
+}): Result<BookingStatus, StatusChangeError> {
+  const { from, to, viaUseCase } = input;
+  if (from === null) {
+    return INITIAL_STATUSES.includes(to)
+      ? { ok: true, value: to }
+      : { ok: false, error: { kind: "invalid_initial_status", to } };
+  }
+  const result = transition(from, to);
+  if (!result.ok) return result;
+  if (!viaUseCase && USE_CASE_ONLY_TARGETS.includes(to)) {
+    return { ok: false, error: { kind: "use_case_required", to } };
+  }
+  return result;
+}

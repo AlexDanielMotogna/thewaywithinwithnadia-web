@@ -1,9 +1,10 @@
 import type { CollectionConfig } from "payload";
+import { enforceBookingStatus } from "@/payload/hooks/enforce-booking-status";
 
-// Status set matches the state machine in ENGINEERING.md §5.4 — transitions
-// are enforced in application code (Phase 5), not here. This is the data
-// shape only; the exclusion constraint preventing double-booking is added
-// via a hand-written migration in Phase 5 (ENGINEERING.md §5.3).
+// Status set matches the state machine in ENGINEERING.md §5.4. The
+// `beforeChange` guard runs the same state machine on every write, admin
+// edits included. The exclusion constraint preventing double-booking lives
+// in a hand-written migration (ENGINEERING.md §5.3).
 export const Bookings: CollectionConfig = {
   slug: "bookings",
   admin: {
@@ -18,6 +19,9 @@ export const Bookings: CollectionConfig = {
     create: ({ req }) => Boolean(req.user),
     update: ({ req }) => Boolean(req.user),
     delete: ({ req }) => Boolean(req.user),
+  },
+  hooks: {
+    beforeChange: [enforceBookingStatus],
   },
   fields: [
     { name: "clientName", type: "text", required: true },
