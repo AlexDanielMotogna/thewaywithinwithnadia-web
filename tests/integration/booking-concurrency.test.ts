@@ -41,7 +41,12 @@ beforeAll(async () => {
 
   const { getPayload } = await import("payload");
   const { default: config } = await import("@payload-config");
-  payload = await getPayload({ config });
+  // On every non-production start Payload regenerates payload-types.ts,
+  // here from a config without S3 (drops Media._objectKey). The committed
+  // file comes from `pnpm payload:generate-types`; keep the test off it.
+  const resolvedConfig = await config;
+  resolvedConfig.typescript.autoGenerate = false;
+  payload = await getPayload({ config: resolvedConfig });
   // Same migrations as production, including the hand-written exclusion
   // constraint (ENGINEERING.md §5.3). Passed in already imported: Payload's
   // own loader uses Node's native import(), which can't load the .ts files.
