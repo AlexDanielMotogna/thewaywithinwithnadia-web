@@ -1,5 +1,4 @@
 import "server-only";
-import { getCalendar } from "@/integrations/calendar/container";
 import type { Result } from "@/lib/result";
 import type { TransitionError } from "@/modules/booking/domain/state-machine";
 import { transition } from "@/modules/booking/domain/state-machine";
@@ -22,17 +21,9 @@ export async function cancelBooking(
   const result = transition(booking.status, "cancelled");
   if (!result.ok) return result;
 
+  // The calendar event is removed by a job queued from the Bookings
+  // `afterChange` hook, the same path as a cancellation made in the admin.
   await updateBookingStatus(bookingId, result.value);
-
-  if (booking.calendarEventId) {
-    const deleted = await getCalendar().deleteEvent(booking.calendarEventId);
-    if (!deleted.ok) {
-      console.error(
-        `Failed to delete calendar event ${booking.calendarEventId} for cancelled booking ${String(bookingId)}`,
-        deleted.error,
-      );
-    }
-  }
 
   return { ok: true, value: undefined };
 }

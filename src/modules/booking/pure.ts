@@ -5,6 +5,7 @@
 // `server-only` code and client components) cannot be imported.
 export {
   checkStatusChange,
+  isActiveBooking,
   type BookingStatus,
   type StatusChangeError,
 } from "@/modules/booking/domain/state-machine";

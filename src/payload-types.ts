@@ -133,6 +133,7 @@ export interface Config {
   jobs: {
     tasks: {
       processBookingSideEffects: TaskProcessBookingSideEffects;
+      removeBookingCalendarEvent: TaskRemoveBookingCalendarEvent;
       inline: {
         input: unknown;
         output: unknown;
@@ -561,7 +562,8 @@ export interface PayloadJob {
     | {
         executedAt: string;
         completedAt: string;
-        taskSlug: "inline" | "processBookingSideEffects";
+        taskSlug:
+          "inline" | "processBookingSideEffects" | "removeBookingCalendarEvent";
         taskID: string;
         input?:
           | {
@@ -594,7 +596,9 @@ export interface PayloadJob {
         id?: string | null;
       }[]
     | null;
-  taskSlug?: ("inline" | "processBookingSideEffects") | null;
+  taskSlug?:
+    | ("inline" | "processBookingSideEffects" | "removeBookingCalendarEvent")
+    | null;
   queue?: string | null;
   waitUntil?: string | null;
   processing?: boolean | null;
@@ -1143,6 +1147,16 @@ export interface CollectionsWidget {
  * via the `definition` "TaskProcessBookingSideEffects".
  */
 export interface TaskProcessBookingSideEffects {
+  input: {
+    bookingId: number;
+  };
+  output?: unknown;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TaskRemoveBookingCalendarEvent".
+ */
+export interface TaskRemoveBookingCalendarEvent {
   input: {
     bookingId: number;
   };

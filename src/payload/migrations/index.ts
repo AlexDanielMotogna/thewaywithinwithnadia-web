@@ -6,6 +6,7 @@ import * as migration_20261009_113315_mockup_design_fidelity from "./20261009_11
 import * as migration_20261009_170030_contact_messages from "./20261009_170030_contact_messages";
 import * as migration_20261012_184209_booking_no_overlap from "./20261012_184209_booking_no_overlap";
 import * as migration_20261012_192138_booking_jobs_queue from "./20261012_192138_booking_jobs_queue";
+import * as migration_20261028_210018_remove_calendar_event_job from "./20261028_210018_remove_calendar_event_job";
 
 export const migrations = [
   {
@@ -47,5 +48,10 @@ export const migrations = [
     up: migration_20261012_192138_booking_jobs_queue.up,
     down: migration_20261012_192138_booking_jobs_queue.down,
     name: "20261012_192138_booking_jobs_queue",
+  },
+  {
+    up: migration_20261028_210018_remove_calendar_event_job.up,
+    down: migration_20261028_210018_remove_calendar_event_job.down,
+    name: "20261028_210018_remove_calendar_event_job",
   },
 ];

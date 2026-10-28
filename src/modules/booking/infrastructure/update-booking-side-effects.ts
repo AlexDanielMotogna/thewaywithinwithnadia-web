@@ -28,3 +28,12 @@ export async function markConfirmationSent(
     data: { confirmationSentAt: at.toISOString() },
   });
 }
+
+export async function clearCalendarEvent(id: number): Promise<void> {
+  const payload = await getPayload({ config });
+  await payload.update({
+    collection: "bookings",
+    id,
+    data: { calendarEventId: null },
+  });
+}

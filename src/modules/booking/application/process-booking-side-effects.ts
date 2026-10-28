@@ -1,6 +1,7 @@
 import "server-only";
 import { getCalendar } from "@/integrations/calendar/container";
 import { getMailer } from "@/integrations/email/container";
+import { isActiveBooking } from "@/modules/booking/domain/state-machine";
 import { getBookingById } from "@/modules/booking/infrastructure/get-booking";
 import { getServiceById } from "@/modules/booking/infrastructure/get-service";
 import {
@@ -18,14 +19,18 @@ function serviceName(service: { name: string } | null): string {
  * in the request that created the booking. Idempotent: each step checks
  * its own stored marker (`calendarEventId`, `confirmationSentAt`) and skips
  * if already done, so a retry can never create a duplicate calendar event
- * or send a duplicate email.
+ * or send a duplicate email. Throws when a step failed, so the job is
+ * retried; steps that already succeeded are skipped on the retry.
  */
 export async function processBookingSideEffects(
   bookingId: number,
 ): Promise<void> {
   const booking = await getBookingById(bookingId);
   if (!booking) return;
+  // Cancelled before the job ran: no calendar event, no confirmation email.
+  if (!isActiveBooking(booking.status)) return;
 
+  const failures: string[] = [];
   let meetingUrl = booking.meetingUrl ?? null;
 
   if (!booking.calendarEventId) {
@@ -52,10 +57,10 @@ export async function processBookingSideEffects(
         calendarEventId: result.value.eventId,
         meetingUrl,
       });
+    } else {
+      // Still send the confirmation below; the retry only redoes this step.
+      failures.push("calendar");
     }
-    // Calendar failure is not fatal here: the job framework's own retry
-    // (ENGINEERING.md §5.5) will try again on the next run, since
-    // `calendarEventId` is still unset.
   }
 
   if (!booking.confirmationSentAt) {
@@ -77,6 +82,14 @@ export async function processBookingSideEffects(
 
     if (result.ok) {
       await markConfirmationSent(booking.id, new Date());
+    } else {
+      failures.push("confirmation email");
     }
+  }
+
+  if (failures.length > 0) {
+    throw new Error(
+      `Booking ${String(booking.id)} side effects failed: ${failures.join(", ")}`,
+    );
   }
 }

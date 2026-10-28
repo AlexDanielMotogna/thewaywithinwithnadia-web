@@ -47,6 +47,15 @@ export function transition(
   return { ok: true, value: to };
 }
 
+// A booking that still holds its time slot and still needs its calendar
+// event. Same set as the `WHERE` of the DB exclusion constraint
+// (ENGINEERING.md §5.3, migration 20261012_184209_booking_no_overlap).
+const ACTIVE_STATUSES: readonly BookingStatus[] = ["pending", "confirmed"];
+
+export function isActiveBooking(status: BookingStatus): boolean {
+  return ACTIVE_STATUSES.includes(status);
+}
+
 // Nadia can create a booking from the admin already confirmed (e.g. a
 // session agreed by phone); every other status has to be reached through
 // a transition.

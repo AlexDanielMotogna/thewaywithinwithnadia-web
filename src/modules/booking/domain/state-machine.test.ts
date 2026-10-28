@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import {
   canTransition,
   checkStatusChange,
+  isActiveBooking,
   transition,
 } from "@/modules/booking/domain/state-machine";
 import type { BookingStatus } from "@/modules/booking/domain/state-machine";
@@ -145,5 +146,19 @@ describe("checkStatusChange", () => {
         viaUseCase: true,
       }),
     ).toEqual({ ok: true, value: "rescheduled" });
+  });
+});
+
+describe("isActiveBooking", () => {
+  it("treats only pending and confirmed as active (same set as the DB exclusion constraint)", () => {
+    const all: BookingStatus[] = [
+      "pending",
+      "confirmed",
+      "rescheduled",
+      "cancelled",
+      "completed",
+      "no_show",
+    ];
+    expect(all.filter(isActiveBooking)).toEqual(["pending", "confirmed"]);
   });
 });

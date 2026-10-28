@@ -19,6 +19,7 @@ import { BookingSettings } from "@/payload/globals/BookingSettings";
 import { Navigation } from "@/payload/globals/Navigation";
 import { SiteSettings } from "@/payload/globals/SiteSettings";
 import { processBookingSideEffectsTask } from "@/payload/jobs/process-booking-side-effects";
+import { removeBookingCalendarEventTask } from "@/payload/jobs/remove-booking-calendar-event";
 
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
@@ -76,7 +77,7 @@ export default buildConfig({
   // that creates the booking. autoRun works because the app runs as a
   // persistent Node process on Railway (PENDING.md #14), not serverless.
   jobs: {
-    tasks: [processBookingSideEffectsTask],
+    tasks: [processBookingSideEffectsTask, removeBookingCalendarEventTask],
     autoRun: [{ cron: "*/1 * * * *" }],
   },
   editor: lexicalEditor(),

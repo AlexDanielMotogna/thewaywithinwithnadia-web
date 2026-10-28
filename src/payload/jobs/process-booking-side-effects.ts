@@ -1,4 +1,5 @@
 import type { TaskConfig } from "payload";
+import { sideEffectRetries } from "@/payload/jobs/retry-policy";
 
 export const processBookingSideEffectsTask: TaskConfig<{
   input: { bookingId: number };
@@ -6,6 +7,7 @@ export const processBookingSideEffectsTask: TaskConfig<{
 }> = {
   slug: "processBookingSideEffects",
   inputSchema: [{ name: "bookingId", type: "number", required: true }],
+  retries: sideEffectRetries,
   handler: async ({ input }) => {
     // Lazy import, deliberately: it keeps this file (and payload.config.ts,
     // which registers it) free of any `server-only`-guarded dependency at

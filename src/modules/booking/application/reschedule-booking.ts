@@ -1,5 +1,4 @@
 import "server-only";
-import { getCalendar } from "@/integrations/calendar/container";
 import type { Result } from "@/lib/result";
 import {
   writeValidatedBooking,
@@ -53,17 +52,9 @@ export async function rescheduleBooking(
   });
   if (!created.ok) return created;
 
+  // The old calendar event is removed by a job queued from the Bookings
+  // `afterChange` hook.
   await updateBookingStatus(booking.id, canTransition.value);
-
-  if (booking.calendarEventId) {
-    const deleted = await getCalendar().deleteEvent(booking.calendarEventId);
-    if (!deleted.ok) {
-      console.error(
-        `Failed to delete calendar event ${booking.calendarEventId} for rescheduled booking ${String(booking.id)}`,
-        deleted.error,
-      );
-    }
-  }
 
   return { ok: true, value: created.value };
 }
