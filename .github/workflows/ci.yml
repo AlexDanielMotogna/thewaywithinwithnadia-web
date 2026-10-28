@@ -29,7 +29,11 @@ jobs:
       - name: Unit tests
         run: pnpm test
 
-      # Integration tests (Testcontainers Postgres) land in Phase 5 (booking module).
+      # Testcontainers starts a real Postgres in Docker (preinstalled on
+      # ubuntu-latest) and runs the same migrations as production.
+      - name: Integration tests
+        run: pnpm test:integration
+
       # E2E (Playwright + axe-core) and Lighthouse CI land once pages exist to test
       # against — see CHECKLIST.md Phase 8.
 
