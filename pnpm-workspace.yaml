@@ -1,3 +1,13 @@
 onlyBuiltDependencies:
   - esbuild
   - sharp
+
+# Security overrides for transitive deps pinned to vulnerable versions
+# upstream (pnpm audit, 2026-10-28). Remove each once the parent package
+# ships a fixed range.
+overrides:
+  # monaco-editor (Payload admin code field) pins dompurify 3.4.15.
+  dompurify: 3.4.17
+  # @lexical/headless asks for ^20.9; no patched 20.x exists. Major bump,
+  # verified with typecheck/test/build.
+  happy-dom: 21.0.4
