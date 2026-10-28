@@ -1,8 +1,10 @@
 import "server-only";
-import { getCalendar } from "@/integrations/calendar/container";
 import { getMailer } from "@/integrations/email/container";
+import { loadCalendar } from "@/modules/calendar";
 import { isActiveBooking } from "@/modules/booking/domain/state-machine";
+import { calendarEventKey } from "@/modules/booking/infrastructure/calendar-event-key";
 import { getBookingById } from "@/modules/booking/infrastructure/get-booking";
+import { getBookingSettings } from "@/modules/booking/infrastructure/get-booking-settings";
 import { getServiceById } from "@/modules/booking/infrastructure/get-service";
 import {
   markCalendarSynced,
@@ -42,7 +44,13 @@ export async function processBookingSideEffects(
     const start = new Date(booking.startsAt);
     const end = new Date(start.getTime() + booking.durationMin * 60_000);
 
-    const result = await getCalendar().createEvent({
+    const [calendar, settings] = await Promise.all([
+      loadCalendar(),
+      getBookingSettings(),
+    ]);
+    const result = await calendar.createEvent({
+      eventKey: calendarEventKey(booking.id),
+      timezone: settings.timezone,
       title: `${serviceName(service)} — ${booking.clientName}`,
       description: booking.notes ?? "",
       start,

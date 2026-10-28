@@ -1,5 +1,5 @@
 import "server-only";
-import { getCalendar } from "@/integrations/calendar/container";
+import { loadCalendar } from "@/modules/calendar";
 import { isActiveBooking } from "@/modules/booking/domain/state-machine";
 import { getBookingById } from "@/modules/booking/infrastructure/get-booking";
 import { clearCalendarEvent } from "@/modules/booking/infrastructure/update-booking-side-effects";
@@ -18,7 +18,8 @@ export async function removeBookingCalendarEvent(
   if (!booking?.calendarEventId) return;
   if (isActiveBooking(booking.status)) return;
 
-  const deleted = await getCalendar().deleteEvent(booking.calendarEventId);
+  const calendar = await loadCalendar();
+  const deleted = await calendar.deleteEvent(booking.calendarEventId);
   if (!deleted.ok) {
     throw new Error(
       `Failed to delete calendar event for booking ${String(bookingId)}`,

@@ -118,12 +118,15 @@ export interface Config {
     "site-settings": SiteSetting;
     navigation: Navigation;
     "booking-settings": BookingSetting;
+    "calendar-connection": CalendarConnection;
   };
   globalsSelect: {
     "site-settings": SiteSettingsSelect<false> | SiteSettingsSelect<true>;
     navigation: NavigationSelect<false> | NavigationSelect<true>;
     "booking-settings":
       BookingSettingsSelect<false> | BookingSettingsSelect<true>;
+    "calendar-connection":
+      CalendarConnectionSelect<false> | CalendarConnectionSelect<true>;
   };
   locale: "en" | "de";
   widgets: {
@@ -1069,6 +1072,25 @@ export interface BookingSetting {
   createdAt?: string | null;
 }
 /**
+ * Connect the Google account whose calendar holds Nadia's sessions. Bookings are added to it (with a Google Meet link for online sessions), and its busy times are kept free on the booking page.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "calendar-connection".
+ */
+export interface CalendarConnection {
+  id: number;
+  status: "not_connected" | "connected" | "needs_reconnect";
+  connectedEmail?: string | null;
+  connectedAt?: string | null;
+  /**
+   * "primary" is the main calendar of the connected account. Use another calendar's ID (Google Calendar → Settings → Integrate calendar) to keep sessions in a separate calendar.
+   */
+  calendarId: string;
+  refreshTokenSealed?: string | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "site-settings_select".
  */
@@ -1128,6 +1150,20 @@ export interface BookingSettingsSelect<T extends boolean = true> {
   minNoticeMin?: T;
   bufferMin?: T;
   stepMin?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "calendar-connection_select".
+ */
+export interface CalendarConnectionSelect<T extends boolean = true> {
+  status?: T;
+  connectedEmail?: T;
+  connectedAt?: T;
+  calendarId?: T;
+  refreshTokenSealed?: T;
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;

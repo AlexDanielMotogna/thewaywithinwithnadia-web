@@ -3,6 +3,7 @@ import config from "@payload-config";
 import { addMinutes } from "date-fns";
 import { getPayload } from "payload";
 import { zonedDateString } from "@/lib/dates";
+import { loadCalendar } from "@/modules/calendar";
 import type {
   DateException,
   Interval,
@@ -74,13 +75,32 @@ export async function loadAvailabilityContext(input: {
     return { date: dateString, type: "blocked" };
   });
 
-  const busy: Interval[] = bookingsResult.docs.map((booking) => {
+  const bookingBusy: Interval[] = bookingsResult.docs.map((booking) => {
     const start = new Date(booking.startsAt);
     return {
       start,
       end: addMinutes(start, booking.durationMin + booking.bufferMin),
     };
   });
+
+  // Nadia's own calendar events (ENGINEERING.md §5.3: re-check free/busy
+  // before insert). Fails open: if Google is down, booking continues on
+  // the database alone (still protected by the exclusion constraint)
+  // instead of blocking every visitor.
+  const calendar = await loadCalendar();
+  const googleBusy = await calendar.getBusy({
+    start: input.range.from,
+    end: input.range.to,
+  });
+  if (!googleBusy.ok) {
+    console.error(
+      "Google free/busy unavailable, using bookings only",
+      googleBusy.error,
+    );
+  }
+  const busy = googleBusy.ok
+    ? [...bookingBusy, ...googleBusy.value]
+    : bookingBusy;
 
   return { weeklyRules, exceptions, busy };
 }

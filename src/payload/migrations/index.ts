@@ -7,6 +7,7 @@ import * as migration_20261009_170030_contact_messages from "./20261009_170030_c
 import * as migration_20261012_184209_booking_no_overlap from "./20261012_184209_booking_no_overlap";
 import * as migration_20261012_192138_booking_jobs_queue from "./20261012_192138_booking_jobs_queue";
 import * as migration_20261028_210018_remove_calendar_event_job from "./20261028_210018_remove_calendar_event_job";
+import * as migration_20261028_214004_calendar_connection from "./20261028_214004_calendar_connection";
 
 export const migrations = [
   {
@@ -53,5 +54,10 @@ export const migrations = [
     up: migration_20261028_210018_remove_calendar_event_job.up,
     down: migration_20261028_210018_remove_calendar_event_job.down,
     name: "20261028_210018_remove_calendar_event_job",
+  },
+  {
+    up: migration_20261028_214004_calendar_connection.up,
+    down: migration_20261028_214004_calendar_connection.down,
+    name: "20261028_214004_calendar_connection",
   },
 ];

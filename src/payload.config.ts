@@ -16,6 +16,7 @@ import { Pages } from "@/payload/collections/Pages";
 import { Services } from "@/payload/collections/Services";
 import { Users } from "@/payload/collections/Users";
 import { BookingSettings } from "@/payload/globals/BookingSettings";
+import { CalendarConnection } from "@/payload/globals/CalendarConnection";
 import { Navigation } from "@/payload/globals/Navigation";
 import { SiteSettings } from "@/payload/globals/SiteSettings";
 import { processBookingSideEffectsTask } from "@/payload/jobs/process-booking-side-effects";
@@ -58,6 +59,11 @@ export default buildConfig({
     importMap: {
       baseDir: path.resolve(dirname),
     },
+    components: {
+      beforeDashboard: [
+        "@/payload/components/CalendarConnectionControls#CalendarConnectionNotice",
+      ],
+    },
   },
   collections: [
     Users,
@@ -70,7 +76,7 @@ export default buildConfig({
     Enquiries,
     ContactMessages,
   ],
-  globals: [SiteSettings, Navigation, BookingSettings],
+  globals: [SiteSettings, Navigation, BookingSettings, CalendarConnection],
   plugins,
   // ENGINEERING.md §5.5 — booking side effects (calendar + confirmation
   // email) run as a queued, idempotent job, never inline in the request
