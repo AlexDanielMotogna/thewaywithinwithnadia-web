@@ -1,4 +1,5 @@
 import type { ServerProps } from "payload";
+import { CalendarDisconnectButton } from "@/payload/components/CalendarDisconnectButton";
 import { CalendarResultMessage } from "@/payload/components/CalendarResultMessage";
 
 const BASE = "/api/globals/calendar-connection";
@@ -52,14 +53,10 @@ export async function CalendarConnectionControls({ payload }: ServerProps) {
           {status === "not_connected" ? "Connect Google Calendar" : "Reconnect"}
         </a>
         {status === "not_connected" ? null : (
-          <form method="post" action={`${BASE}/disconnect`}>
-            <button
-              type="submit"
-              className="btn btn--style-secondary btn--size-small"
-            >
-              Disconnect
-            </button>
-          </form>
+          <CalendarDisconnectButton
+            endpoint={`${BASE}/disconnect`}
+            donePage={PAGE}
+          />
         )}
       </div>
     </div>
