@@ -39,5 +39,18 @@ export const BookingSettings: GlobalConfig = {
       defaultValue: 30,
       admin: { description: "Slot granularity, in minutes." },
     },
+    {
+      name: "clientChangeNoticeHours",
+      type: "number",
+      required: true,
+      defaultValue: 0,
+      min: 0,
+      admin: {
+        description:
+          "How many hours before the session a client can still cancel or " +
+          "reschedule through the link in their email. 0 = until the " +
+          "session starts. After that, they need to contact Nadia.",
+      },
+    },
   ],
 };

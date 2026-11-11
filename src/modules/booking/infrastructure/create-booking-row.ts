@@ -12,6 +12,7 @@ export interface CreateBookingRowInput {
   durationMin: number;
   bufferMin: number;
   mode: "online" | "in_person";
+  locale: "en" | "de";
   notes: string | null;
   priceAmount: number | null;
   currency: string;
@@ -55,7 +56,11 @@ export async function createBookingRow(
         durationMin: input.durationMin,
         bufferMin: input.bufferMin,
         mode: input.mode,
-        status: "pending",
+        locale: input.locale,
+        // Confirmed straight away (Master Doc §12: "confirm the booking,
+        // receive automatic confirmation"). `pending` stays in the state
+        // machine for a future approval or payment step.
+        status: "confirmed",
         notes: input.notes,
         priceAmount: input.priceAmount,
         currency: input.currency,

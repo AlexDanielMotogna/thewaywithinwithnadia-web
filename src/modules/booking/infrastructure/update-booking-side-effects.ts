@@ -29,6 +29,27 @@ export async function markConfirmationSent(
   });
 }
 
+export async function markOwnerNotified(id: number, at: Date): Promise<void> {
+  const payload = await getPayload({ config });
+  await payload.update({
+    collection: "bookings",
+    id,
+    data: { ownerNotifiedAt: at.toISOString() },
+  });
+}
+
+export async function markCancellationSent(
+  id: number,
+  at: Date,
+): Promise<void> {
+  const payload = await getPayload({ config });
+  await payload.update({
+    collection: "bookings",
+    id,
+    data: { cancellationSentAt: at.toISOString() },
+  });
+}
+
 export async function clearCalendarEvent(id: number): Promise<void> {
   const payload = await getPayload({ config });
   await payload.update({

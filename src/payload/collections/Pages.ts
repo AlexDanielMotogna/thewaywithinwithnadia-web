@@ -2,6 +2,7 @@ import type { CollectionConfig } from "payload";
 
 import { Cta } from "@/payload/blocks/Cta";
 import { Hero } from "@/payload/blocks/Hero";
+import { Notice } from "@/payload/blocks/Notice";
 import { Principles } from "@/payload/blocks/Principles";
 import { Quote } from "@/payload/blocks/Quote";
 import { ServicesPreview } from "@/payload/blocks/ServicesPreview";
@@ -32,12 +33,20 @@ export const Pages: CollectionConfig = {
       required: true,
       unique: true,
       index: true,
-      admin: { description: "URL path, e.g. 'journey-to-self'." },
+      admin: { description: "URL path, e.g. 'philosophy'." },
     },
     {
       name: "blocks",
       type: "blocks",
-      blocks: [Hero, Quote, TextImage, Principles, ServicesPreview, Cta],
+      blocks: [
+        Hero,
+        Quote,
+        TextImage,
+        Principles,
+        ServicesPreview,
+        Cta,
+        Notice,
+      ],
     },
     {
       name: "seo",

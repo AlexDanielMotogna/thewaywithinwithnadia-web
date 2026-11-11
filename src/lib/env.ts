@@ -1,6 +1,13 @@
 import "server-only";
 import { z } from "zod";
 
+// `KEY=` left empty in a .env file (as copied from .env.example) means
+// "not configured", not an invalid value that stops the app from booting.
+const optionalSetting = z.preprocess(
+  (value) => (value === "" ? undefined : value),
+  z.string().min(1).optional(),
+);
+
 const envSchema = z.object({
   NODE_ENV: z
     .enum(["development", "production", "test"])
@@ -37,6 +44,13 @@ const envSchema = z.object({
   // Google account — production must switch to Nadia's before launch.
   GOOGLE_CLIENT_ID: z.string().min(1).optional(),
   GOOGLE_CLIENT_SECRET: z.string().min(1).optional(),
+
+  // Transactional email via Resend (ENGINEERING.md §1, Mailer port).
+  // Optional; missing means emails are only logged to the console
+  // (PENDING.md #4). EMAIL_FROM is e.g. "The Way Within <hello@…>", and its
+  // domain must be verified in Resend.
+  RESEND_API_KEY: optionalSetting,
+  EMAIL_FROM: optionalSetting,
 });
 
 const parsed = envSchema.safeParse(process.env);

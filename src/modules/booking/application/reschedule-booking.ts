@@ -22,8 +22,8 @@ export type RescheduleBookingError =
 /**
  * Creates a new booking at the requested time, then — only once that write
  * has actually succeeded — moves the old one to the terminal `rescheduled`
- * state (ENGINEERING.md §5.4: "the new booking carries on as its own
- * `pending`"). Ordered this way so a failed reschedule (e.g. the new slot
+ * state (ENGINEERING.md §5.4: the new booking carries on as its own
+ * record). Ordered this way so a failed reschedule (e.g. the new slot
  * was taken) never leaves the client without any valid booking at all.
  */
 export async function rescheduleBooking(
@@ -45,6 +45,7 @@ export async function rescheduleBooking(
         : booking.service.id,
     startsAt: parsed.data.newStartsAt,
     mode: booking.mode,
+    locale: booking.locale,
     clientName: booking.clientName,
     clientEmail: booking.clientEmail,
     clientPhone: booking.clientPhone ?? undefined,

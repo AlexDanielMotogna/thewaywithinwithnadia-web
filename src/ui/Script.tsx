@@ -21,6 +21,8 @@ export function Script({ children, className }: ScriptProps) {
   }
 
   return (
-    <span className={cn("font-script text-gold", className)}>{children}</span>
+    <span className={cn("font-script text-terracotta", className)}>
+      {children}
+    </span>
   );
 }

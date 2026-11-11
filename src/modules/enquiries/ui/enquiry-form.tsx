@@ -193,7 +193,7 @@ export function EnquiryForm() {
         </p>
       ) : null}
 
-      <p className="text-charcoal/60 text-xs">
+      <p className="text-charcoal/70 text-xs">
         {t("Enquiry.privacyNotice")}{" "}
         <Link href="/datenschutz" className="text-olive underline">
           {t("Enquiry.privacyLinkLabel")}

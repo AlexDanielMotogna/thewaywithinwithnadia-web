@@ -47,3 +47,7 @@ next-env.d.ts
 # locally — never committed
 /media-uploads/*
 !/media-uploads/.gitkeep
+
+# Playwright
+/test-results/
+/playwright-report/

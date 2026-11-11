@@ -1,9 +1,18 @@
 {
   "Nav": {
     "home": "Home",
-    "journeyToSelf": "Journey to Self",
     "hotelsSpas": "Hotels & Spas",
-    "contact": "Contact"
+    "contact": "Contact",
+    "about": "About Me",
+    "philosophy": "Philosophy",
+    "services": "What I Offer",
+    "safety": "Safety & Wellbeing",
+    "book": "Book a Session",
+    "skipToContent": "Skip to content",
+    "logoLabel": "The Way Within with Nadia — home",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu",
+    "mainLabel": "Main"
   },
   "Footer": {
     "impressum": "Imprint",
@@ -12,7 +21,19 @@
   "ContactPage": {
     "title": "Contact",
     "intro": "Have a question, or ready to begin? I'd love to hear from you.",
-    "bookCta": "Book a Session"
+    "bookCta": "Book a Session",
+    "eyebrow": "Let's connect",
+    "script": "I would love to hear from you.",
+    "formTitle": "Send a message",
+    "otherTitle": "Other ways to connect",
+    "emailTitle": "Email",
+    "emailBody": "For general questions, collaborations or to learn more.",
+    "bookTitle": "Book a session",
+    "bookBody": "Ready to begin? See the available times for a session.",
+    "collabTitle": "In-person experiences & collaborations",
+    "collabBody": "For retreats, hotel wellbeing experiences and workshops.",
+    "collabCta": "Enquire here",
+    "phoneTitle": "Phone"
   },
   "Contact": {
     "fields": {
@@ -58,7 +79,8 @@
     "genericError": "Something went wrong. Please try again, or email directly.",
     "rateLimited": "Too many submissions — please try again later.",
     "privacyNotice": "By sending this, you agree to the handling of your data as described in the",
-    "privacyLinkLabel": "privacy policy"
+    "privacyLinkLabel": "privacy policy",
+    "formEyebrow": "Hotels, spas & retreats"
   },
   "BookPage": {
     "title": "Book a Session",
@@ -66,8 +88,7 @@
   },
   "Booking": {
     "steps": {
-      "service": "Choose a service",
-      "slot": "Pick a time",
+      "time": "Choose your session & time",
       "details": "Your details",
       "review": "Review & confirm"
     },
@@ -76,15 +97,10 @@
     "noServicesContact": "Please get in touch to arrange a session.",
     "contactLinkLabel": "contact me",
     "serviceCard": {
-      "durationLabel": "{min} min",
-      "selectOnline": "Book Online",
-      "selectInPerson": "Book In Person"
+      "durationLabel": "{min} min"
     },
     "slotPicker": {
       "loading": "Loading available times…",
-      "empty": "No times available in this range.",
-      "previous": "Previous dates",
-      "next": "Next dates",
       "timezoneLabelOnline": "Times shown in your local time ({tz}).",
       "timezoneLabelInPerson": "Times shown in Nadia's local time ({tz})."
     },
@@ -131,6 +147,93 @@
       "invalidEmail": "Please enter a valid email address."
     },
     "privacyNotice": "By booking, you agree to the handling of your data as described in the",
-    "privacyLinkLabel": "privacy policy"
+    "privacyLinkLabel": "privacy policy",
+    "eyebrow": "Book your journey",
+    "chooseSession": "Choose Your Session",
+    "selectDateTime": "Select a Date & Time",
+    "mode": {
+      "online": {
+        "title": "Online session",
+        "text": "By video call, from wherever you are."
+      },
+      "in_person": {
+        "title": "In-person session",
+        "text": "In person, with Nadia."
+      }
+    },
+    "notSure": {
+      "title": "Not sure yet?",
+      "text": "You're welcome to write to me before booking. We can talk about what you're looking for and whether this session feels right for you.",
+      "link": "Write to me"
+    },
+    "whatToExpect": "What to Expect",
+    "calendar": {
+      "previousMonth": "Previous month",
+      "nextMonth": "Next month",
+      "availableTimes": "Available Times",
+      "pickDay": "Choose a day to see the available times.",
+      "noTimesThisMonth": "No free times this month. Please try the next month.",
+      "dayAvailable": "{date}, times available",
+      "selected": "Selected: {date}, {time}"
+    },
+    "index": {
+      "cta": "Book this session",
+      "modeOnline": "Online",
+      "modeInPerson": "In person",
+      "modeBoth": "Online or in person"
+    }
+  },
+  "BookingEmail": {
+    "confirmationSubject": "Your session is booked: {service}",
+    "greeting": "Hello {name},",
+    "confirmationIntro": "thank you for your booking. Here are the details of your session:",
+    "service": "Session: {service}",
+    "when": "Date & time: {when} ({timezone})",
+    "duration": "Duration: {min} min",
+    "price": "Price: {price}",
+    "modeOnline": "Format: online",
+    "modeInPerson": "Format: in person",
+    "meetingLink": "Video call link: {url}",
+    "meetingLinkLater": "The video call link will be sent to you separately before the session.",
+    "manage": "Need to cancel or move your session? Use this link: {url}",
+    "manageDeadline": "Changes through this link are possible up to {hours} hours before the session.",
+    "contact": "Any questions? Simply reply to this email or write to {email}.",
+    "signature": "Warmly,\nNadia\nThe Way Within with Nadia",
+    "cancelledSubject": "Your session has been cancelled: {service}",
+    "cancelledIntro": "your session on {when} ({timezone}) has been cancelled.",
+    "cancelledRebook": "Whenever you'd like to book a new time: {url}",
+    "ownerNewSubject": "New booking: {service} — {name}",
+    "ownerNewIntro": "A new session has been booked.",
+    "ownerClient": "Client: {name} <{email}>",
+    "ownerPhone": "Phone: {phone}",
+    "ownerNotes": "Notes: {notes}",
+    "ownerCancelledSubject": "Booking cancelled: {service} — {name}",
+    "ownerCancelledIntro": "The client cancelled this session through their booking link.",
+    "ownerAdmin": "Open in the admin: {url}"
+  },
+  "ManageBooking": {
+    "title": "Your booking",
+    "intro": "Here you can cancel your session or move it to another time.",
+    "invalidLink": "This link is invalid or has expired.",
+    "notActive": "This booking has already been cancelled or moved.",
+    "tooLate": "Your session starts in less than {hours} hours, so it can no longer be changed online.",
+    "contactHint": "If you need to change something, please",
+    "contactLinkLabel": "contact me",
+    "cancelButton": "Cancel session",
+    "confirmCancelQuestion": "Do you really want to cancel this session?",
+    "confirmCancel": "Yes, cancel it",
+    "keep": "No, keep it",
+    "rescheduleButton": "Choose another time",
+    "rescheduleIntro": "Pick a new time. Your current booking stays in place until you confirm.",
+    "confirmReschedule": "Move my session to {when}",
+    "working": "One moment…",
+    "cancelled": "Your session has been cancelled. A confirmation is on its way to your email.",
+    "rescheduled": "Your session has been moved. A new confirmation with the details is on its way to your email.",
+    "slotTaken": "That time was just booked by someone else — please choose another.",
+    "genericError": "Something went wrong. Please try again, or contact me directly.",
+    "bookAgain": "Book a new session"
+  },
+  "ServicesPreview": {
+    "book": "Book a session"
   }
 }

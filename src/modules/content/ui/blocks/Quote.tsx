@@ -6,45 +6,54 @@ import type { QuoteBlockData } from "@/modules/content/ui/types";
 export function QuoteBlock({
   text,
   attribution,
+  style,
   backgroundImage,
 }: QuoteBlockData) {
   const media = resolveMedia(backgroundImage);
+  const script = style === "script";
 
   return (
     <section
       className={cn(
-        "relative overflow-hidden",
-        media?.url ? "bg-transparent" : "bg-sand",
+        "relative isolate overflow-hidden",
+        media?.url ? "bg-transparent" : "bg-ivory-dark",
       )}
     >
       {media?.url ? (
-        <Image
-          src={media.url}
-          alt={media.alt}
-          fill
-          className="rounded-none object-cover"
-          sizes="100vw"
-        />
-      ) : null}
-      <Container size="narrow" className="relative py-14 text-center sm:py-20">
-        {media?.url ? (
+        <>
+          <Image
+            src={media.url}
+            alt={media.alt}
+            fill
+            className="-z-20 rounded-none object-cover"
+            sizes="100vw"
+          />
           <div
             aria-hidden="true"
-            className="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_65%_75%_at_center,_var(--color-ivory)_0%,_var(--color-ivory)_30%,_transparent_75%)] opacity-90 blur-xl"
+            className="bg-ivory/75 absolute inset-0 -z-10"
           />
-        ) : null}
-        <Divider lotus className="mx-auto mb-8 w-24" />
-        <Text
-          as="blockquote"
-          size="xl"
-          tone="olive"
-          className="font-serif italic"
-        >
-          &ldquo;{text}&rdquo;
-        </Text>
+        </>
+      ) : null}
+      <Container size="narrow" className="py-14 text-center sm:py-20">
+        <Divider lotus tone="terracotta" className="mx-auto mb-8 w-24" />
+        <blockquote>
+          <p
+            className={cn(
+              script
+                ? "font-script text-terracotta text-3xl leading-snug sm:text-4xl"
+                : "text-olive-dark font-serif text-2xl leading-snug italic sm:text-3xl",
+            )}
+          >
+            {script ? text : <>&ldquo;{text}&rdquo;</>}
+          </p>
+        </blockquote>
         {attribution ? (
-          <Text size="sm" tone="muted" className="mt-6">
-            — {attribution}
+          <Text
+            size="sm"
+            tone="muted"
+            className="mt-6 tracking-[0.2em] uppercase"
+          >
+            {attribution}
           </Text>
         ) : null}
       </Container>

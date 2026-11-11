@@ -2,9 +2,10 @@ import type { ComponentPropsWithoutRef } from "react";
 import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/cn";
 
-const headingVariants = cva("font-serif text-olive", {
+const headingVariants = cva("font-serif text-olive-dark leading-[1.1]", {
   variants: {
     size: {
+      xs: "text-xl sm:text-2xl",
       sm: "text-2xl sm:text-3xl",
       md: "text-3xl sm:text-4xl",
       lg: "text-4xl sm:text-5xl",
@@ -17,7 +18,7 @@ const headingVariants = cva("font-serif text-olive", {
   },
   defaultVariants: {
     size: "md",
-    weight: "normal",
+    weight: "medium",
   },
 });
 

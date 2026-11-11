@@ -117,12 +117,14 @@ export interface Config {
   globals: {
     "site-settings": SiteSetting;
     navigation: Navigation;
+    "booking-page": BookingPage;
     "booking-settings": BookingSetting;
     "calendar-connection": CalendarConnection;
   };
   globalsSelect: {
     "site-settings": SiteSettingsSelect<false> | SiteSettingsSelect<true>;
     navigation: NavigationSelect<false> | NavigationSelect<true>;
+    "booking-page": BookingPageSelect<false> | BookingPageSelect<true>;
     "booking-settings":
       BookingSettingsSelect<false> | BookingSettingsSelect<true>;
     "calendar-connection":
@@ -137,6 +139,7 @@ export interface Config {
     tasks: {
       processBookingSideEffects: TaskProcessBookingSideEffects;
       removeBookingCalendarEvent: TaskRemoveBookingCalendarEvent;
+      notifyBookingCancelled: TaskNotifyBookingCancelled;
       inline: {
         input: unknown;
         output: unknown;
@@ -218,16 +221,24 @@ export interface Page {
   id: number;
   title: string;
   /**
-   * URL path, e.g. 'journey-to-self'.
+   * URL path, e.g. 'philosophy'.
    */
   slug: string;
   blocks?:
     | (
         | {
+            layout?: ("overlay" | "split" | "centered") | null;
+            /**
+             * Optional small overline above the heading.
+             */
+            eyebrow?: string | null;
             heading: string;
+            /**
+             * Handwritten line under the heading.
+             */
             script?: string | null;
             /**
-             * Short emphasized line, e.g. 'A Sacred Space to Meet Yourself.'
+             * Short letter-spaced line, e.g. 'Meditation · Breathwork · 1:1 Guidance'.
              */
             tagline?: string | null;
             subheading?: string | null;
@@ -243,8 +254,9 @@ export interface Page {
         | {
             text: string;
             attribution?: string | null;
+            style?: ("serif" | "script") | null;
             /**
-             * Optional full-bleed banner photo. Renders as a flat sand band when empty.
+             * Optional full-bleed banner photo. Renders on a soft band when empty.
              */
             backgroundImage?: (number | null) | Media;
             id?: string | null;
@@ -252,7 +264,16 @@ export interface Page {
             blockType: "quote";
           }
         | {
+            /**
+             * Optional small overline above the heading.
+             */
+            eyebrow?: string | null;
             heading?: string | null;
+            headingStyle?: ("serif" | "script") | null;
+            /**
+             * Handwritten line under the heading.
+             */
+            script?: string | null;
             richText?: {
               root: {
                 type: string;
@@ -276,10 +297,20 @@ export interface Page {
               [k: string]: unknown;
             } | null;
             /**
-             * Optional — real photography is pending (PENDING.md). Renders as text-only when empty.
+             * Optional sentence shown in a soft framed box.
+             */
+            highlight?: string | null;
+            /**
+             * Optional. Renders as text-only when empty.
              */
             image?: (number | null) | Media;
             imagePosition?: ("left" | "right") | null;
+            imageShape?: ("bleed" | "arch" | "framed") | null;
+            tone?: ("ivory" | "soft") | null;
+            /**
+             * Optional handwritten note in the corner, e.g. 'You are already enough.'
+             */
+            asideNote?: string | null;
             ctaLabel?: string | null;
             ctaHref?: string | null;
             id?: string | null;
@@ -287,20 +318,67 @@ export interface Page {
             blockType: "textImage";
           }
         | {
+            /**
+             * Optional small overline above the heading.
+             */
+            eyebrow?: string | null;
             heading?: string | null;
+            /**
+             * Handwritten line under the heading.
+             */
+            script?: string | null;
+            variant?: ("columns" | "cards") | null;
+            /**
+             * Prefix each title with 1., 2., 3. ...
+             */
+            numbered?: boolean | null;
             items?:
               | {
+                  icon?:
+                    | (
+                        | "sun"
+                        | "lotus"
+                        | "leaf"
+                        | "heart"
+                        | "compass"
+                        | "waves"
+                        | "infinity"
+                        | "prayer"
+                        | "book"
+                        | "chat"
+                        | "home"
+                        | "laptop"
+                        | "calendar"
+                        | "users"
+                        | "mail"
+                        | "alert"
+                        | "pulse"
+                      )
+                    | null;
                   title: string;
                   description: string;
                   id?: string | null;
                 }[]
               | null;
+            /**
+             * Optional handwritten closing line.
+             */
+            closing?: string | null;
+            tone?: ("ivory" | "soft") | null;
             id?: string | null;
             blockName?: string | null;
             blockType: "principles";
           }
         | {
+            /**
+             * Optional small overline above the heading.
+             */
+            eyebrow?: string | null;
             heading?: string | null;
+            /**
+             * Handwritten line under the heading.
+             */
+            script?: string | null;
             /**
              * Leave empty to show featured services automatically.
              */
@@ -310,18 +388,55 @@ export interface Page {
             blockType: "servicesPreview";
           }
         | {
+            variant?: ("light" | "olive") | null;
+            /**
+             * Optional small overline above the heading.
+             */
+            eyebrow?: string | null;
             heading: string;
             body?: string | null;
             ctaLabel: string;
             ctaHref: string;
+            secondaryCtaLabel?: string | null;
+            secondaryCtaHref?: string | null;
             /**
-             * Optional photo, bleeding in from one edge over the olive band. Renders as a flat olive band when empty.
+             * Optional photo at one side of the band.
              */
             backgroundImage?: (number | null) | Media;
             imagePosition?: ("left" | "right") | null;
             id?: string | null;
             blockName?: string | null;
             blockType: "cta";
+          }
+        | {
+            icon?:
+              | (
+                  | "sun"
+                  | "lotus"
+                  | "leaf"
+                  | "heart"
+                  | "compass"
+                  | "waves"
+                  | "infinity"
+                  | "prayer"
+                  | "book"
+                  | "chat"
+                  | "home"
+                  | "laptop"
+                  | "calendar"
+                  | "users"
+                  | "mail"
+                  | "alert"
+                  | "pulse"
+                )
+              | null;
+            heading: string;
+            body: string;
+            linkLabel?: string | null;
+            linkHref?: string | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: "notice";
           }
       )[]
     | null;
@@ -341,6 +456,10 @@ export interface Service {
   id: number;
   name: string;
   slug: string;
+  /**
+   * Short phrase in the script font under the title on the booking page, e.g. 'A dedicated time for you.' Optional.
+   */
+  tagline?: string | null;
   shortDescription?: string | null;
   description?: {
     root: {
@@ -406,7 +525,13 @@ export interface Booking {
    * Idempotency key for the calendar-sync job.
    */
   calendarEventId?: string | null;
+  /**
+   * Language the client booked in; emails use it.
+   */
+  locale: "en" | "de";
   confirmationSentAt?: string | null;
+  ownerNotifiedAt?: string | null;
+  cancellationSentAt?: string | null;
   notes?: string | null;
   /**
    * Snapshot of the price at booking time.
@@ -566,7 +691,10 @@ export interface PayloadJob {
         executedAt: string;
         completedAt: string;
         taskSlug:
-          "inline" | "processBookingSideEffects" | "removeBookingCalendarEvent";
+          | "inline"
+          | "processBookingSideEffects"
+          | "removeBookingCalendarEvent"
+          | "notifyBookingCancelled";
         taskID: string;
         input?:
           | {
@@ -600,7 +728,12 @@ export interface PayloadJob {
       }[]
     | null;
   taskSlug?:
-    | ("inline" | "processBookingSideEffects" | "removeBookingCalendarEvent")
+    | (
+        | "inline"
+        | "processBookingSideEffects"
+        | "removeBookingCalendarEvent"
+        | "notifyBookingCancelled"
+      )
     | null;
   queue?: string | null;
   waitUntil?: string | null;
@@ -749,6 +882,8 @@ export interface PagesSelect<T extends boolean = true> {
         hero?:
           | T
           | {
+              layout?: T;
+              eyebrow?: T;
               heading?: T;
               script?: T;
               tagline?: T;
@@ -766,6 +901,7 @@ export interface PagesSelect<T extends boolean = true> {
           | {
               text?: T;
               attribution?: T;
+              style?: T;
               backgroundImage?: T;
               id?: T;
               blockName?: T;
@@ -773,10 +909,17 @@ export interface PagesSelect<T extends boolean = true> {
         textImage?:
           | T
           | {
+              eyebrow?: T;
               heading?: T;
+              headingStyle?: T;
+              script?: T;
               richText?: T;
+              highlight?: T;
               image?: T;
               imagePosition?: T;
+              imageShape?: T;
+              tone?: T;
+              asideNote?: T;
               ctaLabel?: T;
               ctaHref?: T;
               id?: T;
@@ -785,21 +928,30 @@ export interface PagesSelect<T extends boolean = true> {
         principles?:
           | T
           | {
+              eyebrow?: T;
               heading?: T;
+              script?: T;
+              variant?: T;
+              numbered?: T;
               items?:
                 | T
                 | {
+                    icon?: T;
                     title?: T;
                     description?: T;
                     id?: T;
                   };
+              closing?: T;
+              tone?: T;
               id?: T;
               blockName?: T;
             };
         servicesPreview?:
           | T
           | {
+              eyebrow?: T;
               heading?: T;
+              script?: T;
               services?: T;
               id?: T;
               blockName?: T;
@@ -807,12 +959,27 @@ export interface PagesSelect<T extends boolean = true> {
         cta?:
           | T
           | {
+              variant?: T;
+              eyebrow?: T;
               heading?: T;
               body?: T;
               ctaLabel?: T;
               ctaHref?: T;
+              secondaryCtaLabel?: T;
+              secondaryCtaHref?: T;
               backgroundImage?: T;
               imagePosition?: T;
+              id?: T;
+              blockName?: T;
+            };
+        notice?:
+          | T
+          | {
+              icon?: T;
+              heading?: T;
+              body?: T;
+              linkLabel?: T;
+              linkHref?: T;
               id?: T;
               blockName?: T;
             };
@@ -834,6 +1001,7 @@ export interface PagesSelect<T extends boolean = true> {
 export interface ServicesSelect<T extends boolean = true> {
   name?: T;
   slug?: T;
+  tagline?: T;
   shortDescription?: T;
   description?: T;
   image?: T;
@@ -863,7 +1031,10 @@ export interface BookingsSelect<T extends boolean = true> {
   status?: T;
   meetingUrl?: T;
   calendarEventId?: T;
+  locale?: T;
   confirmationSentAt?: T;
+  ownerNotifiedAt?: T;
+  cancellationSentAt?: T;
   notes?: T;
   priceAmount?: T;
   currency?: T;
@@ -1048,6 +1219,31 @@ export interface Navigation {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "booking-page".
+ */
+export interface BookingPage {
+  id: number;
+  /**
+   * Up to four short points, shown side by side.
+   */
+  whatToExpect?:
+    | {
+        icon: "leaf" | "sun" | "heart" | "lotus";
+        title: string;
+        text: string;
+        id?: string | null;
+      }[]
+    | null;
+  beforeYouBook?: {
+    title?: string | null;
+    text?: string | null;
+    image?: (number | null) | Media;
+  };
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "booking-settings".
  */
 export interface BookingSetting {
@@ -1068,6 +1264,10 @@ export interface BookingSetting {
    * Slot granularity, in minutes.
    */
   stepMin: number;
+  /**
+   * How many hours before the session a client can still cancel or reschedule through the link in their email. 0 = until the session starts. After that, they need to contact Nadia.
+   */
+  clientChangeNoticeHours: number;
   updatedAt?: string | null;
   createdAt?: string | null;
 }
@@ -1143,6 +1343,30 @@ export interface NavigationSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "booking-page_select".
+ */
+export interface BookingPageSelect<T extends boolean = true> {
+  whatToExpect?:
+    | T
+    | {
+        icon?: T;
+        title?: T;
+        text?: T;
+        id?: T;
+      };
+  beforeYouBook?:
+    | T
+    | {
+        title?: T;
+        text?: T;
+        image?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "booking-settings_select".
  */
 export interface BookingSettingsSelect<T extends boolean = true> {
@@ -1150,6 +1374,7 @@ export interface BookingSettingsSelect<T extends boolean = true> {
   minNoticeMin?: T;
   bufferMin?: T;
   stepMin?: T;
+  clientChangeNoticeHours?: T;
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;
@@ -1195,6 +1420,17 @@ export interface TaskProcessBookingSideEffects {
 export interface TaskRemoveBookingCalendarEvent {
   input: {
     bookingId: number;
+  };
+  output?: unknown;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TaskNotifyBookingCancelled".
+ */
+export interface TaskNotifyBookingCancelled {
+  input: {
+    bookingId: number;
+    notifyOwner: boolean;
   };
   output?: unknown;
 }

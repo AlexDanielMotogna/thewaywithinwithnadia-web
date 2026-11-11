@@ -6,7 +6,7 @@ const textVariants = cva("font-sans", {
   variants: {
     size: {
       sm: "text-sm",
-      base: "text-base",
+      base: "text-base leading-relaxed",
       lg: "text-lg leading-relaxed",
       xl: "text-xl leading-relaxed",
     },
@@ -14,6 +14,7 @@ const textVariants = cva("font-sans", {
       body: "text-charcoal",
       muted: "text-charcoal/70",
       olive: "text-olive",
+      accent: "text-terracotta",
       inverted: "text-ivory",
     },
   },

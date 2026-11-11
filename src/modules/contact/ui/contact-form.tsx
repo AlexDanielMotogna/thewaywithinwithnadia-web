@@ -163,7 +163,7 @@ export function ContactForm() {
         </p>
       ) : null}
 
-      <p className="text-charcoal/60 text-xs">
+      <p className="text-charcoal/70 text-xs">
         {t("Contact.privacyNotice")}{" "}
         <Link href="/datenschutz" className="text-olive underline">
           {t("Contact.privacyLinkLabel")}

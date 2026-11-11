@@ -1,26 +1,17 @@
 import type { Metadata } from "next";
-import { hasLocale } from "next-intl";
-import { getTranslations, setRequestLocale } from "next-intl/server";
-import { notFound } from "next/navigation";
-import { buildMetadata } from "@/i18n/metadata";
-import { routing } from "@/i18n/routing";
-import { getPageBySlug, RenderBlocks } from "@/modules/content";
+import { getTranslations } from "next-intl/server";
+import { CmsPage, cmsPageMetadata } from "@/modules/content";
 import { EnquiryForm } from "@/modules/enquiries";
-import { Container, Heading, Section } from "@/ui";
+import { Container, Divider, Eyebrow, Heading, Section } from "@/ui";
 
 export async function generateMetadata({
   params,
 }: PageProps<"/[locale]/hotels-spas">): Promise<Metadata> {
   const { locale } = await params;
-  if (!hasLocale(routing.locales, locale)) notFound();
-  const page = await getPageBySlug("hotels-spas", locale);
-  if (!page) notFound();
-
-  return buildMetadata({
+  return cmsPageMetadata({
+    slug: "hotels-spas",
     pathname: "/hotels-spas",
     locale,
-    title: page.seo?.title ?? page.title,
-    description: page.seo?.description ?? undefined,
   });
 }
 
@@ -28,30 +19,22 @@ export default async function HotelsAndSpas({
   params,
 }: PageProps<"/[locale]/hotels-spas">) {
   const { locale } = await params;
-  if (!hasLocale(routing.locales, locale)) notFound();
-  // eslint-disable-next-line @typescript-eslint/no-deprecated -- see src/i18n/request.ts
-  setRequestLocale(locale);
-
-  const [page, t] = await Promise.all([
-    getPageBySlug("hotels-spas", locale),
-    getTranslations(),
-  ]);
-
-  if (!page?.blocks || page.blocks.length === 0) {
-    notFound();
-  }
+  const t = await getTranslations();
 
   return (
-    <main className="flex-1">
-      <RenderBlocks blocks={page.blocks} locale={locale} />
-      <Section tone="sand" id="enquiry">
+    <CmsPage slug="hotels-spas" locale={locale}>
+      <Section tone="soft" id="enquiry">
         <Container size="narrow" className="flex flex-col gap-8">
-          <Heading as="h2" size="md" className="text-center">
-            {t("Enquiry.formTitle")}
-          </Heading>
+          <div className="flex flex-col items-center gap-3 text-center">
+            <Eyebrow>{t("Enquiry.formEyebrow")}</Eyebrow>
+            <Heading as="h2" size="lg">
+              {t("Enquiry.formTitle")}
+            </Heading>
+            <Divider lotus tone="terracotta" className="w-32" />
+          </div>
           <EnquiryForm />
         </Container>
       </Section>
-    </main>
+    </CmsPage>
   );
 }

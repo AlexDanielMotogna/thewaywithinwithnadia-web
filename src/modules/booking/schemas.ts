@@ -4,6 +4,8 @@ export const bookingFormSchema = z.object({
   serviceId: z.coerce.number().int().positive(),
   startsAt: z.iso.datetime(),
   mode: z.enum(["online", "in_person"]),
+  // Language of the page the client booked on; their emails use it.
+  locale: z.enum(["en", "de"]),
   clientName: z.string().trim().min(1).max(200),
   clientEmail: z.email(),
   clientPhone: z.string().trim().max(50).optional(),
@@ -33,3 +35,12 @@ export const rescheduleBookingInputSchema = z.object({
 export type RescheduleBookingInput = z.infer<
   typeof rescheduleBookingInputSchema
 >;
+
+export const manageBookingInputSchema = z.object({
+  token: z.string().min(1).max(500),
+});
+
+export const rescheduleManagedBookingInputSchema =
+  manageBookingInputSchema.extend({
+    newStartsAt: z.iso.datetime(),
+  });

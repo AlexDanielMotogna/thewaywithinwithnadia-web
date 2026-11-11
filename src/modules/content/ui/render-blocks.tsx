@@ -1,6 +1,7 @@
 import type { TypedLocale } from "payload";
 import { CtaBlock } from "@/modules/content/ui/blocks/Cta";
 import { HeroBlock } from "@/modules/content/ui/blocks/Hero";
+import { NoticeBlock } from "@/modules/content/ui/blocks/Notice";
 import { PrinciplesBlock } from "@/modules/content/ui/blocks/Principles";
 import { QuoteBlock } from "@/modules/content/ui/blocks/Quote";
 import { ServicesPreviewBlock } from "@/modules/content/ui/blocks/ServicesPreview";
@@ -33,6 +34,8 @@ function RenderBlock({
       return <ServicesPreviewBlock {...block} locale={locale} />;
     case "cta":
       return <CtaBlock {...block} locale={locale} />;
+    case "notice":
+      return <NoticeBlock {...block} locale={locale} />;
   }
 }
 

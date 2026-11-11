@@ -1,9 +1,18 @@
 {
   "Nav": {
     "home": "Startseite",
-    "journeyToSelf": "Weg zu dir selbst",
     "hotelsSpas": "Hotels & Spas",
-    "contact": "Kontakt"
+    "contact": "Kontakt",
+    "about": "Über mich",
+    "philosophy": "Philosophie",
+    "services": "Mein Angebot",
+    "safety": "Sicherheit & Wohlbefinden",
+    "book": "Termin buchen",
+    "skipToContent": "Zum Inhalt springen",
+    "logoLabel": "The Way Within with Nadia — Startseite",
+    "openMenu": "Menü öffnen",
+    "closeMenu": "Menü schließen",
+    "mainLabel": "Hauptnavigation"
   },
   "Footer": {
     "impressum": "Impressum",
@@ -12,7 +21,19 @@
   "ContactPage": {
     "title": "Kontakt",
     "intro": "Haben Sie eine Frage, oder möchten Sie beginnen? Ich freue mich, von Ihnen zu hören.",
-    "bookCta": "Termin buchen"
+    "bookCta": "Termin buchen",
+    "eyebrow": "Kontakt aufnehmen",
+    "script": "Ich freue mich, von Ihnen zu hören.",
+    "formTitle": "Nachricht senden",
+    "otherTitle": "Weitere Wege zu mir",
+    "emailTitle": "E-Mail",
+    "emailBody": "Für allgemeine Fragen, Kooperationen oder mehr Informationen.",
+    "bookTitle": "Termin buchen",
+    "bookBody": "Bereit zu beginnen? Hier finden Sie die freien Termine.",
+    "collabTitle": "Vor-Ort-Erlebnisse & Kooperationen",
+    "collabBody": "Für Retreats, Wellbeing-Angebote in Hotels und Workshops.",
+    "collabCta": "Hier anfragen",
+    "phoneTitle": "Telefon"
   },
   "Contact": {
     "fields": {
@@ -58,7 +79,8 @@
     "genericError": "Etwas ist schiefgelaufen. Bitte versuchen Sie es erneut oder schreiben Sie direkt eine E-Mail.",
     "rateLimited": "Zu viele Einsendungen — bitte versuchen Sie es später erneut.",
     "privacyNotice": "Mit dem Absenden stimmen Sie der Verarbeitung Ihrer Daten gemäß unserer",
-    "privacyLinkLabel": "Datenschutzerklärung"
+    "privacyLinkLabel": "Datenschutzerklärung",
+    "formEyebrow": "Hotels, Spas & Retreats"
   },
   "BookPage": {
     "title": "Termin buchen",
@@ -66,8 +88,7 @@
   },
   "Booking": {
     "steps": {
-      "service": "Leistung wählen",
-      "slot": "Zeit wählen",
+      "time": "Sitzung & Uhrzeit wählen",
       "details": "Ihre Angaben",
       "review": "Prüfen & bestätigen"
     },
@@ -76,15 +97,10 @@
     "noServicesContact": "Bitte nehmen Sie Kontakt auf, um einen Termin zu vereinbaren.",
     "contactLinkLabel": "Kontakt aufnehmen",
     "serviceCard": {
-      "durationLabel": "{min} Min.",
-      "selectOnline": "Online buchen",
-      "selectInPerson": "Vor Ort buchen"
+      "durationLabel": "{min} Min."
     },
     "slotPicker": {
       "loading": "Verfügbare Zeiten werden geladen…",
-      "empty": "In diesem Zeitraum sind keine Zeiten verfügbar.",
-      "previous": "Frühere Termine",
-      "next": "Spätere Termine",
       "timezoneLabelOnline": "Zeiten in Ihrer Ortszeit angezeigt ({tz}).",
       "timezoneLabelInPerson": "Zeiten in Nadias Ortszeit angezeigt ({tz})."
     },
@@ -131,6 +147,93 @@
       "invalidEmail": "Bitte geben Sie eine gültige E-Mail-Adresse ein."
     },
     "privacyNotice": "Mit der Buchung stimmen Sie der Verarbeitung Ihrer Daten gemäß unserer",
-    "privacyLinkLabel": "Datenschutzerklärung"
+    "privacyLinkLabel": "Datenschutzerklärung",
+    "eyebrow": "Ihre Sitzung buchen",
+    "chooseSession": "Wählen Sie Ihre Sitzung",
+    "selectDateTime": "Datum & Uhrzeit wählen",
+    "mode": {
+      "online": {
+        "title": "Online-Sitzung",
+        "text": "Per Videocall, von wo immer Sie sind."
+      },
+      "in_person": {
+        "title": "Sitzung vor Ort",
+        "text": "Persönlich, mit Nadia."
+      }
+    },
+    "notSure": {
+      "title": "Noch unsicher?",
+      "text": "Sie können mir gerne vor der Buchung schreiben. Wir sprechen darüber, was Sie suchen und ob diese Sitzung für Sie stimmig ist.",
+      "link": "Schreiben Sie mir"
+    },
+    "whatToExpect": "Was Sie erwartet",
+    "calendar": {
+      "previousMonth": "Vorheriger Monat",
+      "nextMonth": "Nächster Monat",
+      "availableTimes": "Freie Zeiten",
+      "pickDay": "Wählen Sie einen Tag, um die freien Zeiten zu sehen.",
+      "noTimesThisMonth": "In diesem Monat sind keine Zeiten frei. Bitte versuchen Sie den nächsten Monat.",
+      "dayAvailable": "{date}, Zeiten verfügbar",
+      "selected": "Gewählt: {date}, {time}"
+    },
+    "index": {
+      "cta": "Diese Sitzung buchen",
+      "modeOnline": "Online",
+      "modeInPerson": "Vor Ort",
+      "modeBoth": "Online oder vor Ort"
+    }
+  },
+  "BookingEmail": {
+    "confirmationSubject": "Ihre Sitzung ist gebucht: {service}",
+    "greeting": "Hallo {name},",
+    "confirmationIntro": "vielen Dank für Ihre Buchung. Hier sind die Details Ihrer Sitzung:",
+    "service": "Sitzung: {service}",
+    "when": "Datum & Uhrzeit: {when} ({timezone})",
+    "duration": "Dauer: {min} Min.",
+    "price": "Preis: {price}",
+    "modeOnline": "Form: online",
+    "modeInPerson": "Form: vor Ort",
+    "meetingLink": "Link zum Videocall: {url}",
+    "meetingLinkLater": "Den Link zum Videocall erhalten Sie vor der Sitzung in einer eigenen Nachricht.",
+    "manage": "Möchten Sie Ihre Sitzung absagen oder verschieben? Nutzen Sie diesen Link: {url}",
+    "manageDeadline": "Änderungen über diesen Link sind bis {hours} Stunden vor der Sitzung möglich.",
+    "contact": "Fragen? Antworten Sie einfach auf diese E-Mail oder schreiben Sie an {email}.",
+    "signature": "Herzliche Grüße\nNadia\nThe Way Within with Nadia",
+    "cancelledSubject": "Ihre Sitzung wurde abgesagt: {service}",
+    "cancelledIntro": "Ihre Sitzung am {when} ({timezone}) wurde abgesagt.",
+    "cancelledRebook": "Wenn Sie einen neuen Termin buchen möchten: {url}",
+    "ownerNewSubject": "Neue Buchung: {service} — {name}",
+    "ownerNewIntro": "Eine neue Sitzung wurde gebucht.",
+    "ownerClient": "Klient:in: {name} <{email}>",
+    "ownerPhone": "Telefon: {phone}",
+    "ownerNotes": "Anmerkungen: {notes}",
+    "ownerCancelledSubject": "Buchung abgesagt: {service} — {name}",
+    "ownerCancelledIntro": "Die Sitzung wurde über den Buchungslink abgesagt.",
+    "ownerAdmin": "Im Admin öffnen: {url}"
+  },
+  "ManageBooking": {
+    "title": "Ihre Buchung",
+    "intro": "Hier können Sie Ihre Sitzung absagen oder auf einen anderen Termin verschieben.",
+    "invalidLink": "Dieser Link ist ungültig oder abgelaufen.",
+    "notActive": "Diese Buchung wurde bereits abgesagt oder verschoben.",
+    "tooLate": "Ihre Sitzung beginnt in weniger als {hours} Stunden und kann daher nicht mehr online geändert werden.",
+    "contactHint": "Wenn Sie etwas ändern möchten,",
+    "contactLinkLabel": "schreiben Sie mir bitte",
+    "cancelButton": "Sitzung absagen",
+    "confirmCancelQuestion": "Möchten Sie diese Sitzung wirklich absagen?",
+    "confirmCancel": "Ja, absagen",
+    "keep": "Nein, behalten",
+    "rescheduleButton": "Anderen Termin wählen",
+    "rescheduleIntro": "Wählen Sie einen neuen Termin. Ihre aktuelle Buchung bleibt bestehen, bis Sie bestätigen.",
+    "confirmReschedule": "Sitzung auf {when} verschieben",
+    "working": "Einen Moment…",
+    "cancelled": "Ihre Sitzung wurde abgesagt. Eine Bestätigung ist per E-Mail unterwegs.",
+    "rescheduled": "Ihre Sitzung wurde verschoben. Eine neue Bestätigung mit allen Details ist per E-Mail unterwegs.",
+    "slotTaken": "Dieser Termin wurde gerade von jemand anderem gebucht — bitte wählen Sie einen anderen.",
+    "genericError": "Etwas ist schiefgelaufen. Bitte versuchen Sie es erneut oder kontaktieren Sie mich direkt.",
+    "bookAgain": "Neue Sitzung buchen"
+  },
+  "ServicesPreview": {
+    "book": "Termin buchen"
   }
 }

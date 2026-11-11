@@ -7,6 +7,7 @@ const sectionVariants = cva("", {
     tone: {
       ivory: "bg-ivory",
       sand: "bg-sand",
+      soft: "bg-ivory-dark",
       olive: "bg-olive text-ivory",
     },
     spacing: {

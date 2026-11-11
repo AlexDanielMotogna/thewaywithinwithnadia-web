@@ -24,6 +24,16 @@ export const Services: CollectionConfig = {
       index: true,
     },
     {
+      name: "tagline",
+      type: "text",
+      localized: true,
+      maxLength: 48,
+      admin: {
+        description:
+          "Short phrase in the script font under the title on the booking page, e.g. 'A dedicated time for you.' Optional.",
+      },
+    },
+    {
       name: "shortDescription",
       type: "textarea",
       localized: true,

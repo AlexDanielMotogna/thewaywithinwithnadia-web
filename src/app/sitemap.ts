@@ -3,7 +3,16 @@ import { env } from "@/lib/env";
 import { getPathname } from "@/i18n/navigation";
 import { routing } from "@/i18n/routing";
 
-const PAGES = ["/", "/journey-to-self", "/hotels-spas"] as const;
+const PAGES = [
+  "/",
+  "/about",
+  "/philosophy",
+  "/services",
+  "/safety-wellbeing",
+  "/hotels-spas",
+  "/contact",
+  "/book",
+] as const;
 
 export default function sitemap(): MetadataRoute.Sitemap {
   return PAGES.map((pathname) => {

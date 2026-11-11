@@ -14,3 +14,4 @@ export type ServicesPreviewBlockData = Extract<
   { blockType: "servicesPreview" }
 >;
 export type CtaBlockData = Extract<PageBlock, { blockType: "cta" }>;
+export type NoticeBlockData = Extract<PageBlock, { blockType: "notice" }>;

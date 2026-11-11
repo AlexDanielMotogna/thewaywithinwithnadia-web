@@ -15,11 +15,13 @@ import { Media } from "@/payload/collections/Media";
 import { Pages } from "@/payload/collections/Pages";
 import { Services } from "@/payload/collections/Services";
 import { Users } from "@/payload/collections/Users";
+import { BookingPage } from "@/payload/globals/BookingPage";
 import { BookingSettings } from "@/payload/globals/BookingSettings";
 import { CalendarConnection } from "@/payload/globals/CalendarConnection";
 import { Navigation } from "@/payload/globals/Navigation";
 import { SiteSettings } from "@/payload/globals/SiteSettings";
 import { processBookingSideEffectsTask } from "@/payload/jobs/process-booking-side-effects";
+import { notifyBookingCancelledTask } from "@/payload/jobs/notify-booking-cancelled";
 import { removeBookingCalendarEventTask } from "@/payload/jobs/remove-booking-calendar-event";
 
 const filename = fileURLToPath(import.meta.url);
@@ -76,14 +78,24 @@ export default buildConfig({
     Enquiries,
     ContactMessages,
   ],
-  globals: [SiteSettings, Navigation, BookingSettings, CalendarConnection],
+  globals: [
+    SiteSettings,
+    Navigation,
+    BookingPage,
+    BookingSettings,
+    CalendarConnection,
+  ],
   plugins,
   // ENGINEERING.md §5.5 — booking side effects (calendar + confirmation
   // email) run as a queued, idempotent job, never inline in the request
   // that creates the booking. autoRun works because the app runs as a
   // persistent Node process on Railway (PENDING.md #14), not serverless.
   jobs: {
-    tasks: [processBookingSideEffectsTask, removeBookingCalendarEventTask],
+    tasks: [
+      processBookingSideEffectsTask,
+      removeBookingCalendarEventTask,
+      notifyBookingCancelledTask,
+    ],
     autoRun: [{ cron: "*/1 * * * *" }],
   },
   editor: lexicalEditor(),

@@ -1,14 +1,16 @@
-import { Playfair_Display, Inter, Allura } from "next/font/google";
+import { Cormorant_Garamond, Inter, Allura } from "next/font/google";
 
 /**
  * Typography per ENGINEERING.md §1 / Master Doc §3.
- * Primary serif: Playfair Display (editorial, high-contrast, premium headings).
+ * Primary serif: Cormorant Garamond — the lighter classical serif of the
+ * client's "Website Structure" mockups (2026-11); replaced Playfair Display.
  * Secondary sans: Inter (clean, highly readable — nav, body, forms, UI).
  * Script accent: Allura ("with Nadia", selected quotes — never body/UI, see ui/Script.tsx).
  */
-export const fontSerif = Playfair_Display({
+export const fontSerif = Cormorant_Garamond({
   variable: "--font-serif",
   subsets: ["latin"],
+  weight: ["400", "500", "600"],
   display: "swap",
 });
 

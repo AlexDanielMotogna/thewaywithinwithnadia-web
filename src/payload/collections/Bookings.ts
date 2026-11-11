@@ -86,7 +86,22 @@ export const Bookings: CollectionConfig = {
       type: "text",
       admin: { description: "Idempotency key for the calendar-sync job." },
     },
+    {
+      name: "locale",
+      type: "select",
+      required: true,
+      defaultValue: "en",
+      options: [
+        { label: "English", value: "en" },
+        { label: "Deutsch", value: "de" },
+      ],
+      admin: { description: "Language the client booked in; emails use it." },
+    },
+    // Idempotency markers for the notification jobs (ENGINEERING.md §5.5):
+    // each one is set once its email went out, so a retry never resends it.
     { name: "confirmationSentAt", type: "date" },
+    { name: "ownerNotifiedAt", type: "date" },
+    { name: "cancellationSentAt", type: "date" },
     { name: "notes", type: "textarea" },
     {
       name: "priceAmount",

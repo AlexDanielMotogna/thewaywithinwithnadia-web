@@ -1,9 +1,10 @@
 import { getTranslations } from "next-intl/server";
 import { cn } from "@/lib/cn";
 import { Link } from "@/i18n/navigation";
-import { Container, Icon, Script, Text } from "@/ui";
+import { Container, Icon, Logo } from "@/ui";
 import { getSiteSettings } from "@/modules/content/infrastructure/get-site-settings";
 import { LanguageSwitcher } from "@/modules/content/ui/language-switcher";
+import { MAIN_NAV, type NavHref } from "@/modules/content/ui/nav-items";
 
 const SOCIAL_BADGE_CLASS =
   "bg-olive text-ivory hover:bg-olive-light flex h-9 w-9 items-center justify-center rounded-full";
@@ -17,14 +18,12 @@ export async function Footer() {
     (link) => link.platform === "instagram",
   )?.url;
 
-  const navLinks: {
-    label: string;
-    href: "/" | "/journey-to-self" | "/hotels-spas" | "/contact";
-  }[] = [
-    { label: t("Nav.home"), href: "/" },
-    { label: t("Nav.journeyToSelf"), href: "/journey-to-self" },
+  const navLinks: { label: string; href: NavHref | "/hotels-spas" }[] = [
+    ...MAIN_NAV.map((item) => ({
+      label: t(`Nav.${item.key}`),
+      href: item.href,
+    })),
     { label: t("Nav.hotelsSpas"), href: "/hotels-spas" },
-    { label: t("Nav.contact"), href: "/contact" },
   ];
 
   // Required on every page footer per LEGAL.md §6.1 ("leicht und
@@ -37,18 +36,11 @@ export async function Footer() {
   ];
 
   return (
-    <footer className="bg-ivory border-sand border-t">
+    <footer className="bg-ivory-dark border-sand border-t">
       <Container size="wide" className="py-10">
         <div className="grid grid-cols-1 items-center gap-6 text-center sm:grid-cols-4 sm:text-left">
-          <div>
-            <Text
-              as="span"
-              size="lg"
-              className="text-olive-dark block font-serif font-semibold tracking-wide uppercase"
-            >
-              The Way Within
-            </Text>
-            <Script className="text-gold-dark text-xl">with Nadia</Script>
+          <div className="flex justify-center sm:justify-start">
+            <Logo />
           </div>
           <nav
             aria-label="Footer"
@@ -110,7 +102,7 @@ export async function Footer() {
             <Link
               key={link.href}
               href={link.href}
-              className="text-charcoal/60 hover:text-olive text-xs tracking-wide uppercase"
+              className="text-charcoal/70 hover:text-olive text-xs tracking-wide uppercase"
             >
               {link.label}
             </Link>

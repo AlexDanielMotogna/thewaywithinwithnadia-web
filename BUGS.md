@@ -258,3 +258,24 @@ Each entry: what happened, root cause, the fix, and the rule going forward.
 - **What happened:** adding the first custom admin component (Google Calendar controls) and checking the generated import map showed that the admin layouts import `./admin/importMap`, which resolved to a committed, hand-made `importMap.ts` containing `export const importMap = {}`. Payload's real generated file, `importMap.js`, was in `.gitignore`. TypeScript/Next resolve `.ts` before `.js`, so the admin always got the empty map: no custom components, and none of Payload's own mapped components either (the Lexical rich-text field, the dashboard collection cards, the S3 client upload handler). It went unnoticed because the admin had barely been used and the build does not check the map.
 - **Fix:** deleted `importMap.ts`, removed `importMap.js` from `.gitignore` and committed it (Payload's convention: the generated file is part of the repo). Verified the admin dashboard, the services list and the new calendar page render with the components.
 - **Rule going forward:** after adding or changing any admin component path in the Payload config, run `pnpm payload generate:importmap` and commit `src/app/(payload)/admin/importMap.js`. Never hand-write an `importMap.ts`.
+
+### 2026-11-09 — Booking jobs were queued but never ran (no emails, no calendar events since Phase 5)
+
+- **What happened:** a real end-to-end booking test showed every `processBookingSideEffects` job sitting in `payload_jobs` with `total_tried: 0`. No confirmation email and no calendar event had ever been produced for a booking made on the site.
+- **Root cause:** Payload only schedules the `jobs.autoRun` cron when it is initialised with `getPayload({ config, cron: true })`. The site's own code calls `getPayload({ config })`; only Payload's admin passes `cron: true`. So the queue was only processed while someone had the admin open.
+- **Fix:** `src/instrumentation.ts` (Next's server-start hook) imports `src/payload-cron.ts`, which calls `getPayload({ config, cron: true })` once in the Node runtime. Verified by the Playwright E2E test, which waits for `confirmationSentAt`, `ownerNotifiedAt` and `cancellationSentAt` to be set by the jobs.
+- **Rule going forward:** "the job was queued" is not "the job ran". Any test of a side effect must wait for its marker in the database.
+
+### 2026-11-09 — `pnpm build` Turbopack panic after installing Playwright (dangling `@esbuild/*` links)
+
+- **What happened:** after `pnpm add -D @playwright/test …`, `pnpm build` crashed with `TurbopackInternalError … esbuild/lib/main.js [externals-tracing] … Path …/@esbuild/aix-ppc64 could not be resolved`, even with today's code changes stashed.
+- **Root cause:** on this Windows machine pnpm leaves symlinks for esbuild's other-platform optional packages (`@esbuild/aix-ppc64`, `darwin-*`, `linux-*` …) that point to folders which were never installed. Installing Playwright gave `next` a new peer-variant folder (`@playwright/test` is an optional peer of `next`), and Turbopack's externals tracing now walks esbuild's package folder and panics on the first broken link.
+- **Fix:** delete the dangling links (they point nowhere), then build:
+  `cd node_modules/.pnpm && for l in $(find . -maxdepth 4 -path "*/node_modules/@esbuild/*" -type l); do [ -e "$l" ] || rm "$l"; done`
+- **Rule going forward:** if the build panics on an `@esbuild/<platform>` path after any `pnpm install`/`add` on Windows, run the command above. Linux CI/Railway installs are not affected (no other-platform links are created there).
+
+### 2026-11-09 — Muted text (`text-charcoal/60`) failed WCAG contrast site-wide
+
+- **What happened:** the first axe-core run in E2E reported `color-contrast` (serious) on `/en/book`, `/en` and `/en/contact`: `text-charcoal/60` on ivory is 3.98:1, below the 4.5:1 required for normal text (WCAG 1.4.3, LEGAL.md §3.2).
+- **Fix:** all muted text uses `text-charcoal/70` (5.40:1 on ivory, 5.15:1 on ivory-dark). Booking flow, slot picker, footer, language switcher, contact/enquiry forms, `FormField` hint.
+- **Rule going forward:** don't go below `/70` for charcoal text on the ivory backgrounds; axe in E2E fails the build on serious/critical violations.

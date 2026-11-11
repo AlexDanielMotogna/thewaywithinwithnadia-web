@@ -2,7 +2,7 @@ import { cn } from "@/lib/cn";
 import { Icon } from "@/ui/Icon";
 
 type DividerProps = {
-  tone?: "gold" | "olive";
+  tone?: "gold" | "olive" | "terracotta";
   lotus?: boolean;
   className?: string;
 };
@@ -13,7 +13,16 @@ export function Divider({
   lotus = false,
   className,
 }: DividerProps) {
-  const lineColor = tone === "gold" ? "bg-gold/60" : "bg-olive/40";
+  const lineColor = {
+    gold: "bg-gold/60",
+    olive: "bg-olive/40",
+    terracotta: "bg-terracotta-light/50",
+  }[tone];
+  const iconColor = {
+    gold: "text-gold",
+    olive: "text-olive",
+    terracotta: "text-terracotta-light",
+  }[tone];
 
   if (!lotus) {
     return <hr className={cn("h-px border-0", lineColor, className)} />;
@@ -22,11 +31,7 @@ export function Divider({
   return (
     <div className={cn("flex items-center gap-3", className)} role="separator">
       <span className={cn("h-px flex-1", lineColor)} />
-      <Icon
-        name="lotus"
-        className={tone === "gold" ? "text-gold" : "text-olive"}
-        size={16}
-      />
+      <Icon name="lotus" className={iconColor} size={16} />
       <span className={cn("h-px flex-1", lineColor)} />
     </div>
   );

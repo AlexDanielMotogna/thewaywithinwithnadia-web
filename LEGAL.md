@@ -98,7 +98,7 @@ The source for the privacy policy and for Nadia's records of processing (Art. 30
 |---|---|---|---|---|
 | Contact form | name, email, phone (optional), subject, message | Art. 6(1)(b) pre-contract / (f) legitimate interest | 12 months after last contact | Hosting, DB, email provider |
 | Hotels & Spas enquiry | company, contact person, email, phone, location, dates, participants, message | Art. 6(1)(b) | 24 months | Same |
-| Booking | name, email, phone, service, date/time, mode, notes, meeting URL, withdrawal/consent timestamps | Art. 6(1)(b) contract; (c) legal obligation for FAGG records | 24 months after the session; invoice and accounting records 7 years from the end of the calendar year (BAO), longer while proceedings are pending | Hosting, DB, email, Google Calendar/Meet or Zoom |
+| Booking | name, email, phone, service, date/time, mode, notes, meeting URL, booking language, email-sent timestamps, withdrawal/consent timestamps | Art. 6(1)(b) contract; (c) legal obligation for FAGG records | 24 months after the session; invoice and accounting records 7 years from the end of the calendar year (BAO), longer while proceedings are pending | Hosting, DB, email, Google Calendar/Meet or Zoom |
 | Admin users | name, email, password hash, login logs | Art. 6(1)(b)/(f) | While the account exists | Hosting |
 | Analytics (GA4, optional) | pseudonymous usage data; the IP address is transmitted to Google but not logged or stored | Art. 6(1)(a) consent + TKG § 165 | GA4 event-data retention set to 2 months (the minimum; applies to explorations, not to aggregated standard reports) | Google (DPF-certified) |
 | Error monitoring (Sentry) | technical data; scrub PII | Art. 6(1)(f) | 30–90 days | Sentry (EU region) |

@@ -4,7 +4,7 @@ import { hasLocale, NextIntlClientProvider } from "next-intl";
 import { setRequestLocale } from "next-intl/server";
 import { routing } from "@/i18n/routing";
 import { fontVariables } from "@/lib/fonts";
-import { Footer } from "@/modules/content";
+import { Footer, SiteHeader } from "@/modules/content";
 import "../../globals.css";
 
 export const metadata: Metadata = {
@@ -29,7 +29,12 @@ export default async function RootLayout({
     <html lang={locale} className={`${fontVariables} h-full antialiased`}>
       <body className="bg-ivory text-charcoal flex min-h-full flex-col">
         <NextIntlClientProvider>
-          {children}
+          <SiteHeader />
+          {/* Skip-link target. A wrapper (not each page's <main>) so every
+              route gets it, including the booking pages. */}
+          <div id="main" tabIndex={-1} className="flex flex-1 flex-col">
+            {children}
+          </div>
           <Footer />
         </NextIntlClientProvider>
       </body>

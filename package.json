@@ -23,7 +23,9 @@
     "payload:migrate:create": "node --env-file=.env.local scripts/with-direct-db.mjs migrate:create",
     "payload:generate-types": "node --env-file=.env.local scripts/with-direct-db.mjs generate:types",
     "payload:seed": "node --env-file=.env.local scripts/run-payload.mjs run scripts/seed.ts",
-    "payload:attach-media": "node --env-file=.env.local scripts/run-payload.mjs run scripts/attach-media.ts"
+    "payload:seed-pages": "node --env-file=.env.local scripts/run-payload.mjs run scripts/seed-pages.ts",
+    "payload:attach-media": "node --env-file=.env.local scripts/run-payload.mjs run scripts/attach-media.ts",
+    "test:e2e": "node --env-file=.env.local node_modules/@playwright/test/cli.js test"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.9.1",
@@ -48,9 +50,12 @@
     "zod": "^4.6.7"
   },
   "devDependencies": {
+    "@axe-core/playwright": "^4.14.0",
+    "@playwright/test": "^1.65.0",
     "@tailwindcss/turbopack": "^4",
     "@testcontainers/postgresql": "^12.2.1",
     "@types/node": "^26.6.4",
+    "@types/pg": "^8.23.1",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",
@@ -59,6 +64,7 @@
     "eslint-plugin-boundaries": "^7.2.0",
     "husky": "^9.1.7",
     "lint-staged": "^17.6.0",
+    "pg": "^8.23.1",
     "prettier": "^3.9.9",
     "prettier-plugin-tailwindcss": "^0.8.1",
     "tailwindcss": "^4",

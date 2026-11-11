@@ -109,6 +109,7 @@ function bookingRequest(startsAt: string, n: number) {
     serviceId,
     startsAt,
     mode: "online",
+    locale: "en",
     clientName: `Racer ${String(n)}`,
     clientEmail: `racer${String(n)}@test.invalid`,
   };
@@ -145,6 +146,7 @@ describe("booking double-booking guarantee (real Postgres)", () => {
       durationMin: 60,
       bufferMin: 15,
       mode: "online",
+      locale: "en",
       notes: null,
       priceAmount: 80,
       currency: "EUR",

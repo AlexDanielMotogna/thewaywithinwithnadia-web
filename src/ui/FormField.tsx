@@ -47,7 +47,7 @@ export function FormField({
         "aria-invalid": Boolean(error),
       })}
       {description ? (
-        <p id={descriptionId} className="text-charcoal/60 text-xs">
+        <p id={descriptionId} className="text-charcoal/70 text-xs">
           {description}
         </p>
       ) : null}

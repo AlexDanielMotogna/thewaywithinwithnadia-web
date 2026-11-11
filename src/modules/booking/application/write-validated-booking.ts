@@ -84,6 +84,7 @@ export async function writeValidatedBooking(
     durationMin: service.durationMin,
     bufferMin: settings.bufferMin,
     mode: parsed.data.mode,
+    locale: parsed.data.locale,
     notes: parsed.data.notes ?? null,
     priceAmount: service.price ?? null,
     currency: service.currency,

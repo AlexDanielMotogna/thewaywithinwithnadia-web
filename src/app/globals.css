@@ -24,6 +24,14 @@
   /* Same hue/saturation as --color-gold, lower lightness only — "darker",
      never a different color (feedback: don't substitute a new hue). */
   --color-gold-dark: #735831;
+  /* Terracotta accent from the client's "Website Structure" mockups
+     (2026-11): eyebrows, script lines, fine-line icons, thin rules.
+     #9e4a2b passes 4.5:1 on ivory, ivory-dark and blush (verified) — safe
+     for small text. -light is decorative only (icons/lines, 3:1 on ivory).
+     Blush is the soft circle behind icons. */
+  --color-terracotta: #9e4a2b;
+  --color-terracotta-light: #c06a45;
+  --color-blush: #f4e3d6;
   --color-charcoal: #2a2620;
   --color-white: #ffffff;
 
@@ -68,6 +76,11 @@
   --font-script: var(--font-script);
 }
 
+html {
+  /* Keeps focused/anchored content clear of the sticky header (WCAG 2.4.11). */
+  scroll-padding-top: 6rem;
+}
+
 body {
   background: var(--color-ivory);
   color: var(--color-charcoal);
@@ -82,5 +95,37 @@ body {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
+  }
+}
+
+/* Body copy coming from the CMS rich-text editor (Payload Lexical). */
+@layer components {
+  .rich-text {
+    color: color-mix(in oklab, var(--color-charcoal) 85%, transparent);
+    line-height: 1.75;
+  }
+  .rich-text > * + * {
+    margin-top: 1rem;
+  }
+  .rich-text ul {
+    list-style: none;
+    padding-left: 0;
+  }
+  .rich-text li {
+    position: relative;
+    padding-left: 1.5rem;
+  }
+  .rich-text li + li {
+    margin-top: 0.4rem;
+  }
+  .rich-text li::before {
+    content: "";
+    position: absolute;
+    left: 0.25rem;
+    top: 0.7em;
+    width: 0.4rem;
+    height: 0.4rem;
+    border-radius: 9999px;
+    background: var(--color-terracotta-light);
   }
 }

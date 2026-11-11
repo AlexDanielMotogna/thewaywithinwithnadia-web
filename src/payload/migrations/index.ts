@@ -8,6 +8,9 @@ import * as migration_20261012_184209_booking_no_overlap from "./20261012_184209
 import * as migration_20261012_192138_booking_jobs_queue from "./20261012_192138_booking_jobs_queue";
 import * as migration_20261028_210018_remove_calendar_event_job from "./20261028_210018_remove_calendar_event_job";
 import * as migration_20261028_214004_calendar_connection from "./20261028_214004_calendar_connection";
+import * as migration_20261109_214926_booking_self_service from "./20261109_214926_booking_self_service";
+import * as migration_20261109_233339_booking_page from "./20261109_233339_booking_page";
+import * as migration_20261111_200113_site_redesign_blocks from "./20261111_200113_site_redesign_blocks";
 
 export const migrations = [
   {
@@ -59,5 +62,20 @@ export const migrations = [
     up: migration_20261028_214004_calendar_connection.up,
     down: migration_20261028_214004_calendar_connection.down,
     name: "20261028_214004_calendar_connection",
+  },
+  {
+    up: migration_20261109_214926_booking_self_service.up,
+    down: migration_20261109_214926_booking_self_service.down,
+    name: "20261109_214926_booking_self_service",
+  },
+  {
+    up: migration_20261109_233339_booking_page.up,
+    down: migration_20261109_233339_booking_page.down,
+    name: "20261109_233339_booking_page",
+  },
+  {
+    up: migration_20261111_200113_site_redesign_blocks.up,
+    down: migration_20261111_200113_site_redesign_blocks.down,
+    name: "20261111_200113_site_redesign_blocks",
   },
 ];
