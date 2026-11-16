@@ -6,6 +6,9 @@ const nextConfig: NextConfig = {
   /* config options here */
   cacheComponents: true,
   partialPrefetching: true,
+  experimental: {
+    agentUpgrade: "security",
+  },
   // "Journey to Self" became "Philosophy" in the 2026-11 restructure.
   redirects() {
     return Promise.resolve([
