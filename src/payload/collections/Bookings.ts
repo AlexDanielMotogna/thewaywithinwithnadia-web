@@ -1,6 +1,9 @@
 import type { CollectionConfig } from "payload";
 import { enforceBookingStatus } from "@/payload/hooks/enforce-booking-status";
-import { queueCalendarRemoval } from "@/payload/hooks/queue-calendar-removal";
+import {
+  queueBookingJobsAfterChange,
+  queueBookingJobsAfterDelete,
+} from "@/payload/hooks/queue-booking-jobs";
 
 // Status set matches the state machine in ENGINEERING.md §5.4. The
 // `beforeChange` guard runs the same state machine on every write, admin
@@ -23,7 +26,8 @@ export const Bookings: CollectionConfig = {
   },
   hooks: {
     beforeChange: [enforceBookingStatus],
-    afterChange: [queueCalendarRemoval],
+    afterChange: [queueBookingJobsAfterChange],
+    afterDelete: [queueBookingJobsAfterDelete],
   },
   fields: [
     { name: "clientName", type: "text", required: true },

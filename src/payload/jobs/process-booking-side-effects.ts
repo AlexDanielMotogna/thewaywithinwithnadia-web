@@ -2,11 +2,16 @@ import type { TaskConfig } from "payload";
 import { sideEffectRetries } from "@/payload/jobs/retry-policy";
 
 export const processBookingSideEffectsTask: TaskConfig<{
-  input: { bookingId: number };
+  input: { bookingId: number; notifyOwner?: boolean | null };
   output: object;
 }> = {
   slug: "processBookingSideEffects",
-  inputSchema: [{ name: "bookingId", type: "number", required: true }],
+  inputSchema: [
+    { name: "bookingId", type: "number", required: true },
+    // Optional: jobs queued before this field existed have no value and
+    // keep the old behaviour (notify Nadia).
+    { name: "notifyOwner", type: "checkbox" },
+  ],
   retries: sideEffectRetries,
   handler: async ({ input }) => {
     // Lazy import, deliberately: it keeps this file (and payload.config.ts,
@@ -17,7 +22,10 @@ export const processBookingSideEffectsTask: TaskConfig<{
     // import (see BUGS.md) — those CLI commands never run a job, so this
     // import never actually executes under them.
     const { processBookingSideEffects } = await import("@/modules/booking");
-    await processBookingSideEffects(input.bookingId);
+    await processBookingSideEffects({
+      bookingId: input.bookingId,
+      notifyOwner: input.notifyOwner ?? true,
+    });
     return { output: {} };
   },
 };

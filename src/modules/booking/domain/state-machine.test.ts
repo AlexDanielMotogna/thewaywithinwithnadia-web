@@ -3,6 +3,7 @@ import {
   canTransition,
   checkStatusChange,
   isActiveBooking,
+  removesCalendarEvent,
   transition,
 } from "@/modules/booking/domain/state-machine";
 import type { BookingStatus } from "@/modules/booking/domain/state-machine";
@@ -160,5 +161,27 @@ describe("isActiveBooking", () => {
       "no_show",
     ];
     expect(all.filter(isActiveBooking)).toEqual(["pending", "confirmed"]);
+  });
+});
+
+describe("removesCalendarEvent", () => {
+  it("removes the event only when the session will not take place", () => {
+    const all: BookingStatus[] = [
+      "pending",
+      "confirmed",
+      "rescheduled",
+      "cancelled",
+      "completed",
+      "no_show",
+    ];
+    expect(all.filter(removesCalendarEvent)).toEqual([
+      "rescheduled",
+      "cancelled",
+    ]);
+  });
+
+  it("keeps the event of a session that happened (completed / no-show stay in Nadia's calendar history)", () => {
+    expect(removesCalendarEvent("completed")).toBe(false);
+    expect(removesCalendarEvent("no_show")).toBe(false);
   });
 });

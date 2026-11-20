@@ -1410,6 +1410,7 @@ export interface CollectionsWidget {
 export interface TaskProcessBookingSideEffects {
   input: {
     bookingId: number;
+    notifyOwner?: boolean | null;
   };
   output?: unknown;
 }
@@ -1420,6 +1421,7 @@ export interface TaskProcessBookingSideEffects {
 export interface TaskRemoveBookingCalendarEvent {
   input: {
     bookingId: number;
+    calendarEventId?: string | null;
   };
   output?: unknown;
 }

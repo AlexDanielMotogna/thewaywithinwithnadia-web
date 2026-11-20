@@ -56,6 +56,23 @@ export function isActiveBooking(status: BookingStatus): boolean {
   return ACTIVE_STATUSES.includes(status);
 }
 
+// Whether the session's event leaves Nadia's calendar. Not the same as
+// "inactive": a completed or no-show session did happen at that time and
+// stays in her calendar history. A `Record` so every future status has to
+// decide this explicitly.
+const REMOVES_CALENDAR_EVENT = {
+  pending: false,
+  confirmed: false,
+  rescheduled: true,
+  cancelled: true,
+  completed: false,
+  no_show: false,
+} as const satisfies Record<BookingStatus, boolean>;
+
+export function removesCalendarEvent(status: BookingStatus): boolean {
+  return REMOVES_CALENDAR_EVENT[status];
+}
+
 // Nadia can create a booking from the admin already confirmed (e.g. a
 // session agreed by phone); every other status has to be reached through
 // a transition.

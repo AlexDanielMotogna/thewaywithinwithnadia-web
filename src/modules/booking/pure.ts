@@ -9,4 +9,9 @@ export {
   type BookingStatus,
   type StatusChangeError,
 } from "@/modules/booking/domain/state-machine";
+export {
+  jobsForBookingChange,
+  type BookingChange,
+  type BookingJob,
+} from "@/modules/booking/domain/side-effect-jobs";
 export { BOOKING_USE_CASE_CONTEXT } from "@/modules/booking/infrastructure/use-case-context";

@@ -29,11 +29,14 @@ import {
  * `ownerNotifiedAt`) and skips if already done, so a retry can never create
  * a duplicate calendar event or send a duplicate email. Throws when a step
  * failed, so the job is retried; steps that already succeeded are skipped.
+ * `notifyOwner` is false when Nadia created the booking herself in the
+ * admin: she gets no "new booking" email about her own action.
  */
-export async function processBookingSideEffects(
-  bookingId: number,
-): Promise<void> {
-  const booking = await getBookingById(bookingId);
+export async function processBookingSideEffects(input: {
+  bookingId: number;
+  notifyOwner: boolean;
+}): Promise<void> {
+  const booking = await getBookingById(input.bookingId);
   if (!booking) return;
   // Cancelled before the job ran: no calendar event, no emails.
   if (!isActiveBooking(booking.status)) return;
@@ -93,7 +96,7 @@ export async function processBookingSideEffects(
     else failures.push("confirmation email");
   }
 
-  if (!booking.ownerNotifiedAt) {
+  if (input.notifyOwner && !booking.ownerNotifiedAt) {
     if (ownerEmail) {
       const sent = await mailer.send(
         ownerNewBookingEmail({

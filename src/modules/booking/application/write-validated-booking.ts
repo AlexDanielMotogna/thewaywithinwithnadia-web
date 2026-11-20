@@ -1,6 +1,4 @@
 import "server-only";
-import config from "@payload-config";
-import { getPayload } from "payload";
 import {
   addDaysToDateString,
   zonedDateString,
@@ -21,7 +19,7 @@ export type WriteValidatedBookingError =
 
 /**
  * The shared core of "validate this slot is still free, then write the
- * booking row and queue its side-effect job" — used by both the public
+ * booking row" (its side-effect job is queued by the Bookings hook) — used by both the public
  * `createBooking` (wrapped in `protectPublicAction`) and the admin-only
  * `rescheduleBooking` (no honeypot/Turnstile; the caller is authenticated).
  */
@@ -96,19 +94,8 @@ export async function writeValidatedBooking(
     throw new Error("Failed to write booking", { cause: created.error.cause });
   }
 
-  // Commit first, then jobs (ENGINEERING.md §5.5) — the booking is already
-  // written; this only queues the calendar/email side effects, it never
-  // runs them inline. A queue failure is logged, not surfaced to the
-  // caller: the booking itself still succeeded.
-  try {
-    const payload = await getPayload({ config });
-    await payload.jobs.queue({
-      task: "processBookingSideEffects",
-      input: { bookingId: created.value.id },
-    });
-  } catch (error) {
-    console.error("Failed to queue processBookingSideEffects job", error);
-  }
-
+  // The calendar/email job is queued by the Bookings `afterChange` hook in
+  // the same transaction as the insert (ENGINEERING.md §5.5), so bookings
+  // created in the admin get it too.
   return { ok: true, value: { bookingId: created.value.id } };
 }
